@@ -18,7 +18,7 @@ To quote the essay:
 > implementation described in this document. Arthur's one-page interpreter
 > fragment is as follows:
 
-[!Sample screenshot of how I view the code](screenshot-incumabulum.png)
+![Sample screenshot of how I view the code](screenshot-incumabulum.png)
 
 #### Code written in this style of common algorithms
 
