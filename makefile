@@ -12,3 +12,7 @@ euc: euc.cpp
 incunabulum: incunabulum.c
 	gcc -O0 -g -std=c89 -fsanitize=address -fsanitize=undefined incunabulum.c -o bin/incunabulum
 	./bin/incunabulum
+
+incunabulum-mine: incunabulum-mine.c
+	gcc -O0 -g -std=c89 -fsanitize=address -fsanitize=undefined incunabulum-mine.c -o bin/incunabulum-mine
+	./bin/incunabulum-mine
