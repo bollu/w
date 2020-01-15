@@ -10,5 +10,5 @@ euc: euc.cpp
 	./bin/euc
 
 incunabulum: incunabulum.c
-	gcc -g -fsanitize=address -fsanitize=undefined incunabulum.c -o bin/incunabulum
+	gcc -O0 -g -std=c89 -fsanitize=address -fsanitize=undefined incunabulum.c -o bin/incunabulum
 	./bin/incunabulum
