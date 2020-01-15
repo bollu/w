@@ -18,7 +18,7 @@ To quote the essay:
 > implementation described in this document. Arthur's one-page interpreter
 > fragment is as follows:
 
-![Sample screenshot of how I view the code](screenshot-incumabulum.png)
+![Sample screenshot of how I view the code](screenshot-incunabulum.png)
 
 #### Code written in this style of common algorithms
 
@@ -26,3 +26,4 @@ To quote the essay:
 - [`qs.cpp` - quicksort](qs.cpp)
 - [`qspar.cpp` - parallel quicksort](qspar.cpp)
 - [`incunabulum.c` - original J incunabulum source](incunabulum.c)
+- [`incunabulum-mine.c` - heavily annotated version by me](incunabulum-mine.c)
