@@ -1,11 +1,11 @@
-typedef char C;typedef long long I;
+typedef char C;typedef long I;
 typedef struct a{I t,r,d[3],p[2];}*A;
 #define P printf
 #define R return
 #define V1(f) A f(w)A w;
 #define V2(f) A f(a,w)A a,w;
 #define DO(n,x) {I i=0,_n=(n);for(;i<_n;++i){x;}}
-I *ma(n){R(I*)malloc(n*8);}mv(d,s,n)I *d,*s;{DO(n,d[i]=s[i]);}
+I *ma(n){R(I*)malloc(n*4);}mv(d,s,n)I *d,*s;{DO(n,d[i]=s[i]);}
 tr(r,d)I *d;{I z=1;DO(r,z=z*d[i]);R z;}
 A ga(t,r,d)I *d;{A z=(A)ma(5+tr(r,d));z->t=t,z->r=r,mv(z->d,d,r);
  R z;}
@@ -34,10 +34,9 @@ I st[26]; qp(a){R  a>='a'&&a<='z';}qv(a){R a<'a';}
 A ex(e)I *e;{I a=*e;
  if(qp(a)){if(e[1]=='=')R st[a-'a']=ex(e+2);a= st[ a-'a'];}
  R qv(a)?(*vm[a])(ex(e+1)):e[1]?(*vd[e[1]])(a,ex(e+2)):(A)a;}
-I noun(c){A z;if(c<'0'||c>'9')R 0;z=ga(0,0,0);*z->p=c-'0';R z;}
-I verb(c){I i=0;for(;vt[i];)if(vt[i++]==c)R i;R 0;}
+noun(c){A z;if(c<'0'||c>'9')R 0;z=ga(0,0,0);*z->p=c-'0';R z;}
+verb(c){I i=0;for(;vt[i];)if(vt[i++]==c)R i;R 0;}
 I *wd(s)C *s;{I a,n=strlen(s),*e=ma(n+1);C c;
  DO(n,e[i]=(a=noun(c=s[i]))?a:(a=verb(c))?a:c);e[n]=0;R e;}
 
 main(){C s[99];while(gets(s))pr(ex(wd(s)));}
-
