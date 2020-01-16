@@ -9,6 +9,10 @@ euc: euc.cpp
 	g++ -g -fsanitize=address -fsanitize=undefined -std=c++11 euc.cpp -o bin/euc
 	./bin/euc
 
+segtree: segtree.cpp
+	g++ -O0 -g -std=c++11 -fsanitize=address -fsanitize=undefined segtree.cpp -o bin/segtree
+	./bin/segtree
+
 incunabulum: incunabulum.c
 	gcc -O0 -g -std=c89 -fsanitize=address -fsanitize=undefined incunabulum.c -o bin/incunabulum
 	./bin/incunabulum
