@@ -27,3 +27,10 @@ To quote the essay:
 - [`qspar.cpp` - parallel quicksort](qspar.cpp)
 - [`incunabulum.c` - original J incunabulum source](incunabulum.c)
 - [`incunabulum-mine.c` - heavily annotated version by me](incunabulum-mine.c)
+
+#### Flows
+
+- Ford-fulkerson (method): Choose augmenting path and send flow.
+- Edmonds-Karp: `VE^2`. Find shortest path to send flow along.
+- Dinic's: `V^2E` Use preflows instead of flows. With unit capacity, `min({V^2/3, E^1/2})`
+- Push-relabel: `V^2E`. Implemented properly, can reach `V^3`. Use weird height metric to send flows.
