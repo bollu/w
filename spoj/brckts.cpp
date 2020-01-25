@@ -1,12 +1,12 @@
 // https://www.spoj.com/problems/BRCKTS/
 #include<iostream>
 #include<tuple>
-using I=int;struct B { I l; I r; }; const I N = 2*(30000 + 100);
+using I=int;struct B { I l; I r; B() : l(0), r(0) {}; B(I l, I r) : l(l), r(r) {} }; const I N = 2*(30000 + 100);
 using namespace std;
 B flip(B b) { return B {.l = b.r, .r  = b.l }; }
 
 B join(B a, B b) {
-    int c = min(a.r, b.l); return B { .l=a.l + b.l - c, .r=a.r + b.r - c };
+    I c = min(a.r, b.l); return B (a.l + b.l - c, a.r + b.r - c);
 } 
 // keep pair of int: num unmatched )), num unmatched ((
 B a[N];
@@ -16,7 +16,7 @@ void test() {
     cin >> n;
     // 1 -> n | (i - 0 + n)
     for(int i = n; i < 2*n; ++i) { 
-        char c; cin >> c; a[i] = B { .l=int(c == ')'), .r=int(c =='(') };
+        char c; cin >> c; a[i] = B(int(c == ')'), int(c =='('));
     }
 
 
