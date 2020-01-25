@@ -18,7 +18,7 @@ void apsp() {
     DO(i, n, DO(j, n, DO(k, n, D[i][k] = min(D[i][k], D[i][j] + D[j][k]))));
 }
 int getflow() {
-    DO(i, n, pred[i] = -1); pred[SRC] = -2; // src is inaccessible.
+    DO(i, N-1, pred[i] = -1); pred[SRC] = -2; // src is inaccessible.
 
     queue<pair<int, int>> q;
     q.push({SRC, INF});
@@ -26,9 +26,11 @@ int getflow() {
     while(!q.empty()) {
         const int u = q.front().first; const int s2u = q.front().second;
         q.pop();
+
+
         for(auto v: adj[u]) {
-            const int u2v = cap[u][v];
-            if (pred[v] == -1 && u2v) {
+          const int u2v = cap[u][v];
+            if (pred[v] == -1 && u2v != 0) {
                 const int f = min(s2u, u2v);
                 pred[v] = u;
                 if (v == SINK) return f;
@@ -40,31 +42,35 @@ int getflow() {
 }
 
 int maxflow() {
-    int maxflow = 0;
+    int mf = 0;
     int curflow;
     while(curflow = getflow()) {
-        maxflow += curflow;
+        // cout << "curflow: " << curflow << "\n";
+        mf += curflow;
         for(int v = SINK; v != SRC; v = pred[v]) {
             int u = pred[v];
             cap[u][v] -= curflow;
             cap[v][u] += curflow;
         }
     }
-    return maxflow;
+    return mf;
 }
 int main() {
     int totpop = 0;
     cin >> n >> e >> x;
     DO(i, n, DO(j, n, D[i][j] = INF));
-    DO(i, n, { int w; cin >> w; totpop += w; adj[SRC].push_back(i); cap[SRC][i] = w; });
-    DO(i, n, { int w; cin >> w; adj[i].push_back(SINK); cap[i][SINK] = w; });
+    DO(i, n, DO(j, n, cap[i][j] = 0));
+    DO(i, n, { int w; cin >> w; totpop += w; adj[SRC].push_back(i); adj[i].push_back(SRC); cap[SRC][i] = w; });
+    DO(i, n, { int w; cin >> w; adj[i].push_back(SINK); adj[SINK].push_back(i); cap[i][SINK] = w; });
 
     DO(i, e, { int u; int v; cin >> u >> v; cin >> D[u][v]; });
 
     apsp();
     DO(i, n, DO(j, n,if (D[i][j] <= x) { 
-        adj[i].push_back(j); adj[j].push_back(i); cap[i][j] = cap[j][i] = INF;}));
+        // cout << "D[" << i << "][" << j << "] <= " << x << "\n";
+        adj[i].push_back(j); adj[j].push_back(i); cap[i][j] = cap[j][i] = INF;
+        }));
     const int die = totpop - maxflow();
-    cout << die;
+    cout << die << "\n";
     return 0;
 }
