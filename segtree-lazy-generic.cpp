@@ -32,7 +32,6 @@ template<typename Op>
 class Segtree {
 private:
   vector<typename Op::T> vs;
-  vector<typename Op::L> ls;
   int n;
 
   // [ql, qr] refer to 
@@ -40,12 +39,12 @@ private:
     assert(ql >= n); assert(qr < 2*n-1);
     assert(nix >= 1); assert(nix <= 2*n-1);
     // if [ql, qr] is empty:
-    if (ql <= nl && nr <= qr) { return vs[nl]; }
+    if (ql <= nl && nr <= qr) { return vs[nix]; }
     if (nr < ql || qr < nl) { return Op::id;  }
 
     int mid = (nl + nr)/2;
     typename Op::T rangel = rangeQ_(ql, qr, nl, nix*2, mid);
-    typename Op::T ranger = rangeQ_(ql, qr, mid+1, nix*2, nr);
+    typename Op::T ranger = rangeQ_(ql, qr, mid+1, nix*2+1, nr);
     return Op::combine(rangel, ranger);
   }
 
@@ -54,7 +53,7 @@ public:
   friend ostream& operator<<(ostream&, const Segtree<T>&);
 
 
-  Segtree(int n):n(n), vs(2*n), ls(n) {}
+  Segtree(int n):n(n), vs(2*n) {}
   // ix ∈ [n..2n).
   // DO NOT UPDATE AT THIS STAGE.
   // call build() after to init segtree to valid state.
@@ -82,7 +81,8 @@ public:
 
   // return combine(a[ql,..., qr]) (CLOSED INTERVAL)
   typename Op::T rangeQ(int ql, int qr) { 
-    return rangeQ_(ql, qr, n, 1, 2*n-1);
+    return rangeQ_(ql, qr,
+        n, 1, 2*n-1);
   }
 
 
@@ -107,6 +107,15 @@ int main() {
   s.build();
   cout << s << "\n";
 
+  cout << "s[8:8] := " << s.rangeQ(8, 8) << "\n";
+  cout << "s[9:9] := " << s.rangeQ(9, 9) << "\n";
+  cout << "s[10:10] := " << s.rangeQ(10, 10) << "\n";
+  cout << "s[11:11] := " << s.rangeQ(11, 11) << "\n";
+  cout << "s[12:12] := " << s.rangeQ(12, 12) << "\n";
+  cout << "s[9:9] := " << s.rangeQ(9, 9) << "\n";
+  cout << "s[8:9] := " << s.rangeQ(8, 9) << "\n";
   cout << "s[8:10] := " << s.rangeQ(8, 10) << "\n";
+  cout << "s[8:11] := " << s.rangeQ(8, 11) << "\n";
+  cout << "s[8:12] := " << s.rangeQ(8, 12) << "\n";
   return 0;
 }
