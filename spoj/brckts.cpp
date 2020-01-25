@@ -1,7 +1,7 @@
 // https://www.spoj.com/problems/BRCKTS/
 #include<iostream>
 #include<tuple>
-using I=int;struct B { I l; I r; B() : l(0), r(0) {}; B(I l, I r) : l(l), r(r) {} }; const I N = 2*(30000 + 100);
+using I=int;struct B { I l; I r; B() : l(0), r(0) {}; B(I l, I r) : l(l), r(r) {} }; const I N = 2*32768;
 using namespace std;
 B flip(B b) { return B {.l = b.r, .r  = b.l }; }
 
