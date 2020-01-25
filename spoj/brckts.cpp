@@ -5,9 +5,7 @@ using I=int;struct B { I l; I r; B() : l(0), r(0) {}; B(I l, I r) : l(l), r(r) {
 using namespace std;
 B flip(B b) { return B {.l = b.r, .r  = b.l }; }
 
-B join(B a, B b) {
-    I c = min(a.r, b.l); return B (a.l + b.l - c, a.r + b.r - c);
-} 
+B join(B a, B b) {  I c = min(a.r, b.l); return B (a.l + b.l - c, a.r + b.r - c); } 
 // keep pair of int: num unmatched )), num unmatched ((
 B a[N];
 int n;
