@@ -1,3 +1,6 @@
+help-ashu: help-ashu.cpp
+	g++ -O0 -g -std=c++17 -fsanitize=address -fsanitize=undefined help-ashu.cpp -o bin/help-ashu
+
 segtree-lazy-generic: segtree-lazy-generic.cpp
 	g++ -O0 -g -std=c++17 -fsanitize=address -fsanitize=undefined segtree-lazy-generic.cpp -o bin/segtree-lazy-generic
 
@@ -31,3 +34,5 @@ incunabulum-mine: incunabulum-mine.c
 	gcc -O0 -g -std=c89 -fsanitize=address -fsanitize=undefined incunabulum-mine.c -o bin/incunabulum-mine
 	./bin/incunabulum-mine
 
+XXXX: XXXX.cpp
+	g++ -O0 -g -std=c++17 -fsanitize=address -fsanitize=undefined XXXX.cpp -o bin/XXXX
