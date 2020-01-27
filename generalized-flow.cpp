@@ -41,6 +41,7 @@ struct IntLattice {
     using T = int;
     // identty for add, sub.
     static const int zero;
+    static const int inf;
 
     // x + zero = x
     // commutative, associative
@@ -57,6 +58,7 @@ struct IntLattice {
     inline static T min(T x, T y) { return std::min(x, y); }
 };
 const int IntLattice::zero = 0;
+const int IntLattice::inf = INF;
 
 template <typename F>
 struct Flow {
@@ -69,7 +71,7 @@ struct Flow {
         DO(i, N-1, pred[i] = -1); pred[SRC] = -2; // src is inaccessible.
 
         queue<pair<int, T>> q;
-        q.push({SRC, INF});
+        q.push({SRC, F::inf});
 
         while(!q.empty()) {
             const int u = q.front().first; 
@@ -109,6 +111,8 @@ struct Flow {
     }
 };
 
+// given a network that restricts bits, can we send a {1, 1, 1, 1, 1} 
+// given some sources, where the source generates {1, 1, 1, 1, 1}?
 int main() {
     int totpop = 0;
     Flow<IntLattice> f;
