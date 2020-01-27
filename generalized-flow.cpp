@@ -13,14 +13,11 @@ using I=int; const I INF = 1000000000L; const I N = 105;
 
 
 // SRC -(POP)-> CITY m -(REACHABLE IN T)-> CITY n -(NPODS)-> SINK
-const int SRC = 102, SINK = 103; 
+const int SRC = 1, SINK = 2; 
 vector<int> adj[N]; 
 int pred[N];
 int D[N][N]; /*distances */
-int n, e, x;
-void apsp() {
-    DO(i, n, DO(j, n, DO(k, n, D[i][k] = min(D[i][k], D[i][j] + D[j][k]))));
-}
+int n;
 
 struct BitsetLattice {
     using T = bitset<32>;
@@ -82,7 +79,6 @@ struct Flow {
             const T s2u = q.front().second;
             q.pop();
 
-
             for(auto v: adj[u]) {
                 const T u2v = cap[u][v];
                 if (pred[v] == -1 && u2v != 0) {
@@ -115,27 +111,23 @@ struct Flow {
     }
 };
 
+template <typename T>
+void addedge(int i, int j, Flow<T> & f, T w) {
+    adj[i].push_back(j);
+    adj[j].push_back(i);
+    f.cap[i][j] = f.begincap[i][j] = w;
+}
+
 // given a network that restricts bits, can we reconstruct a {1, 1, 1, 1, 1} 
 // given some sources, where the source generates {1, 1, 1, 1, 1}, and
 // channels arbitrarily limit bits?
-// For even more LOLs, can have multiple types of capacity constraints
-// by taking products of channels.
+// For even more LOLs, can have capacity
 int main() {
-    int totpop = 0;
     Flow<IntLattice> f;
-    cin >> n >> e >> x;
+    cin >> n;
     DO(i, n, DO(j, n, D[i][j] = INF));
-    DO(i, n, DO(j, n, f.cap[i][j] = f.begincap[i][j] = 0));
-    DO(i, n, { int w; cin >> w; totpop += w; adj[SRC].push_back(i); adj[i].push_back(SRC); f.cap[SRC][i] = f.begincap[SRC][i] = w; });
-    DO(i, n, { int w; cin >> w; adj[i].push_back(SINK); adj[SINK].push_back(i); f.cap[i][SINK] = f.begincap[i][SINK] = w; });
+    DO(i, n, DO(j, n, f.cap[i][j] = f.begincap[i][j] = IntLattice::zero));
 
-    DO(i, e, { int u; int v; cin >> u >> v; cin >> D[u][v]; });
-
-    apsp();
-    DO(i, n, DO(j, n,if (D[i][j] <= x) { 
-        // cout << "D[" << i << "][" << j << "] <= " << x << "\n";
-        adj[i].push_back(j); adj[j].push_back(i); f.cap[i][j] = f.cap[j][i] = f.begincap[i][j] = f.begincap[j][i] = INF;
-        }));
     cout << totpop - f.maxflow() << "\n";
     // cout << f.maxflow() << "\n";
     return 0;
