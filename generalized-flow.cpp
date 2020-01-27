@@ -1,11 +1,12 @@
 // https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/practice-problems/algorithm/doomsday/
 // https://www.hackerearth.com/submission/34759648/
 #include <iostream>
-#include<cmath>
-#include<vector>
-#include<tuple>
-#include<queue>
+#include <cmath>
+#include <vector>
+#include <tuple>
+#include <queue>
 #include <bitset>
+#include <cassert>
 
 using namespace std;
 using I=int; const I INF = 1000000000L; const I N = 105;
@@ -16,9 +17,40 @@ using I=int; const I INF = 1000000000L; const I N = 105;
 const int SRC = 1, SINK = 2; 
 vector<int> adj[N]; 
 int pred[N];
-int D[N][N]; /*distances */
 int n;
 
+
+int gcd(int l, int s) {
+    assert (l != 0); assert(s != 0);
+    if (l < s) { int t = s; s = l; l = s; };
+    if (l % s == 0) return s;
+    return gcd(s, l % s);
+}
+
+// this is some sort of "partial order + actions"
+// consider only numbers {1, 2, 3, 4, 5, 6} under gcd() and lcm(). top 
+// will be LCM of all elements = 60. bot will be gcd of all elements = 1
+struct MultiplicativeLattice {
+    using T = int;
+    static const T zero;
+    static const T inf;
+    // or the bits
+    static T add(T x, T y) { return x * y / gcd(x, y); }
+    // add(sub (x, y), y) = x|y
+    // remove y from x
+    // x + y - y <= x (galois connection)
+    // x - y + y >= x (galois connection)
+    // remove factors from x
+    static T sub(T x, T y) { return max(x / y, 1); };
+    // take common bits
+    static T min(T x, T y) { gcd(x, y); };
+};
+
+const int MultiplicativeLattice::zero = 1;
+const int MultiplicativeLattice::inf = 60;
+
+
+// this is some sort of "partial order + actions"
 struct BitsetLattice {
     using T = bitset<32>;
     static const T zero;
@@ -33,6 +65,7 @@ struct BitsetLattice {
     // take common bits
     static T min(T x, T y) { return x & y; }
 };
+
 
 const bitset<32> BitsetLattice::zero;
 const bitset<32> BitsetLattice::inf = ~BitsetLattice::zero;
@@ -81,7 +114,8 @@ struct Flow {
 
             for(auto v: adj[u]) {
                 const T u2v = cap[u][v];
-                if (pred[v] == -1 && u2v != 0) {
+                if (pred[v] == -1 && u2v != F::zero) {
+                    cout << "L:" << __LINE__ << "\n";
                     const T f = F::min(s2u, u2v);
                     pred[v] = u;
                     if (v == SINK) return f;
@@ -89,21 +123,24 @@ struct Flow {
                 }
             }
         }
-        return 0;
+        return F::zero;
     }
 
     T maxflow() {
         T mf = F::zero;
-        T curflow;
+        T curflow = F::zero;
         while((curflow = getflow()) != F::zero) {
             // cout << "curflow: " << curflow << "\n";
             // mf = += curflow;
+            cout << "L:" << __LINE__ << "\n";
             mf = F::add(mf, curflow);
+            cout << "L:" << __LINE__ << "\n";
             for(int v = SINK; v != SRC; v = pred[v]) {
                 int u = pred[v];
                 // cap[u][v] -= curflow;
                 cap[u][v] = F::sub(cap[u][v], curflow);
                 // cap[v][u] += curflow;
+                cout << "L:" << __LINE__ << "\n";
                 cap[v][u] = F::min(begincap[v][u], F::add(cap[v][u], curflow));
             }
         }
@@ -111,8 +148,8 @@ struct Flow {
     }
 };
 
-template <typename T>
-void addedge(int i, int j, Flow<T> & f, T w) {
+template <typename Lat>
+void addedge(int i, int j, Flow<Lat> & f, typename Lat::T w) {
     adj[i].push_back(j);
     adj[j].push_back(i);
     f.cap[i][j] = f.begincap[i][j] = w;
@@ -123,12 +160,16 @@ void addedge(int i, int j, Flow<T> & f, T w) {
 // channels arbitrarily limit bits?
 // For even more LOLs, can have capacity
 int main() {
-    Flow<IntLattice> f;
+    Flow<MultiplicativeLattice> f;
     cin >> n;
-    DO(i, n, DO(j, n, D[i][j] = INF));
-    DO(i, n, DO(j, n, f.cap[i][j] = f.begincap[i][j] = IntLattice::zero));
+    DO(i, n, DO(j, n, f.cap[i][j] = f.begincap[i][j] = MultiplicativeLattice::zero));
 
-    cout << totpop - f.maxflow() << "\n";
-    // cout << f.maxflow() << "\n";
+    for(int i = 0; i < n; ++i) {
+        int x, y; cin >> x >> y;
+        int w; cin >> w; // keep W separate if we want to change weights.
+        addedge<MultiplicativeLattice>(x, y, f, w);
+    }
+
+    cout << f.maxflow() << "\n";
     return 0;
 }
