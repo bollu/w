@@ -25,16 +25,20 @@ void apsp() {
 struct BitsetLattice {
     using T = bitset<32>;
     static const T zero;
+    static const T inf;
     // or the bits
     static T add(T x, T y) { return x | y; }
     // add(sub (x, y), y) = x|y
     // remove y from x
+    // x + y - y <= x (galois connection)
+    // x - y + y >= x (galois connection)
     static T sub(T x, T y) { return x & (~ y); }
     // take common bits
     static T min(T x, T y) { return x & y; }
 };
 
 const bitset<32> BitsetLattice::zero;
+const bitset<32> BitsetLattice::inf = ~BitsetLattice::zero;
 
 
 struct IntLattice {
@@ -111,8 +115,11 @@ struct Flow {
     }
 };
 
-// given a network that restricts bits, can we send a {1, 1, 1, 1, 1} 
-// given some sources, where the source generates {1, 1, 1, 1, 1}?
+// given a network that restricts bits, can we reconstruct a {1, 1, 1, 1, 1} 
+// given some sources, where the source generates {1, 1, 1, 1, 1}, and
+// channels arbitrarily limit bits?
+// For even more LOLs, can have multiple types of capacity constraints
+// by taking products of channels.
 int main() {
     int totpop = 0;
     Flow<IntLattice> f;
