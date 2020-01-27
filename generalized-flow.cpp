@@ -162,12 +162,20 @@ void addedge(int i, int j, Flow<Lat> & f, typename Lat::T w) {
 int main() {
     Flow<MultiplicativeLattice> f;
     cin >> n;
-    DO(i, n, DO(j, n, f.cap[i][j] = f.begincap[i][j] = MultiplicativeLattice::zero));
+    DO(i, N-1, DO(j, N-1, f.cap[i][j] = f.begincap[i][j] = MultiplicativeLattice::zero));
 
-    for(int i = 0; i < n; ++i) {
+    for(int i = 1; i <= n; ++i) {
         int x, y; cin >> x >> y;
         int w; cin >> w; // keep W separate if we want to change weights.
         addedge<MultiplicativeLattice>(x, y, f, w);
+    }
+
+    cout << "CAPACITIES:\n";
+    for(int i = 1; i < N; ++i) {
+        for(int j = 1; j < N; ++j) {
+            if (f.cap[i][j] == MultiplicativeLattice::zero) continue;
+            cout << i*n+j << ": " << i << "-(" << f.cap[i][j] << ")->" << j << "\n";
+        }
     }
 
     cout << f.maxflow() << "\n";
