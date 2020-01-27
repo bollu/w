@@ -62,6 +62,11 @@ private:
 
     if (nr < ql || qr < nl) { return Op::id;  }
 
+    vs[nix] = Op::updact(ls[nix], vs[nix]);
+    if (nix*2<ls.size()) ls[nix*2] = Op::updcombine(ls[nix*2], ls[nix]);
+    if (nix*2+1<ls.size()) ls[nix*2+1] = Op::updcombine(ls[nix*2+1], ls[nix]);
+    ls[nix] = Op::uid;
+
     // if [ql, qr] is empty:
     if (ql <= nl && nr <= qr) { return vs[nix]; }
 
@@ -81,20 +86,16 @@ private:
     assert(ql >= n); assert(qr <= 2*n-1);
     assert(nix >= 1); assert(nix <= 2*n-1);
 
-
     if (ql <= nl && nr <= qr) { 
       ls[nix] = Op::updcombine(ls[nix], upd);
-      vs[nix] = Op::updact(upd, vs[nix]);
       return;
     }
 
     if (nr < ql || qr < nl) { return; }
 
-    if (nix*2 < vs.size())
-    ls[nix*2] = Op::updcombine(ls[nix*2], ls[nix]);
-    
-    if (nix*2+1 < vs.size())
-    ls[nix*2+1] = Op::updcombine(ls[nix*2+1], ls[nix]);
+    vs[nix] = Op::updact(ls[nix], vs[nix]);
+    if (nix*2<ls.size()) ls[nix*2] = Op::updcombine(ls[nix*2], ls[nix]);
+    if (nix*2+1<ls.size()) ls[nix*2+1] = Op::updcombine(ls[nix*2+1], ls[nix]);
 
     ls[nix] = Op::uid;
     int mid = (nl + nr)/2;
@@ -181,6 +182,9 @@ int main() {
   cout << "s[8:11] := "; Plus<int>::print(cout, s.rangeQ(8, 11)); cout << "\n";
   cout << "\t" << s << "\n";
   cout << "s[12:12] := "; Plus<int>::print(cout, s.rangeQ(12, 12)); cout << "\n";
+  cout << "s[13:13] := "; Plus<int>::print(cout, s.rangeQ(13, 13)); cout << "\n";
+  cout << "s[14:14] := "; Plus<int>::print(cout, s.rangeQ(14, 14)); cout << "\n";
+  cout << "s[15:15] := "; Plus<int>::print(cout, s.rangeQ(15, 15)); cout << "\n";
   cout << "\t" << s << "\n";
   /*
   cout << "=====\n";
