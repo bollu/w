@@ -25,9 +25,12 @@ void apsp() {
 struct BitsetLattice {
     using T = bitset<32>;
     static const T zero;
+    // or the bits
     static T add(T x, T y) { return x | y; }
+    // add(sub (x, y), y) = x|y
     // remove y from x
     static T sub(T x, T y) { return x & (~ y); }
+    // take common bits
     static T min(T x, T y) { return x & y; }
 };
 
@@ -36,10 +39,21 @@ const bitset<32> BitsetLattice::zero;
 
 struct IntLattice {
     using T = int;
+    // identty for add, sub.
     static const int zero;
+
+    // x + zero = x
+    // commutative, associative
     inline static T add(T x, T y) { return x + y; }
-    // remove y from x
+    // y - x + x == x
+    // y - zero = y
     inline static T sub(T x, T y) { return x - y; }
+
+    // y - x + x >= y (we can gain more when we subtract and then add: for example, (x & y) | y == y
+    // min(y, y -x+x) == y
+    // min(y, zero) = zero
+    // min(y, y-x) = y-x
+    // min(y, x) = x
     inline static T min(T x, T y) { return std::min(x, y); }
 };
 const int IntLattice::zero = 0;
@@ -49,6 +63,8 @@ struct Flow {
     using T = typename F::T; // the ground set from F
 
     T cap[N][N];
+    T begincap[N][N];
+
     T getflow() {
         DO(i, N-1, pred[i] = -1); pred[SRC] = -2; // src is inaccessible.
 
@@ -86,7 +102,7 @@ struct Flow {
                 // cap[u][v] -= curflow;
                 cap[u][v] = F::sub(cap[u][v], curflow);
                 // cap[v][u] += curflow;
-                cap[v][u] = F::add(cap[v][u], curflow);
+                cap[v][u] = F::min(begincap[v][u], F::add(cap[v][u], curflow));
             }
         }
         return mf;
@@ -98,16 +114,16 @@ int main() {
     Flow<IntLattice> f;
     cin >> n >> e >> x;
     DO(i, n, DO(j, n, D[i][j] = INF));
-    DO(i, n, DO(j, n, f.cap[i][j] = 0));
-    DO(i, n, { int w; cin >> w; totpop += w; adj[SRC].push_back(i); adj[i].push_back(SRC); f.cap[SRC][i] = w; });
-    DO(i, n, { int w; cin >> w; adj[i].push_back(SINK); adj[SINK].push_back(i); f.cap[i][SINK] = w; });
+    DO(i, n, DO(j, n, f.cap[i][j] = f.begincap[i][j] = 0));
+    DO(i, n, { int w; cin >> w; totpop += w; adj[SRC].push_back(i); adj[i].push_back(SRC); f.cap[SRC][i] = f.begincap[SRC][i] = w; });
+    DO(i, n, { int w; cin >> w; adj[i].push_back(SINK); adj[SINK].push_back(i); f.cap[i][SINK] = f.begincap[i][SINK] = w; });
 
     DO(i, e, { int u; int v; cin >> u >> v; cin >> D[u][v]; });
 
     apsp();
     DO(i, n, DO(j, n,if (D[i][j] <= x) { 
         // cout << "D[" << i << "][" << j << "] <= " << x << "\n";
-        adj[i].push_back(j); adj[j].push_back(i); f.cap[i][j] = f.cap[j][i] = INF;
+        adj[i].push_back(j); adj[j].push_back(i); f.cap[i][j] = f.cap[j][i] = f.begincap[i][j] = f.begincap[j][i] = INF;
         }));
     cout << totpop - f.maxflow() << "\n";
     // cout << f.maxflow() << "\n";
