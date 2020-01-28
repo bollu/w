@@ -1,3 +1,6 @@
+xor-and-insert: xor-and-insert.cpp
+	g++ -O0 -g -std=c++17 -fsanitize=address -fsanitize=undefined xor-and-insert.cpp -o bin/xor-and-insert
+
 help-ashu: help-ashu.cpp
 	g++ -O0 -g -std=c++17 -fsanitize=address -fsanitize=undefined help-ashu.cpp -o bin/help-ashu
 
