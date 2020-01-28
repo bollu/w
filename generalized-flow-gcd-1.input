@@ -1,4 +1,7 @@
-1
-1 2 6
+4
+1 3 6
+3 2 4
+3 4 3
+4 2 3
 # input in the case of the generalized flow being GCD
 # SRC = 1, SINK = 2
