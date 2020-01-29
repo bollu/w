@@ -35,19 +35,18 @@ struct MultiplicativeLattice {
     static const T zero;
     static const T inf;
     // or the bits
-    static T add(T x, T y) { return x * y / gcd(x, y); }
+    static T add(T x, T y) { return x * y; }
     // add(sub (x, y), y) = x|y
     // remove y from x
     // x + y - y <= x (galois connection)
     // x - y + y >= x (galois connection)
     // remove factors from x
     static T sub(T x, T y) { return max(x / y, 1); };
-    // take common bits
-    static T min(T x, T y) { gcd(x, y); };
+    static T min(T x, T y) { return gcd(x, y); };
 };
 
 const int MultiplicativeLattice::zero = 1;
-const int MultiplicativeLattice::inf = 60;
+const int MultiplicativeLattice::inf = 60*60*60;
 
 
 // this is some sort of "partial order + actions"
@@ -102,7 +101,9 @@ struct Flow {
     T begincap[N][N];
 
     T getflow() {
-        DO(i, N-1, pred[i] = -1); pred[SRC] = -2; // src is inaccessible.
+        // DO(i, N-1, pred[i] = -1);
+        for(int i = 0; i < N; i++) pred[i] = -1;
+        pred[SRC] = -2; // src is inaccessible.
 
         queue<pair<int, T>> q;
         q.push({SRC, F::inf});
@@ -112,11 +113,15 @@ struct Flow {
             const T s2u = q.front().second;
             q.pop();
 
+            cout << " at vertex: " << u << "\n";
             for(auto v: adj[u]) {
                 const T u2v = cap[u][v];
-                if (pred[v] == -1 && u2v != F::zero) {
-                    cout << "L:" << __LINE__ << "\n";
-                    const T f = F::min(s2u, u2v);
+                const T f = F::min(s2u, u2v);
+                cout << "  " << SRC << "-(" << s2u << ")->" << u << "-(" << u2v << ")-> " << v << " || ";
+                cout << "  " << SRC << "---(" << f << ")--->" << v;
+                cout << "\n";
+
+                if (pred[v] == -1 && f != F::zero) {
                     pred[v] = u;
                     if (v == SINK) return f;
                     q.push({v, f});
@@ -129,20 +134,23 @@ struct Flow {
     T maxflow() {
         T mf = F::zero;
         T curflow = F::zero;
+        cout << "FLOW\n----\n";
         while((curflow = getflow()) != F::zero) {
-            // cout << "curflow: " << curflow << "\n";
-            // mf = += curflow;
-            cout << "L:" << __LINE__ << "\n";
-            mf = F::add(mf, curflow);
-            cout << "L:" << __LINE__ << "\n";
+          cout << "curflow:= " << curflow << " | mf := " << mf << "+"<<curflow<<":="<<F::add(mf, curflow)<<"\n";
+          mf = F::add(mf, curflow);
             for(int v = SINK; v != SRC; v = pred[v]) {
                 int u = pred[v];
                 // cap[u][v] -= curflow;
+                cout << "cap["<<u<<"]["<<v<<"] = "<<cap[u][v]<<" - " << curflow << " := " << F::sub(cap[u][v], curflow) << "\n";
                 cap[u][v] = F::sub(cap[u][v], curflow);
                 // cap[v][u] += curflow;
-                cout << "L:" << __LINE__ << "\n";
+                cout << "cap["<<v<<"]["<<u<<"] = min("<<begincap[v][u] << "," << 
+                  cap[v][u] << "+" << curflow << ":=" << F::add(cap[v][u], curflow) << 
+                  ") := " << 
+                  F::min(begincap[v][u], F::add(cap[v][u], curflow)) << "\n";
                 cap[v][u] = F::min(begincap[v][u], F::add(cap[v][u], curflow));
             }
+            cout << "FLOW\n----\n";
         }
         return mf;
     }
@@ -170,6 +178,13 @@ int main() {
         addedge<MultiplicativeLattice>(x, y, f, w);
     }
 
+    cout << "ADJ:\n";
+    for (int u = 0; u < N; ++u) {
+      for(auto v : adj[u]) {
+        cout << u << "->" << v << "\n";
+      }
+    }
+
     cout << "CAPACITIES:\n";
     for(int i = 1; i < N; ++i) {
         for(int j = 1; j < N; ++j) {
@@ -178,6 +193,7 @@ int main() {
         }
     }
 
+    cout << "FLOW:\n";
     cout << f.maxflow() << "\n";
     return 0;
 }

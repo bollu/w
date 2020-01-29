@@ -5,7 +5,7 @@ help-ashu: help-ashu.cpp
 	g++ -O0 -g -std=c++17 -fsanitize=address -fsanitize=undefined help-ashu.cpp -o bin/help-ashu
 
 generalized-flow: generalized-flow.cpp
-	g++ -g -std=c++17 -fsanitize=address -fsanitize=undefined generalized-flow.cpp -o bin/generalized-flow
+	g++ -g -O0 -std=c++17 -fsanitize=address -fsanitize=undefined generalized-flow.cpp -o bin/generalized-flow
 
 segtree-lazy-generic: segtree-lazy-generic.cpp
 	g++ -O0 -g -std=c++17 -fsanitize=address -fsanitize=undefined segtree-lazy-generic.cpp -o bin/segtree-lazy-generic
