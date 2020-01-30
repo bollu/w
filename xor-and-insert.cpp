@@ -43,18 +43,16 @@ void printtree() {
 }
 
 I mymin(tn *p, I xorcur) {
-    cout << "*** min(" << xorcur << "):";
     I n = 0;
     for(I ix = NBITS; ix >= 0 && (p->next[0] != nullptr || p->next[1] != nullptr); ix--) {
         if(xorcur & (1 << ix)) {
-            if (p->next[1]) { n |= 1 << ix; p = p->next[1]; cout << "[" << ix << ": 1 -> 1]"; }
-            else  { p = p->next[0]; cout << "[" << ix << ": 1 -> 0]"; }
+            if (p->next[1]) { n |= 1 << ix; p = p->next[1]; }
+            else  { p = p->next[0]; }
         } else { // xorcur == 0
-            if (p->next[0]) { p = p->next[0]; cout << "[" << ix << ": 0 -> 0]"; }
-            else { n |= 1 << ix; p = p->next[1]; cout << "[" << ix << ": 0 -> 1]"; }
+            if (p->next[0]) { p = p->next[0]; }
+            else { n |= 1 << ix; p = p->next[1]; }
         }
     }
-    cout << "\n";
     return n ^ xorcur;
 }
 
@@ -71,11 +69,10 @@ int main() {
   while(q--) {
     I t; cin>>t;
     /*so that during query,when we xor with xorcur, this cancels */ 
-    if (t == 1) { I x; cin>>x; cout << x << "^" << xorcur << " = " << (x ^ xorcur) << " | "; insert(x^xorcur, root);}
+    if (t == 1) { I x; cin>>x; insert(x^xorcur, root);}
     else if (t == 2) { I x; cin>>x; xorcur ^= x; } 
-    else if (t == 3) { I ans = mymin(root, xorcur); cout << "\n\n***ANSWER: " << ans  << "****\n"; }
-    cout << "CURXOR: " << xorcur << "\n";
-    printtree();
+    else if (t == 3) { I ans = mymin(root, xorcur); cout << ans << "\n"; }
+    // printtree();
   }
   return 0;
 }
