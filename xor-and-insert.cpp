@@ -4,17 +4,14 @@
 #include<queue>
 #include<tuple>
 using namespace std;
+using I=long long int;
+const I NBITS=30;
 struct tn { tn *next[2] = { nullptr, nullptr };};
 tn *root = new tn();
 
-int log2floor(int n) {
-    if (n <= 1) return 0;
-    return 1 + log2floor(n/2);
-}
 
-
-void insert(int n, tn *p) {
-  for(int ix = log2floor(n); ix >= 0; ix--) {
+void insert(I n, tn *p) {
+  for(I ix = NBITS; ix >= 0; ix--) {
       if (n & (1 << ix)) {
           if (!p->next[1]) p->next[1] = new tn;
           p = p->next[1];
@@ -29,10 +26,10 @@ void printtree() {
     cout << "----\n";
     queue<tuple<string, int, tn*>> q;
     q.push(make_tuple("", 0, root));
-    int curh = 0;
+    I curh = 0;
     // bfs
     while(!q.empty()) {
-        tn *t; int th; string n;
+        tn *t; I th; string n;
         tie(n, th, t) = q.front(); q.pop();
         if (th != curh) { 
             curh = th;
@@ -45,10 +42,10 @@ void printtree() {
     cout << "\n----\n";
 }
 
-int min(tn *p, int xorcur) {
+I mymin(tn *p, I xorcur) {
     cout << "*** min(" << xorcur << "):";
-    int n = 0;
-    for(int ix = log2floor(xorcur); ix >= 0 && (p->next[0] != nullptr || p->next[1] != nullptr); ix--) {
+    I n = 0;
+    for(I ix = NBITS; ix >= 0 && (p->next[0] != nullptr || p->next[1] != nullptr); ix--) {
         if(xorcur & (1 << ix)) {
             if (p->next[1]) { n |= 1 << ix; p = p->next[1]; cout << "[" << ix << ": 1 -> 1]"; }
             else  { p = p->next[0]; cout << "[" << ix << ": 1 -> 0]"; }
@@ -63,20 +60,20 @@ int min(tn *p, int xorcur) {
 
 void mk0() {
   tn *p = root;
-  for(int i = 0; i < 30; ++i) { p->next[0] = new tn(); p = p->next[0]; }
+  for(I i = 0; i < NBITS; ++i) { p->next[0] = new tn(); p = p->next[0]; }
 }
 
 int main() {
-  int xorcur = 0;
-  int q; cin >> q;
+  I xorcur = 0;
+  I q; cin >> q;
   // create 10^9 = (2^10)^3 = 2^30 number of 0s
-  // mk0();
+  insert(0, root);
   while(q--) {
-    int t; cin>>t;
+    I t; cin>>t;
     /*so that during query,when we xor with xorcur, this cancels */ 
-    if (t == 1) { int x; cin>>x; cout << x << "^" << xorcur << " = " << (x ^ xorcur) << " | "; insert(x^xorcur, root);}
-    else if (t == 2) { int x; cin>>x; xorcur ^= x; } 
-    else if (t == 3) { int ans = min(root, xorcur); cout << "| " << ans  << "\n"; }
+    if (t == 1) { I x; cin>>x; cout << x << "^" << xorcur << " = " << (x ^ xorcur) << " | "; insert(x^xorcur, root);}
+    else if (t == 2) { I x; cin>>x; xorcur ^= x; } 
+    else if (t == 3) { I ans = mymin(root, xorcur); cout << "\n\n***ANSWER: " << ans  << "****\n"; }
     cout << "CURXOR: " << xorcur << "\n";
     printtree();
   }
