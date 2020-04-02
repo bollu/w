@@ -1,3 +1,13 @@
+451b: 451b.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 451b.cpp -o451b
+
+315a: 315a.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 315a.cpp -o315a
+
+
+260a: 260a.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 260a.cpp -o260a
+
 69a: 69a.cpp
 	g++ -O2 -fsanitize=address -fsanitize=undefined -Wall 69a.cpp -o69a
 
@@ -15,3 +25,7 @@
 
 275a: 275a.cpp
 	g++ -O2 -fsanitize=address -fsanitize=undefined -Wall 275a.cpp -o275a
+
+59a: 59a.cpp
+	g++ -O2 -fsanitize=address -fsanitize=undefined -Wall 59a.cpp -o59a
+
