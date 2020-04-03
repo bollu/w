@@ -1,3 +1,6 @@
+289b: 289b.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 289b.cpp -o289b
+
 450b: 450b.cpp
 	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 450b.cpp -o450b
 
