@@ -7,6 +7,10 @@
 289b: 289b.cpp
 	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 289b.cpp -o289b
 
+elegant-289b: elegant-289b.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall elegant-289b.cpp -oelegant-289b
+
+
 451b: 451b.cpp
 	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 451b.cpp -o451b
 
