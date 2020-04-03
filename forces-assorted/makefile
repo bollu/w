@@ -1,3 +1,6 @@
+237A: 237a.cpp
+	g++ -g -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 237a.cpp -o237A
+
 450b: 450b.cpp
 	g++ -g -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 450b.cpp -o450b
 
