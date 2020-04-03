@@ -1,3 +1,12 @@
+450b: 450b.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 450b.cpp -o450b
+
+462b: 462b.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 462b.cpp -o462b
+
+289b: 289b.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 289b.cpp -o289b
+
 451b: 451b.cpp
 	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 451b.cpp -o451b
 
@@ -29,3 +38,7 @@
 59a: 59a.cpp
 	g++ -O2 -fsanitize=address -fsanitize=undefined -Wall 59a.cpp -o59a
 
+
+## template
+XXXX: XXXX.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall XXXX.cpp -oXXXX
