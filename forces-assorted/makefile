@@ -1,3 +1,9 @@
+1330B: 1330B.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 1330B.cpp -o1330B
+
+1330A: 1330A.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 1330A.cpp -o1330A
+	
 237A: 237a.cpp
 	g++ -g -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 237a.cpp -o237A
 
@@ -47,5 +53,5 @@ elegant-289b: elegant-289b.cpp
 
 
 ## template
-XXXX: XXXX.cpp
-	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall XXXX.cpp -oXXXX
+X: X.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall X.cpp -oX
