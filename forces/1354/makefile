@@ -1,7 +1,7 @@
 .PHONY: a b c1 d
 
 d:
-	gcc -O3  d.c -o d -ffast-math
+	gcc -g -fsanitize=address -fsanitize=undefined  d.cpp -o d -ffast-math -lstdc++
 	./d
 c2: c2.cpp
 	gcc -g -fsanitize=address -fsanitize=undefined  c2.cpp -o c2 -std=c++17 -lstdc++ -lm
