@@ -24,7 +24,17 @@ int main() {
     cin.tie(nullptr); ios::sync_with_stdio(false);
     int t; cin >> t;
     while(t--) {
+next:
         int n; cin >> n; 
+        for(int i = 1; i <= n; ++i){ counts[i] = 0; }
+        for(int i = 1; i <= n; ++i) { int a; cin >> a; as[i] = a; counts[a]++; }
+        int mv = -INF; for(int i = 1; i <= n; ++i) { mv = max(mv, as[i]); }
+        for(int i = 1; i <= mv; ++i) { counts[i]--; }
+        int mv2 = -INF; for(int i = 1; i <= n; ++i) { if (counts[as[i]]) { mv2 = max(mv2, as[i]); } }
+        for(int i = 1; i <= mv2; ++i) { counts[i]--; }
+        for(int i = 1; i <= n; ++i) { if (counts[i] != 0) { cout << 0 << "\n"; goto next; }
+
+        /*
         for(int i = 1; i <= n; ++i){ counts[i] = 0; }
         bool fail = false;
         for(int i = 1; i <= n; ++i) { int a; cin >> a; as[i] = a; counts[a]++; }
@@ -61,6 +71,7 @@ int main() {
         for(pair<int, int> p : sols) {
             cout << p.first << " " << p.second << "\n";
         }
+        */
 
     }
     return 0;

@@ -1,3 +1,9 @@
+1330D: 1330D.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 1330D.cpp -o1330D
+
+1330C: 1330C.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 1330C.cpp -o1330C
+
 1330B: 1330B.cpp
 	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 1330B.cpp -o1330B
 
