@@ -1,3 +1,14 @@
+100551a: 100551a.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 100551a.cpp -o100551a
+112a: 112a.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 112a.cpp -o112a
+
+110a: 110a.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 110a.cpp -o110a
+
+136a: 136a.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 136a.cpp -o136a
+
 1330D: 1330D.cpp
 	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 1330D.cpp -o1330D
 
