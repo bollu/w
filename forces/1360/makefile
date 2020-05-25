@@ -1,4 +1,13 @@
-.PHONY: d.out f.out e.out
+.PHONY: d.out f.out e.out h.out g.out
+
+g.out: g.cpp
+	g++ -std=c++17 -g -fsanitize=address -fsanitize=undefined g.cpp -o g.out
+	./g.out
+
+
+h.out: h.cpp
+	g++ -g -fsanitize=address -fsanitize=undefined h.cpp -std=c++17 -o h.out
+	./h.out
 
 e.out: e.cpp
 	g++ -std=c++17 -g -fsanitize=address -fsanitize=undefined e.cpp -o e.out
