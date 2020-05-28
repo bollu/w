@@ -49,9 +49,22 @@ template<typename K, typename V, int INFTY=100000000> struct treap {
         if (root->k == n->k) { root->v = n->v; return;  }
 
         if (n->pr < root->pr) {
-            node *oldroot = root;
-            root = n;
-            (oldroot->k < root->k ? root->l : root->r) = oldroot;
+            //   INCORRECT:
+            //   n    
+            //   k:8 ----\
+            //        root
+            //      /--k:10--\
+            //     k:4      k:16
+            //       \
+            //       k:9
+            // ================
+            //   CORRECT:
+            //      n    
+            //  /---8---------\
+            // k:4           root
+            //          /----10----\
+            //         k:9         k:16
+
         }
         else { insert(n, n->k < root->k ? root->l : root->r); }
     }
@@ -100,7 +113,8 @@ int main() {
         auto it = tr.lookup(i);
         tr.check(tr.root);
         int v2 = it == nullptr ? -42 : it->v;
-        cout << "lookup up (" << i << "): map[i] = " << v1 << " | tr[i] = " << v2 << "\n";
+        cout << "lookup up (" << i << "): map[i] = " << v1
+             << " | tr[i] = " << v2 << "\n";
         assert(v1 == v2);
     }
 

@@ -1,7 +1,7 @@
 .PHONY: elementary.out treap.out
 
 treap.out: treap.cpp
-	g++ -std=c++17 -fsanitize=address -fsanitize=undefined treap.cpp -o treap.out
+	g++ -g -O0 -std=c++17 -fsanitize=address -fsanitize=undefined treap.cpp -o treap.out
 	./treap.out
 
 elementary.out: elementary.cpp
