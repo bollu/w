@@ -5,96 +5,114 @@
 #include <assert.h>
 using namespace std;
 
-int INFTY = 100000;
+template<typename K, typename V, int INFTY=100000000> struct treap {
+    // pr = priority
+    struct node {
+        K k; V v; int pr; node *l= nullptr, *r=nullptr; 
+        node(K k, V v, int pr): k(k), v(v), pr(pr) {};
+    };
+    node *root = nullptr;
 
-struct item {
-    int key, priority, value;
-    item * l, * r;
-    item() { }
-    item (int key, int value) : 
-        key(key), value(value), priority(rand()), l(NULL), r(NULL) {}
-    item (int key, int value, int priority) : 
-        key(key), priority(priority), l(NULL), r(NULL) { }
-};
-typedef item * pitem;
-
-item *lookup(pitem t, const int k) {
-    if (t == nullptr) { return nullptr; }
-    else if (k == t->key) { return t; }
-    else if (k < t->key) { return lookup(t->l, k); }
-    else { return lookup(t->r, k); };
-}
-
-void split (pitem t, int key, pitem & l, pitem & r) {
-    if (!t) {
-        l = r = NULL;
-    } else if (key < t->key) {
-        split (t->l, key, l, t->l),  r = t;
-    } else {
-        split (t->r, key, t->r, r),  l = t;
+    int count() const;
+    node *lookup(const K k) const { return lookup(k, root); } 
+    node *lookup(const K k, node *root) const {
+        if (!root) { return nullptr; }
+        else if (root->k == k) { return root; }
+        else { return lookup(k, k < root->k ? root->l : root->r); }
     }
-}
 
-void insert (pitem & t, pitem it) {
-    if (!t) {
-        t = it;
-    } else if (it->priority > t->priority) {
-        split (t, it->key, it->l, it->r);  t = it;
-    } else {
-        if (it->key == t->key) {
-            t->value = it->value; // copy value, don't create new node?
-        } else {
-            insert (it->key < t->key ? t->l : t->r, it);
+    // *destructively* merge nodes p and q
+    node *merge(node *&p, node *&q) {
+        if (!p || !q) { return p ? p : q; }
+        // p is always parent (closer to root on min-heap)
+        if (p->pr > q->pr) { swap(p, q); }
+
+        if (q->k < p->k) { p->l = merge(p->l, q); }
+        else { p->r = merge(p->r, q); }
+
+        return p;
+    }
+
+    void erase(K k) { erase(k, root); }
+    void erase(K k, node *&root) {
+        if (!root) { return; }
+        if (root->k == k) { root = merge(root->l, root->r); }
+        else { erase(k, k < root->k  ? root->l : root->r); }
+    }
+
+    void insert(K k, V v) { 
+        insert(new node(k, v, rand() % 10), root);
+    }
+
+    void insert(node *n, node *&root) {
+        if (!root) { root = n; return; }
+        if (root->k == n->k) { root->v = n->v; return;  }
+
+        if (n->pr < root->pr) {
+            node *oldroot = root;
+            root = n;
+            (oldroot->k < root->k ? root->l : root->r) = oldroot;
+        }
+        else { insert(n, n->k < root->k ? root->l : root->r); }
+    }
+
+    void check(node *n) {
+        if (n == nullptr) return;
+        if (n->l) { assert(n->pr <= n->l->pr); assert(n->l->k < n->k); check(n->l); } 
+        if (n->r) { assert(n->pr <= n->r->pr); assert(n->r->k >= n->k); check(n->r); } 
+    }
+
+    void print() { print(root, 0); }
+    void print(node *n, int depth) {
+        if (!n) return;
+        // for(int i = 0; i < depth; ++i) cout << ' ';
+        cout << "[pr(" << n->pr << ") k(" << n->k << ") v(" << n->v <<")]\n";
+        if(n->l) {
+            for(int i = 0; i < depth+4; ++i) cout << ' '; cout << "l:";
+            print(n->l, depth+4);
+        }
+        if(n->r) {
+            for(int i = 0; i < depth+4; ++i) cout << ' '; cout << "r:";
+            print(n->r, depth+4);
         }
     }
-}
-
-void merge (pitem & t, pitem p, pitem q) {
-    if (!p || !q) {
-        t = l ? p : q;
-    } else if (p->priority > q->priority) {
-        merge (p->r, q->r, r); t = p;
-    } else {
-        merge (q->l, p, q->l); t = q;
-    }
-}
-
-void erase (pitem & t, int key) {
-    if (t->key == key) {
-        merge (t, t->l, t->r);
-    } else {
-        erase (key < t->key ? t->l : t->r, key);
-    }
-}
-
-pitem unite (pitem l, pitem r) {
-    if (!l || !r)  return l ? l : r;
-    if (l->priority < r->priority)  swap (l, r);
-    pitem lt, rt;
-    split (r, l->key, lt, rt);
-    l->l = unite (l->l, lt);
-    l->r = unite (l->r, rt);
-    return l;
-}
+};
 
 int main() { 
-    pitem treap = NULL;
+    treap<int, int> tr;
+    tr.check(tr.root);
     srand(0);
     map<int, int> m;
+    const int KEYSPACE = 10;
 
-    for(int i = 0; i < 100; ++i) {
-        int k = rand() % 10;
+    for(int i = 0; i < 10; ++i) {
+        int k = rand() % KEYSPACE;
         int v = rand() % 100;
-        cout << "inserting: map[" << k << "] = " << v << "\n";
+        cout << "inserting map[" << k << "] = " << v << "\n";
         m[k] = v;
-        insert(treap, new item(k, v));
+        tr.insert(k, v);
+        tr.check(tr.root);
+    }
+    tr.print();
+
+    for(int i = 0; i < 10000; ++i) {
+        int v1 = m.count(i) == 0 ? -42 : m[i];
+        auto it = tr.lookup(i);
+        tr.check(tr.root);
+        int v2 = it == nullptr ? -42 : it->v;
+        cout << "lookup up (" << i << "): map[i] = " << v1 << " | tr[i] = " << v2 << "\n";
+        assert(v1 == v2);
     }
 
+
     for(int i = 0; i < 100; ++i) {
-        int v1 = m.count(i) == 0 ? 42 : m[i];
-        item *it = lookup(treap, i);
-        int v2 = it == nullptr ? 42 : it->value;
-        assert(v1 == v2);
+        int k = rand() % KEYSPACE;
+        auto map_it = m.find(k);
+        auto tr_it = tr.lookup(i);
+
+        assert((map_it == m.end()) == (tr_it == nullptr));
+        m.erase(map_it);
+        tr.erase(k);
     }
     return 0;
 }

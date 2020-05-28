@@ -23,12 +23,33 @@ item *lookup(pitem t, const int k) {
     else { return lookup(t->r, k); };
 }
 
+// split the tree at t into l and r
 void split (pitem t, int key, pitem & l, pitem & r) {
     if (!t) {
         l = r = NULL;
     } else if (key < t->key) {
+        //          t
+        //  (key,l)     r
+        //  ======= 
+        //  FINAL L |   FINAL R
+        //          |     t -----
+        //          |    /       \
+        //split->l  | split->r   r
+        //
+        // ==========================================
+        //                a  b       c
         split (t->l, key, l, t->l),  r = t;
     } else {
+
+        //                    t
+        //       l           |||   (key, r)
+        //                   |||
+        //     t---*         |||       FINAL R
+        //    /    \         |||
+        //   l    split->l   |||        split->r
+        //
+        // ==========================================
+        //                b     a    c
         split (t->r, key, t->r, r),  l = t;
     }
 }
@@ -47,24 +68,46 @@ void insert (pitem & t, pitem it) {
     }
 }
 
+// Unused
+// replace (t) with the merge of (p) and (q)
 void merge (pitem & t, pitem p, pitem q) {
     if (!p || !q) {
-        t = l ? p : q;
+        t = p ? p : q;
     } else if (p->priority > q->priority) {
-        merge (p->r, q->r, r); t = p;
+        // p.priority     ||>||             q.priority
+        // /        \     ||>||             /        \
+        // l        r     ||>||            l         r
+        //
+        //
+        // ==============================================
+        //    p --
+        //   /    \
+        //  p.l   [p.r <- merge(p.r, q)]
+        //
+        merge (p->r, p->r, q); t = p;
     } else {
+        // p.priority     ||<||             q.priority
+        // /        \     ||<||             /        \
+        //p.l       p.r   ||<||           q.l       q.r
+        //
+        //
+        // ==============================================
+        //    q ----------
+        //   /             \
+        // [q.l <- p + q.l]  q..r
+        //
         merge (q->l, p, q->l); t = q;
     }
 }
 
+// merge used for erase.
+// erase = find node, replace it with left and right.
 void erase (pitem & t, int key) {
-    if (t->key == key) {
-        merge (t, t->l, t->r);
-    } else {
-        erase (key < t->key ? t->l : t->r, key);
-    }
+    if (t->key == key) { merge (t, t->l, t->r); }q
+    else { erase (key < t->key ? t->l : t->r, key); }
 }
 
+// unite v/s merge?
 pitem unite (pitem l, pitem r) {
     if (!l || !r)  return l ? l : r;
     if (l->priority < r->priority)  swap (l, r);
