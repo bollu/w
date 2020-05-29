@@ -42,16 +42,20 @@ template<typename K, typename V, int INFTY=100000000> struct treap {
 
 
     // how does this work?
-    pair<node *, node*> split(K k, node *cur, pair<node *, node*>lr) const {
-        if (!cur) { return lr; }
+    pair<node *, node*> split(K k, node *cur) const {
+        if (!cur) { return {nullptr, nullptr}; }
         else if (k < cur->k) {
-            node *nextl, *nextr;
-            tie(nextl, nextr) = split(k, cur->l, make_pair(cur->l, lr.second));
-            return make_pair(nextl, cur);
-        } else { 
-            node *nextl, *nextr;
-            tie(nextl, nextr) = split(k, cur->r, make_pair(lr.first, cur->r));
-            return make_pair(cur, nextr);
+            // cur->l   k   cur      cur->r
+            //
+            //
+            // (lsplit.first k lsplit.second) cur  cur->r
+            auto lsplit = split(k, cur->l);
+            cur->l = lsplit.second;
+            return {lsplit.first, cur};
+        } else {
+            auto rsplit = split(k, cur->r);
+            cur->r = rsplit.first;
+            return {cur, rsplit.second}; 
         }
     }
 
@@ -63,7 +67,7 @@ template<typename K, typename V, int INFTY=100000000> struct treap {
     void insert(node *n, node *&cur) const {
         if (!cur) { cur = n; return; }
         else if (cur->pr < n->pr) { insert(n, n->k < cur->k ? cur->l : cur->r); }
-        else { tie(n->l, n->r) = split(n->k, cur, make_pair(nullptr, nullptr)); cur = n; }
+        else { tie(n->l, n->r) = split(n->k, cur); cur = n; }
     }
 
     void check(node *n) const {
@@ -96,7 +100,7 @@ int main() {
     tr.check(tr.root);
     srand(0);
     map<int, int> m;
-    const int KEYSPACE = 10;
+    const int KEYSPACE = 100;
 
     for(int i = 0; i < 10000; ++i) {
         int k = rand() % KEYSPACE;
@@ -110,19 +114,28 @@ int main() {
     }
     tr.print();
 
+    for(auto it : m) {
+        cout << "looking up: " << it.first << ": " << it.second << "\n";
+        auto trit = tr.lookup(it.first);
+        assert(trit != nullptr);
+        assert(it.second == trit->v); 
+    }
+
     for(int i = 0; i < 10000; ++i) {
-        int v1 = m.count(i) == 0 ? -42 : m[i];
-        auto it = tr.lookup(i);
+        const int k = rand() % KEYSPACE;
+        const int v1 = m.count(k) == 0 ? -42 : m[k];
+
+        const auto it = tr.lookup(k);
         tr.check(tr.root);
         int v2 = it == nullptr ? -42 : it->v;
-        cout << "lookup up (" << i << "): map[i] = " << v1
+        cout << "lookup up (" << k << "): map[i] = " << v1
              << " | tr[i] = " << v2 << "\n";
         tr.print();
         assert(v1 == v2);
     }
 
 
-    for(int i = 0; i < 1000; ++i) {
+    for(int i = 0; i < 10000; ++i) {
         int k = rand() % KEYSPACE;
         auto map_it = m.find(k);
         auto tr_it = tr.lookup(k);
