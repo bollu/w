@@ -142,8 +142,14 @@ int main() {
 
         assert((map_it == m.end()) == (tr_it == nullptr));
         if (map_it == m.end()) { continue; }
+
+        cout << "erasing: " << k << "\n";
         m.erase(map_it);
         tr.erase(k);
+        // key does not exist.
+        assert(m.find(k) == m.end());
+        assert(!tr.lookup(k));
+        assert(m.size() == tr.size());
     }
     return 0;
 }
