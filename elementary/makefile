@@ -1,4 +1,10 @@
 .PHONY: elementary.out treap.out
+binsearch.out: binsearch.cpp
+	clang++ -std=c++17  -g binsearch.cpp -o binsearch.out
+
+segtree-recur.out: segtree-recur.cpp
+	g++ -std=c++17 -fsanitize=address -fsanitize=undefined -g segtree-recur.cpp -o segtree-recur.out
+
 
 treap.out: treap.cpp
 	g++ -g -O0 -std=c++17 -fsanitize=address -fsanitize=undefined treap.cpp -o treap.out

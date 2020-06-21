@@ -8,3 +8,5 @@
 - Queue: array + head + length.
 - Priority queue: implicit heap.
 - Set/Map: implicit treap.
+- Segment tree: simple segment tree implementation for practice.
+- Binary search: versions of binary to `std::lower_bound`, `std::binary_search`.
