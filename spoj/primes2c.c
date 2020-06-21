@@ -1,8 +1,7 @@
 #include <stdio.h>
 #define min(x, y) ((x) < (y) ? (x) : (y))
-using ll = long long;
-static const long long N = 10000000 + 1;
-static const long long SQRTN = 10000000 + 1;
+#define N (1000000000 + 1)
+#define SQRTN (1000000000 + 1)
 
 // Input: n > 1, an odd integer to be tested for primality
 // Output: “composite” if n is composite, “prime” otherwise
@@ -55,31 +54,29 @@ bool isprime(int n) {
 */
 
 int primes[SQRTN];
-ll primesq[SQRTN];
 int nprimes;
-int nprimes_to_check;
 
 int main() {
-    primes[0] = 2; primesq[0] = 4;
-    primes[1] = 3; primesq[1] = 9;
-    primes[2] = 5; primesq[2] = 25;
-    primes[3] = 7; primesq[3] = 49;
+    primes[0] = 2; 
+    primes[1] = 3;
+    primes[2] = 5;
+    primes[3] = 7;
     nprimes = 4;
-    nprimes_to_check = 2;
     printf("2\n");
 
     for(int i = 9; i < N; i += 2) {
-        bool prime = true;
-        if (i == primesq[nprimes_to_check]) { nprimes_to_check = min(nprimes_to_check+1, nprimes); }
-        for(int j = 0; j < nprimes_to_check; ++j) {
-            if (i % primes[j] == 0) { prime = false; break; }
+        int prime = 1;
+        for(int j = 0; j < SQRTN; ++j) {
+            const int p = primes[j];
+            // j > sqrt(i)
+            if (j*j > i) break;
+            if (i % p == 0) { prime = 0; break; }
         }
 
         if (prime) {
             primes[nprimes] = i;
-            primesq[nprimes] = i * i;
-            // if (nprimes % 500 == 0) { printf("%lld\n", i); }
-            printf("%d\n", i); 
+            // if (nprimes % 500 == 0) { printf("%d\n", i);  }
+            // printf("%d\n", i); 
             nprimes++;
 
         }

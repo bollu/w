@@ -1,5 +1,15 @@
 .PHONY: a.out b.out c.out d.out  e.out f.out g.out h.out 
 
+
+d.out: d.cpp
+	g++ -std=c++17 -g -fsanitize=address -fsanitize=undefined d.cpp -o d.out 
+	# g++ -O2 d.cpp -o d.out -std=c++17
+	./d.out
+
+dcodelegend.out: dcodelegend.cpp
+	g++ -std=c++17 -g -fsanitize=address -fsanitize=undefined dcodelegend.cpp -o dcodelegend.out
+	./dcodelegend.out
+
 dsuperty.out: dsuperty.cpp
 	g++ -std=c++17 -g -fsanitize=address -fsanitize=undefined dsuperty.cpp -o dsuperty.out
 	./dsuperty.out
@@ -12,11 +22,6 @@ c.out: c.cpp
 	g++ -std=c++17 -g -fsanitize=address -fsanitize=undefined c.cpp -o c.out
 	./c.out
 
-
-d.out: d.cpp
-	g++ -g -fsanitize=address -fsanitize=undefined d.cpp -o d.out -std=c++17
-	# g++ -O2 d.cpp -o d.out -std=c++17
-	./d.out
 
 
 b.out: b.cpp

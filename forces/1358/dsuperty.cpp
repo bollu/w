@@ -15,27 +15,35 @@ int main() {
 #endif
  
   int n;
-  ll x;
-  cin >> n >> x;
-  int d[2000006];
-  ll tot = 0, sum = 0;
+  ll maxdays;
+  cin >> n >> maxdays;
+  int m2days[2000006];
+  ll cumdays = 0, cumhugs = 0;
   for (int i = 0; i < n; i++) {
-    cin >> d[i];
-    d[n + i] = d[i];
+    cin >> m2days[i];
+    m2days[n + i] = m2days[i];
   }
-  n *= 2;
+  // n *= 2;
   ll ans = 0;
   int l = 0;
-  for (int i = 0; i < n; i++) {
-    tot += d[i];
-    sum += val(d[i]);
-    while (tot - d[l] >= x) {
-      tot -= d[l];
-      sum -= val(d[l]);
-      l++;
+  for (int i = 0; i < n*2; i++) {
+    cumdays += m2days[i]; cumhugs += val(m2days[i]);
+
+    // if on removal of the month, we still are larger than max days, then
+    // remove the month. We want to find the "tighest" block of legal
+    // months.
+    while (cumdays - m2days[l] >= maxdays) { 
+        cumdays -= m2days[l];
+        cumhugs -= val(m2days[l]);
+        l++;
     }
-    if (tot >= x) {
-      ans = max(ans, sum - val(tot - x));
+
+    // if we have leftover days
+    // (that don't fit in a month; if they did, we would have removed it)
+    // then remove them before accumulating the answer. We remove them from
+    // the _first_ segment, so we remove `val(cumdays - maxdays)`.
+    if (cumdays >= maxdays) { 
+        ans = max(ans, cumhugs - val(cumdays - maxdays));
     }
   }
  

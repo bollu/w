@@ -117,3 +117,103 @@ if __name__ == "__main__":
     print("closed closed:")
     treestart_closed_closed(9)
 ```
+
+# Flows
+
+```
+int cap[N][N];
+int flow[N][N];
+int pred[N];
+int totalflow;
+
+int n, m, a, b;
+
+bool augmentpath() {
+    int vs[N]; int vp = 0;
+    memset(pred, 0, sizeof(pred));
+
+    vs[vp++] = S;
+    pred[S] = (-1);
+    while(vp > 0) {
+        const int u = vs[--vp];
+        // cout << "(considering:" << u << ")\n";
+
+        if (u == T) { return true; }
+
+        for(int v = 1; v < N; ++v) {
+            // cout << "(" << u << " --(" << cap[u][v] << ")-->? " << v << ")\n";
+            if (cap[u][v]  - flow[u][v] > 0 && !pred[v]) {
+                // cout << "(" << u << " -> " << v << ")\n";
+                pred[v] = u;
+                vs[vp++] = v;  // push v to stack.
+            }
+        }
+    }
+
+    return false;
+}
+
+void solve() {
+    ...
+    memset(cap, 0, sizeof(cap));
+    memset(flow, 0, sizeof(flow));
+    memset(pred, 0, sizeof(pred));
+    totalflow = 0;
+
+
+    .. setup network
+    while(augmentpath()) {
+        int flo = INFTY;
+        for(int v = T; v != S; v = pred[v]) { flo = min<int>(flo, cap[pred[v]][v] - flow[pred[v]][v]); }
+        assert(flo > 0);
+        totalflow += flo;
+        for(int v = T; v != S; v = pred[v]) {
+            flow[pred[v]][v] += flo;
+            flow[v][pred[v]] -= flo;
+        }
+    }
+```
+
+- Interesting part is that *capacity is constant*
+- We send _positive flow_ in `(u, v)` direction, and send _negative flow_ 
+  in `(v, u)` direction, which starts with `0` capacity. This gives us
+  a "buffer" of, say, `-10...0`.
+
+
+- Initial:
+```
+   flow:0/cap:10
+u -----------------> v
+   flow:0/cap:0
+u <----------------- v
+```
+
+- On sending 5 flow along `u->v`
+
+```
+   flow:5/cap:10
+u -----------------> v
+   flow:-5/cap:0
+u <----------------- v
+```
+
+
+# Elemetary data structures without STL
+
+## Stack:
+
+```
+int stk[N], int sp = 0;
+void push(int val) { stk[sp++] = val; } int pop(int val) { stk[--sp] = val; }
+```
+## Priority queue (Heap) (TODO)
+
+## Map / Set: maintain treap. (TODO)
+
+## FIFO queue
+
+```
+int q[N]; int hd = 0, len=0;
+void qin(int val) { q[hd] = val; hd = (hd+1)%N; len++; }
+int qout() { return q[(hd + --len)%N] }
+```

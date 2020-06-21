@@ -5,6 +5,7 @@ g.out: g.cpp
 	./g.out
 
 
+
 h.out: h.cpp
 	g++ -g -fsanitize=address -fsanitize=undefined h.cpp -std=c++17 -o h.out
 	./h.out

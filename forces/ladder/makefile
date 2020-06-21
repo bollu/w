@@ -1,3 +1,12 @@
+.PHONY: 100551a-linkcut
+
+1012C: 1012C.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 1012C.cpp -o1012C
+
+100551a-linkcut: 100551a-linkcut.cpp
+	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 100551a-linkcut.cpp -o100551a-linkcut
+	./100551a-linkcut
+
 100551a: 100551a.cpp
 	g++ -std=c++14 -O2 -fsanitize=address -fsanitize=undefined -Wall 100551a.cpp -o100551a
 112a: 112a.cpp

@@ -1,3 +1,6 @@
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 #include <queue>
 #include <limits>
 #include <iostream>
@@ -6,6 +9,7 @@
 #include <utility>
 #include <functional>
 using namespace std;
+/*
 #define forn(i, s, f) for (int i = (int)s; i < (int)f; i++)
 #define ll long long
 #define ull unsigned long long
@@ -147,49 +151,100 @@ public:
         e.pb({u, v, i, 0, 0});
     }
 };
- 
-void solve() {
-    int n, m, a, b;
-    cin >> n >> m >> a >> b;
-    if (n * a != m * b) { cout << "NO\n"; return; }
 
-    Max_flow <int> gr(n + m + 2);
-    int s = n + m, t = n + m + 1;
+*/
 
-    for (int i = 0; i < n; ++i) { gr.add_edge(s, i, a); }
-    for(int j = n; j < n + m; ++j) { gr.add_edge(j, t, b); }
+static const int N = 120;
+static const int UNVISITED=0;
+static const int S = N-2;
+static const int T = N-3;
+static const int INFTY = 500;
+int cap[N][N];
+int flow[N][N];
+int pred[N];
+int totalflow;
 
-    for (int i = 0; i < n; ++i) { 
-        for(int j = n; j < n + m; ++j) { 
-            gr.add_edge(i, j, 1);
+int n, m, a, b;
+
+bool augmentpath() {
+    int vs[N]; int vp = 0;
+    memset(pred, 0, sizeof(pred));
+
+    vs[vp++] = S;
+    pred[S] = (-1);
+    while(vp > 0) {
+        const int u = vs[--vp];
+        // cout << "(considering:" << u << ")\n";
+
+        if (u == T) { return true; }
+
+        for(int v = 1; v < N; ++v) {
+            // cout << "(" << u << " --(" << cap[u][v] << ")-->? " << v << ")\n";
+            if (cap[u][v]  - flow[u][v] > 0 && !pred[v]) {
+                // cout << "(" << u << " -> " << v << ")\n";
+                pred[v] = u;
+                vs[vp++] = v;  // push v to stack.
+            }
         }
     }
 
-    /*
-    forn (i, 0, n)
-        forn (j, n, n + m)
-            gr.add_edge(i, j, 1);
-    */
-    if (gr.dinic(s, t) != n * a) {
-        cout << "NO\n";
-        return;
+    return false;
+}
+
+void solve() {
+    cin >> n >> m >> a >> b;
+    memset(cap, 0, sizeof(cap));
+    memset(flow, 0, sizeof(flow));
+    memset(pred, 0, sizeof(pred));
+    totalflow = 0;
+
+    for (int r = 1; r <= n; ++r) { 
+        for(int c = n+1; c <= n + m; ++c) { 
+            cap[S][r] = a;
+            cap[r][c] = 1;
+            cap[c][T] = b;
+        }
     }
 
-    vector <vector <int>> paths = gr.decompose(s, t);
-    vector <vector <char>> ans(n, vector <char> (m, '0'));
-
-    for (int i = 0; i < paths.size(); ++i) {  
-        ans[paths[i][1]][paths[i][2] - n] = '1';
+    while(augmentpath()) {
+        // cout << "*augmenting...\n";
+        // send flow
+        int flo = INFTY;
+        for(int v = T; v != S; v = pred[v]) { flo = min<int>(flo, cap[pred[v]][v] - flow[pred[v]][v]); }
+        assert(flo > 0);
+        totalflow += flo;
+        for(int v = T; v != S; v = pred[v]) {
+            flow[pred[v]][v] += flo;
+            flow[v][pred[v]] -= flo;
+        }
     }
-    // forn (i, 0, sz(paths))
-    //     ans[paths[i][1]][paths[i][2] - n] = '1';
-    cout << "YES\n";
-
+    
+    char ans[N][N];
     for(int i = 0; i < n; ++i) {
         for(int j = 0; j < m; ++j) {
-            cout << ans[i][j];
+            ans[i][j] = '0';
         }
-        cout << "\n";
+    }
+
+    for (int r = 1; r <= n; ++r) { 
+        for(int c = n+1; c <= n + m; ++c) { 
+            if (flow[r][c] > 0) {
+                ans[r-1][c-n-1] = '1';
+            }
+        }
+    }
+
+    // In this case, we can satisfy the row condition, not the column condition.
+    // The reason this is a good condition is that we need.
+    // 22 25 1 11
+    if (n*a != m*b) { cout << "NO\n"; }
+    else if (totalflow != n * a) { cout << "NO\n"; }
+    else {
+        cout << "YES\n";
+        for(int i = 0; i < n; ++i) {
+            for(int j = 0; j < m; ++j) { cout << ans[i][j]; }
+            cout << "\n";
+        }
     }
 }
  
@@ -197,7 +252,6 @@ int main() {
     ios_base::sync_with_stdio(0), cin.tie(0);
     int t;
     cin >> t;
-    while (t --) { solve();
-    }
+    while (t --) { solve(); }
     return 0;
 }
