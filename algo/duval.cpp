@@ -2,7 +2,11 @@
 #include <vector>
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 using namespace std;
+
 void printijk(const string &s, const int i, const int j, const int k) {
     printf("%s$\n", s.c_str());
     for(int ix = 0; ix <= s.size(); ++ix) {
@@ -92,7 +96,11 @@ void duval(const char *s, vector<char *> &ss) {
 }
 
 int main() {
-    const char *s = "axaawaavabu";
+    // 679
+    // 8
+    // 45
+    // 123
+    const char *s = "679845123";
     vector<char *> ss; duval(s, ss);
 
     for(auto t : ss) {
