@@ -32,3 +32,48 @@ will use some neat abstract algebra or a more insightful technique.
   the proof to cover those cases.
 - The key idea is the swap based exchange argument.
 
+
+#### Intuition for `lower_bound`, `upper_bound`:
+
+- you get the range of values equal to `x` as `[lower_bound(k), upper_bound(k))`
+- similar to the array range, which is `[0, n)`
+- basically they represent the left-most and right-most iterators **before which**
+  we can insert the key `k`.
+
+```
+        | lower, upper bound
+        | v
+        | v
+< < < _ | > > >
+      ^
+      ^
+      safe to insert element here [BEFORE]
+```
+
+- Think about inserting an element at that point and pushing everything else to
+  the right. So to "make room", we push to the right.
+
+- Alternatively, think that our iterators are always `-ε`. This works, since the
+  pictures will look like this:
+
+- Case with some elements equal to key:
+
+```
+      | lower     |upper
+      | bound     |bound
+      | v         |v
+< < < | ε = = = = |ε  > > > > >
+        [----------]
+        inteval of equal elements
+```
+- Case with no elements equal to key:
+
+```
+      lower, upper bound  
+      v |                  
+      v |                  
+< < < ε | > > >
+      ^
+      ^
+      safe to insert element here [BEFORE]
+```
