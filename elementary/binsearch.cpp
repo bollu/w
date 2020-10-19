@@ -4,6 +4,24 @@
 #include <assert.h>
 using namespace std;
 
+optional<int> leftmost_eq_left_closed_right_open(vector<int> as, int val) {
+    // use open intervals [left, right)
+    int left = 0, right = as.size();
+    while(left < right) {
+        // decreasing quantity: right - left
+        // left < right => left <= mid < right.
+        int mid = (left + right)/2;
+        // take left = mid + 1 since our floor division is left-biased,
+        // and we can definitely avoid the left half.
+        if (as[mid] < val) { left = mid+1; }
+        // we want to avoid the portion >= mid. Since we are open 
+        // intervals, we set right = mid.
+        else if (as[mid] == val) { right = mid; }
+        else { right = mid; }
+    }
+    if (as[left] == val) { return left; } else { return {}; }
+}
+
 struct search {
     vector<int> as;
     search(vector<int> as)  : as(as) {
@@ -82,21 +100,17 @@ struct dumb_search : search {
 struct bin_search : search {
     bin_search(vector<int> as) : search(as) { }
 
+    // find leftmost index `ix` where `as[ix] == val`.
     optional<int> leftmost_eq(int val) {
-        int left = 0, right = as.size()-1;
-        while(left != right) {
+        // both closed.
+        int left = 0, right = as.size() - 1;
+        while (left <= right) {
             int mid = (left + right)/2;
-
-            // left----------mid-----right
-            // as[left] <= as[mid] <= as[right]
-            
-            if (mid == right) break; // hack!
-            if (as[mid] < val) { left = mid+1; }
-            else if (as[mid] == val) { right = mid; } // want leftmost eq
-            else { right = mid-1; }
+            if (as[mid] >= val) right = mid - 1;
+            else left = mid + 1;
         }
+        if (left >= as.size()) return {};
         if (as[left] == val) { return left; } else { return {}; }
-
     }
 
     optional<int> rightmost_eq(int val) {
@@ -156,12 +170,15 @@ struct bin_search2: public search {
         int len = as.size(); 
         while(len > 0) {
             // TODO: meditate on why this is correct.
-            const int mid = left + len/2;
+            const int mid = left + (len+1)/2;
+            cout << "\n---\nleft=" << left << "|len=" << len << "mid=" << mid << "\n";
             // the +1 is very important, otherwise the technique gives
             // wrong answers, not just infinite loops!
-            if (as[mid] < val) { left = mid+1; }
+            if (as[mid] < val) { left = mid; }
             len /= 2;
         }
+        cout << "as.size(): " << as.size() << "\n";
+        assert(left < as.size());
         if (as[left] == val) { return left; } else { return {}; };
     }
     optional<int> rightmost_eq(int val) { 
@@ -185,6 +202,7 @@ struct bin_search2: public search {
         while(len > 0) {
             // TODO: meditate on why this is correct.
             const int mid = left + len/2;
+            assert(mid < as.size());
             // the +1 is very important, otherwise the technique gives
             // wrong answers, not just infinite loops!
             if (as[mid] < val) { left = mid+1; }
@@ -214,7 +232,20 @@ void test(vector<int> as) {
 
     cout << "LEFTMOST EQ 1 SUCCEEDED\n";
 
+    // bin_search2 bin2(as);
 
+    // for(int i = 0; i < 100; ++i) {
+    //     optional<int> dumbix = dumb.leftmost_eq(i);
+    //     optional<int> ix = bin2.leftmost_eq(i);
+    //     cout << "leftmost_eq(" << i << "): dumb=" << dumbix << " | bin2=" << ix << "\n";
+    //     cout.flush();
+    //     assert(dumbix == ix);
+    // }
+
+    // cout << "LEFTMOST EQ 2 SUCCEEDED\n";
+
+
+    /*
     for(int i = 0; i < 100; ++i) {
         optional<int> dumbix = dumb.rightmost_eq(i);
         optional<int> ix = bin.rightmost_eq(i);
@@ -246,18 +277,6 @@ void test(vector<int> as) {
     cout << "LEFTMOST GREATER1 SUCCEEDED\n";
 
 
-    /*
-    bin_search2 bin2(as);
-
-    for(int i = 0; i < 100; ++i) {
-        optional<int> dumbix = dumb.leftmost_eq(i);
-        optional<int> ix = bin2.leftmost_eq(i);
-        cout << "leftmost_eq(" << i << "): dumb=" << dumbix << " | bin2=" << ix << "\n";
-        cout.flush();
-        assert(dumbix == ix);
-    }
-
-    cout << "LEFTMOST EQ 2 SUCCEEDED\n";
 
      for(int i = 0; i < 100; ++i) {
         optional<int> dumbix = dumb.rightmost_eq(i);
