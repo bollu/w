@@ -8,8 +8,12 @@ will use some neat abstract algebra or a more insightful technique.
 
 
 ## Unsolved problems
-- [Concert Tickets](https://cses.fi/problemset/task/1091)
 - [Movie Festival](https://cses.fi/problemset/task/1629)
+
+## Unsolved without STL
+
+- [Concert Tickets](https://cses.fi/problemset/task/1091). I use `multiset`. Implement
+  your own!
 
 ## Solved correctness proofs
 
@@ -27,3 +31,4 @@ will use some neat abstract algebra or a more insightful technique.
 - We didn't deal with the cases where stuff is not paired, but we can repair
   the proof to cover those cases.
 - The key idea is the swap based exchange argument.
+
