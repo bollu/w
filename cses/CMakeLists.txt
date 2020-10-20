@@ -29,5 +29,11 @@ set_target_properties(sum-of-two-values.out PROPERTIES CXX_STANDARD 17)
 add_executable(maximum-subarray-sum.out maximum-subarray-sum.cpp)
 set_target_properties(maximum-subarray-sum.out PROPERTIES CXX_STANDARD 17)
 
-add_executable(XXXX.out XXXX.cpp)
-set_target_properties(XXXX.out PROPERTIES CXX_STANDARD 17)
+add_executable(stick-lengths.out stick-lengths.cpp)
+set_target_properties(stick-lengths.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(playlist.out playlist.cpp)
+set_target_properties(playlist.out PROPERTIES Cplaylist_STANDARD 17)
+
+add_executable(XX.out XX.cpp)
+set_target_properties(XX.out PROPERTIES CXX_STANDARD 17)

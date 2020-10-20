@@ -1,76 +1,80 @@
+#include <assert.h>
+
 #include <algorithm>
 #include <iostream>
 #include <map>
-#include <set>
-#include <vector>
-#include <stack>
 #include <queue>
-#include <assert.h>
-
-namespace f0 {
-
-struct interval {
-    int start, end;
-};
-
-bool covered(const interval &i, const interval &j) { return i.end < j.start; }
-
-std::ostream &operator<<(std::ostream &o, const interval &i) {
-    return o << "[" << i.start << " " << i.end << "]";
-}
+#include <set>
+#include <stack>
+#include <vector>
+// https://en.wikipedia.org/wiki/Activity_selection_problem
+// https://www.youtube.com/watch?v=pN7RzOWIOn4
+// 1. Why does this work?
+// 2. What solutions *don't* work?
 
 using namespace std;
+// dp
+namespace f1 {
+int main() {
+    map<int, set<pair<int, int>>> events;
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        pair<int, int> job;
+        cin >> job.first >> job.second;
+        events[job.first].insert(job);
+        events[job.second].insert(job);
+    }
+
+    // map of evt to all possible 
+    // [end time, number of jobs], removing "obviously better" candidates.
+    map<int, set<pair<int, int>>> best;
+
+    // iterate in descending order of finish time.
+    for(auto evt = events.rend(); evt != events.rbegin(); ++evt) {
+        // for every job at this event..
+        for(pair<int, int> interval : evt->second) {
+        }
+
+    }
+
+    return 0;
+}
+}  // namespace f1
+
+// greedy
+namespace f0 {
 int main() {
     int n;
     cin >> n;
-    vector<interval> es(n);
-    vector<int> ixs_start(n);
-    vector<int> ixs_end(n);
-    vector<int> chain_len(n);
-
+    vector<pair<int, int>> ms(n);
     for (int i = 0; i < n; ++i) {
-        cin >> es[i].start >> es[i].end;
-        ixs_start[i] = ixs_end[i] = i;
-        chain_len[i] = 0;
+        cin >> ms[i].first >> ms[i].second;
     }
-    std::sort(ixs_start.begin(), ixs_start.end(),
-              [&es](int i, int j) { return es[i].start < es[j].start; });
 
-    std::sort(ixs_end.begin(), ixs_end.end(),
-              [&es](int i, int j) { return es[i].end < es[j].end; });
+    std::sort(ms.begin(), ms.end(), [](pair<int, int> p1, pair<int, int> p2) {
+        return (p1.second < p2.second) ||
+               (p1.second == p2.second && p1.first < p2.first);
+    });
 
-    // pick the job that ends last, since that's going to be
-    // the final event.
-    chain_len[ixs_end[n-1]] = 1;
-
-    set<int> seen;
-    stack<pair<int, int>> stack_ixlen;
-
-    // process from end
-    for(int i = n - 1; i >= 0; i--) {
-        if (seen.count(ixs_end[i])) { continue; }
-        stack_ixlen.push({ixs_end[i], 1});
-        while (!stack_ixlen.empty()) {
-            int ix, len;
-            std::tie(ix, len) = stack_ixlen.top();
-            stack_ixlen.pop();
-            if (seen.count(ix)) { continue; }
-            seen.insert(ix);
-
-            // find all things that start where this ends.
-            int lo = 0, hi = n;
-            while(hi - lo > 1) {
-                int mid = (lo + hi)/2;
-                if (ixs_start[mid] < ixs_start[ix]) { lo = mid; }
-                else { hi = mid; }
-            }
-            assert(lo == hi);
+    int njobs = 0;
+    int cur_end = -1;
+    for (int i = 0; i < n; ++i) {
+        if (cur_end <= ms[i].first) {
+            cur_end = ms[i].second;
+            njobs++;
         }
     }
-
-
+    // 0 1 2 3 4 5 6 7 8 9
+    //       [---]
+    //           [-----]
+    //         [---------]
+    cout << njobs << "\n";
     return 0;
 }
 }  // namespace f0
 
-int main() { return f0::main(); }
+int main() { 
+    // return f0::main();
+    return f1::main();
+}
