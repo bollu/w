@@ -33,7 +33,19 @@ add_executable(stick-lengths.out stick-lengths.cpp)
 set_target_properties(stick-lengths.out PROPERTIES CXX_STANDARD 17)
 
 add_executable(playlist.out playlist.cpp)
-set_target_properties(playlist.out PROPERTIES Cplaylist_STANDARD 17)
+set_target_properties(playlist.out PROPERTIES CXX_STANDARD 17)
 
-add_executable(XX.out XX.cpp)
-set_target_properties(XX.out PROPERTIES CXX_STANDARD 17)
+add_executable(towers.out towers.cpp)
+set_target_properties(towers.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(nearest-smaller-values.out nearest-smaller-values.cpp)
+set_target_properties(nearest-smaller-values.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(traffic-lights.out traffic-lights.cpp)
+set_target_properties(traffic-lights.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(room-allocation.out room-allocation.cpp)
+set_target_properties(room-allocation.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(YY.out YY.cpp)
+set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

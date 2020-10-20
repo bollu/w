@@ -7,12 +7,11 @@ will use some neat abstract algebra or a more insightful technique.
 
 
 ## Unsolved problems
-- [Movie Festival](https://cses.fi/problemset/task/1629)
+- [Nearest smaller values](https://cses.fi/problemset/task/1645)
 
 ## Unsolved correctness proofs
-- [Playlist](https://cses.fi/problemset/result/1157099/)
-- [Playlist](https://cses.fi/problemset/result/1157099/): think about relation to
-  max sum subarray.
+- [Playlist](https://cses.fi/problemset/task/1141)
+- [Towers](https://cses.fi/problemset/task/1073)
 
 ## Unsolved with resrictions
 - [Ferris wheel](https://cses.fi/problemset/task/1090): find matroid
@@ -58,6 +57,22 @@ will use some neat abstract algebra or a more insightful technique.
 - I wonder if every two pointer algorithm can be viewed in terms of this
   "mountain peak - baseline" style solution.
 
+  
+#### [Towers](https://cses.fi/problemset/task/1073)
+
+- Greedily choose to place blocks on top of current towers.
+- Assume optimal choice of whether to place on top of current tower or create a new tower is `O*`.
+- Assume greedy choice solution is `O`.
+- If the `O` and `O*` agree on the first choice, recurse.
+- If `O` and `O*` do not agree, analyze the situation as follows:
+- Let us build a tower `<T1>:<cur-block>`
+- Let the `O*` solution build a tower `<T1*>:<cur-block>` or `<cur-block>`, where `<T1*> /= <T1>`.
+- `(A1)` In this case, we have that `T1 > cur-block` and `T1* > cur-block`.
+  For the optimal solution, move the blocks on top of `T1*` to be on top of `T1`.
+- **TODO**
+
+
+
 #### Intuition for `lower_bound`, `upper_bound`:
 
 - you get the range of values equal to `x` as `[lower_bound(k), upper_bound(k))`
@@ -102,3 +117,12 @@ will use some neat abstract algebra or a more insightful technique.
       ^
       safe to insert element here [BEFORE]
 ```
+
+
+#### Poset problems
+
+- Longest increasing subsequence: longest chain in poset of `(ix, value)`
+- Activity scheduling: longest chain in interval poset. Periods of activity is interval
+- Max overlapping intervals: longest chain in subset poset: `(l1, r1) <= (l2, r2)` if `l1 <= l2 <= r2 <= r1`
+  [ie, first subset contains the second]
+- Knowing a data structure for poset maintainance seems invaluable!
