@@ -1,0 +1,82 @@
+[
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/YY.out.dir/YY.cpp.o -c /home/bollu/work/cses/YY.cpp",
+  "file": "/home/bollu/work/cses/YY.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/room-allocation.out.dir/room-allocation.cpp.o -c /home/bollu/work/cses/room-allocation.cpp",
+  "file": "/home/bollu/work/cses/room-allocation.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/traffic-lights.out.dir/traffic-lights.cpp.o -c /home/bollu/work/cses/traffic-lights.cpp",
+  "file": "/home/bollu/work/cses/traffic-lights.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/nearest-smaller-values.out.dir/nearest-smaller-values.cpp.o -c /home/bollu/work/cses/nearest-smaller-values.cpp",
+  "file": "/home/bollu/work/cses/nearest-smaller-values.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/towers.out.dir/towers.cpp.o -c /home/bollu/work/cses/towers.cpp",
+  "file": "/home/bollu/work/cses/towers.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/concert-tickets.out.dir/concert-tickets.cpp.o -c /home/bollu/work/cses/concert-tickets.cpp",
+  "file": "/home/bollu/work/cses/concert-tickets.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/restaurant-customers.out.dir/restaurant-customers.cpp.o -c /home/bollu/work/cses/restaurant-customers.cpp",
+  "file": "/home/bollu/work/cses/restaurant-customers.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/factory-machines.out.dir/factory-machines.cpp.o -c /home/bollu/work/cses/factory-machines.cpp",
+  "file": "/home/bollu/work/cses/factory-machines.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/apartments.out.dir/apartments.cpp.o -c /home/bollu/work/cses/apartments.cpp",
+  "file": "/home/bollu/work/cses/apartments.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/distinct-numbers.out.dir/distinct-numbers.cpp.o -c /home/bollu/work/cses/distinct-numbers.cpp",
+  "file": "/home/bollu/work/cses/distinct-numbers.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/movie-festival.out.dir/movie-festival.cpp.o -c /home/bollu/work/cses/movie-festival.cpp",
+  "file": "/home/bollu/work/cses/movie-festival.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/sum-of-two-values.out.dir/sum-of-two-values.cpp.o -c /home/bollu/work/cses/sum-of-two-values.cpp",
+  "file": "/home/bollu/work/cses/sum-of-two-values.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/maximum-subarray-sum.out.dir/maximum-subarray-sum.cpp.o -c /home/bollu/work/cses/maximum-subarray-sum.cpp",
+  "file": "/home/bollu/work/cses/maximum-subarray-sum.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/ferris-wheel.out.dir/ferris-wheel.cpp.o -c /home/bollu/work/cses/ferris-wheel.cpp",
+  "file": "/home/bollu/work/cses/ferris-wheel.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/stick-lengths.out.dir/stick-lengths.cpp.o -c /home/bollu/work/cses/stick-lengths.cpp",
+  "file": "/home/bollu/work/cses/stick-lengths.cpp"
+},
+{
+  "directory": "/home/bollu/work/cses/build",
+  "command": "/home/bollu/.local/bin/clang++    -fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined   -std=gnu++17 -o CMakeFiles/playlist.out.dir/playlist.cpp.o -c /home/bollu/work/cses/playlist.cpp",
+  "file": "/home/bollu/work/cses/playlist.cpp"
+}
+]

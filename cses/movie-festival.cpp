@@ -33,8 +33,8 @@ int main() {
     // iterate in descending order of finish time.
     for(auto evt = events.rend(); evt != events.rbegin(); ++evt) {
         // for every job at this event..
-        for(pair<int, int> interval : evt->second) {
-        }
+        // for(pair<int, int> interval : evt->second) {
+        // }
 
     }
 

@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <stack>
 #include <queue>
+#include <numeric> // for gcd
 #include <assert.h>
 
 // https://codeforces.com/blog/entry/11080

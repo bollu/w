@@ -4,6 +4,8 @@ To find problems that are solved in multiple ways, look for `namespace`. Often
 the first implementation `f0 { ... }` will be the naive solution, while `f1 { ... }`
 will use some neat abstract algebra or a more insightful technique.
 
+- [Consider solving USACO next](https://usaco.guide/)
+
 
 
 ## Unsolved problems
@@ -12,6 +14,7 @@ will use some neat abstract algebra or a more insightful technique.
 ## Unsolved correctness proofs
 - [Playlist](https://cses.fi/problemset/task/1141)
 - [Towers](https://cses.fi/problemset/task/1073)
+- [Factory machines](https://cses.fi/problemset/task/1620)
 
 ## Unsolved with resrictions
 - [Ferris wheel](https://cses.fi/problemset/task/1090): find matroid

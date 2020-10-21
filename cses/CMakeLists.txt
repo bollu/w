@@ -3,7 +3,7 @@ project(cscs C CXX)
 
 # Colors when compiling with clang
 # set(CMAKE_CXX_FLAGS "-fdiagnostics-color=always -fno-rtti -g -Wall -Werror")
-set(CMAKE_CXX_FLAGS "-fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined -static-libasan")
+set(CMAKE_CXX_FLAGS "-fdiagnostics-color=always -fno-rtti -g -Wall -fsanitize=address -fsanitize=undefined")
 
 add_executable(distinct-numbers.out distinct-numbers.cpp)
 set_target_properties(distinct-numbers.out PROPERTIES CXX_STANDARD 17)
@@ -46,6 +46,9 @@ set_target_properties(traffic-lights.out PROPERTIES CXX_STANDARD 17)
 
 add_executable(room-allocation.out room-allocation.cpp)
 set_target_properties(room-allocation.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(factory-machines.out factory-machines.cpp)
+set_target_properties(factory-machines.out PROPERTIES CXX_STANDARD 17)
 
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

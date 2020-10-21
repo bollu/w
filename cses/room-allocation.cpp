@@ -66,7 +66,7 @@ int main() {
         es[2*i+1].arrival = false;
     }
 
-    int max_rooms;
+    int max_rooms = 0;
     map<int, int> ix2room;
     set<int> free_rooms;
     set<int> occupied_rooms;

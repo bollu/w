@@ -15,7 +15,6 @@
 
 using ll = long long;
 using namespace std;
-static const int N = 1000000;
 
 template <typename T>
 using ordered_set =
