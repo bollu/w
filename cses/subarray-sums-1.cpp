@@ -32,6 +32,7 @@ ostream &operator <<(ostream &o, const pair<T1, T2> &p) {
     return o << "(" << p.first << ", " << p.second << ")";
 }
 
+namespace f0 {
 int main() { 
     int n, x; cin >> n >> x;
     vector<int> nums(n+1);
@@ -48,6 +49,35 @@ int main() {
         }
 
         if (cursum == x) { count++; }
+    }
+    
+    cout << count << "\n";
+
+    return 0;
+}
+}
+
+int main() {
+    ll n, x; cin >> n >> x;
+    vector<ll> nums(n+1);
+    map<ll, ll> partial_sums;
+    for(ll i = 0; i < n; ++i) { cin >> nums[i]; }
+
+    ll count = 0;
+    ll cursum = 0; ll l = 0, r = 0;
+    while(r < n) {
+        cursum += nums[r];
+        r++;
+        if (cursum == x) { count++; }
+        else {
+             // cursum - prevsum = x
+             // prevsum = cursum - x
+             auto it = partial_sums.find(cursum - x);
+             if (it != partial_sums.end()) {
+                 count += it->second;
+             }
+        }
+        partial_sums[cursum] += 1;
     }
     
     cout << count << "\n";
