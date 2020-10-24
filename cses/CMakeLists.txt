@@ -50,5 +50,23 @@ set_target_properties(room-allocation.out PROPERTIES CXX_STANDARD 17)
 add_executable(factory-machines.out factory-machines.cpp)
 set_target_properties(factory-machines.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(tasks-and-deadlines.out tasks-and-deadlines.cpp)
+set_target_properties(tasks-and-deadlines.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(reading-books.out reading-books.cpp)
+set_target_properties(reading-books.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(sum-of-three-values.out sum-of-three-values.cpp)
+set_target_properties(sum-of-three-values.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(sum-of-four-values.out sum-of-four-values.cpp)
+set_target_properties(sum-of-four-values.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(subarray-sums-1.out subarray-sums-1.cpp)
+set_target_properties(subarray-sums-1.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(subarray-sums-2.out subarray-sums-2.cpp)
+set_target_properties(subarray-sums-2.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

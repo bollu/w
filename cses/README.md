@@ -12,9 +12,10 @@ will use some neat abstract algebra or a more insightful technique.
 - [Nearest smaller values](https://cses.fi/problemset/task/1645)
 
 ## Unsolved correctness proofs
-- [Playlist](https://cses.fi/problemset/task/1141)
+- [Playlist](https://cses.fi/problemset/task/1141) Have handwavy proof.
 - [Towers](https://cses.fi/problemset/task/1073)
-- [Factory machines](https://cses.fi/problemset/task/1620)
+- [Tasks and deadlines](https://cses.fi/problemset/task/1630/) 
+  Have hand wavy calculus proof, need to check that its correct.
 
 ## Unsolved with resrictions
 - [Ferris wheel](https://cses.fi/problemset/task/1090): find matroid
@@ -24,6 +25,11 @@ will use some neat abstract algebra or a more insightful technique.
 
 ## Solved correctness proofs
 
+
+# [Factory machines](https://cses.fi/problemset/task/1620)
+
+Use monotonicity of "number of widgets made in a given amount of time"
+to find the minimum time where we make X number of widgets.
 
 #### [Ferris wheel](https://cses.fi/problemset/task/1090)
 
@@ -129,3 +135,8 @@ will use some neat abstract algebra or a more insightful technique.
 - Max overlapping intervals: longest chain in subset poset: `(l1, r1) <= (l2, r2)` if `l1 <= l2 <= r2 <= r1`
   [ie, first subset contains the second]
 - Knowing a data structure for poset maintainance seems invaluable!
+
+#### Nice binary search problems
+
+- sum of three values
+- factory machines

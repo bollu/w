@@ -9,10 +9,14 @@ optional<int> leftmost_eq_left_closed_right_open(vector<int> as, int val) {
     int left = 0, right = as.size();
     while(left < right) {
         // decreasing quantity: right - left
-        // left < right => left <= mid < right.
+        // left < right => left <= mid < right [because of floor division]
+        // NOTE: the *floor division* is very important, since that makes this
+        //       left-biased.
         int mid = (left + right)/2;
         // take left = mid + 1 since our floor division is left-biased,
         // and we can definitely avoid the left half.
+        // Q. Why can we definitely avoid the left half?
+        // A. because mid is *at least* the left, if not more!
         if (as[mid] < val) { left = mid+1; }
         // we want to avoid the portion >= mid. Since we are open 
         // intervals, we set right = mid.

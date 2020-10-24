@@ -82,6 +82,7 @@ int main() {
     }
 
     cout << (N / n_in_Tlcm) * Tlcm  + last_time << "\n";
+    return 0;
 }
 
 }
