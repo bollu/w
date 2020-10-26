@@ -33,7 +33,33 @@ ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
 }
 
 int main() {
-    std::ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    int n;
+    cin >> n;
+    vector<ll> xs(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> xs[i];
+        xs[i] = xs[i] % n;
+        if (xs[i] < 0) { xs[i] += n; }
+    }
+
+    ll count = 0;
+    ll cursum = 0;
+    map<ll, ll> partial_sum_count;
+    partial_sum_count[0] = 1;
+
+    for (int i = 0; i < n; ++i) {
+        cursum = (cursum + xs[i]) % n;
+        auto it = partial_sum_count.find(cursum);
+        if (it != partial_sum_count.end()) {
+            count += it->second;
+        }
+
+        // cout << "xs[" << i << "]:" << xs[i] << " | cursum: " << cursum << " | count: " <<  count << "\n";
+        // for(auto it : partial_sum_count) { cout << it << " "; } cout << " | count: " << count << "\n";
+        partial_sum_count[cursum]++;
+    }
+
+    cout << count << "\n";
+
     return 0;
 }

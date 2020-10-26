@@ -21,6 +21,8 @@ will use some neat abstract algebra or a more insightful technique.
 - [Ferris wheel](https://cses.fi/problemset/task/1090): find matroid
 - [Concert Tickets](https://cses.fi/problemset/task/1091). I use `multiset`. Implement
   your own!
+- [Sliding window](https://cses.fi/problemset/task/1076/). I cheesed and used policy
+  based data structures. Implement your own!
 
 
 ## Solved correctness proofs
@@ -140,3 +142,9 @@ to find the minimum time where we make X number of widgets.
 
 - sum of three values
 - factory machines
+
+#### Interesting idea to refactor two pointers
+
+- Look at `subarray_sums_{1, 2}.cpp` where we use a `map` to check whether a 
+  'back pointer' has computed some information that we need to satisfy the
+  predicate.

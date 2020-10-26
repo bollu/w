@@ -68,5 +68,24 @@ set_target_properties(subarray-sums-1.out PROPERTIES CXX_STANDARD 17)
 add_executable(subarray-sums-2.out subarray-sums-2.cpp)
 set_target_properties(subarray-sums-2.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(subarray-divisibility.out subarray-divisibility.cpp)
+set_target_properties(subarray-divisibility.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(sliding-median.out sliding-median.cpp)
+set_target_properties(sliding-median.out PROPERTIES CXX_STANDARD 17)
+
+
+add_executable(dice-combinations.out dice-combinations.cpp)
+set_target_properties(dice-combinations.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(minimizing-coins.out minimizing-coins.cpp)
+set_target_properties(minimizing-coins.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(coin-combinations-1.out coin-combinations-1.cpp)
+set_target_properties(coin-combinations-1.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(coin-combinations-2.out coin-combinations-2.cpp)
+set_target_properties(coin-combinations-2.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

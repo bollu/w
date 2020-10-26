@@ -34,88 +34,46 @@ ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
 // TLE but correct
 namespace f0 {
 int main() {
+    std::ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
     int n, x;
     cin >> n >> x;
-    vector<int> as(n);
+    vector<pair<int, int>> as(n);
     for (int i = 0; i < n; ++i) {
-        cin >> as[i];
+        cin >> as[i].first;
+        as[i].second = i;
     }
-    unordered_map<int, pair<int, int>> v2ixs;
-
-    for (int i = 0; i < n; ++i) {
-        for (int j = i + 1; j < n; ++j) {
-            int sum = as[i] + as[j];
-            if (sum > x) {
-                break;
-            }
-            v2ixs[sum] = {i, j};
-        }
-    }
-
-    for (auto it : v2ixs) {
-        const int i = it.second.first, j = it.second.second;
-        auto it2 = v2ixs.find(x - it.first);
-        if (it2 == v2ixs.end()) {
-            continue;
-        }
-
-        const int k = it2->second.first, l = it2->second.second;
-        if ((k != i && k != j) && (l != i && l != j)) {
-            cout << 1 + i << " " << 1 + j << " " << 1 + k << " " << 1 + l << "\n";
-            return 0;
-        }
-    }
-
-    cout << "IMPOSSIBLE\n";
-    return 0;
-}
-}
-
-int main() {
-    int n, x;
-    cin >> n >> x;
-    vector<int> as(n);
-    for (int i = 0; i < n; ++i) { cin >> as[i]; }
 
     std::sort(as.begin(), as.end());
-
-    // there maybe more than one way to get the same indexes.
-    unordered_map<int, set<pair<int, int>>> v2ixs;
-
     for (int i = 0; i < n; ++i) {
+        if (as[i].first > x) {
+            break;
+        }
         for (int j = i + 1; j < n; ++j) {
-            int sum = as[i] + as[j];
-            if (sum > x) { break; }
-
-            auto it2 = v2ixs.find(x - sum);
-            if (it2 != v2ixs.end()) {
-                int k, l;
-                // tie(k, l) = it2->second;
-                if ((k != i && k != j) && (l != i && l != j)) {
-                    cout << 1 + i << " " << 1 + j << " " << 1 + k << " " << 1 + l << "\n";
-                    return 0;
+            if (as[i].first + as[j].first > x) {
+                break;
+            }
+            for (int k = j + 1; k < n; ++k) {
+                if (as[i].first + as[j].first + as[k].first > x) {
+                    break;
+                }
+                for (int l = k + 1; l < n; ++l) {
+                    if (as[i].first + as[j].first + as[k].first + as[l].first > x) {
+                        break;
+                    }
+                    if (as[i].first + as[j].first + as[k].first + as[l].first == x) {
+                        cout << 1 + as[i].second << " " << 1 + as[j].second << 
+                            " " << 1 + as[k].second << " " << 1 + as[l].second << "\n";
+                        return 0;
+                    }
                 }
             }
-
-            v2ixs[sum] = {i, j};
         }
     }
-
-    /*
-    for (auto it : v2ixs) {
-        const int i = it.second.first, j = it.second.second;
-        auto it2 = v2ixs.find(x - it.first);
-        if (it2 == v2ixs.end()) {
-            continue;
-        }
-
-        const int k = it2->second.first, l = it2->second.second;
-        if ((k != i && k != j) && (l != i && l != j)) {
-            return 0;
-        }
-    }
-    */
-
     cout << "IMPOSSIBLE\n";
     return 0;
 }
+}  // namespace f0
+
+int main() { f0::main(); }
+

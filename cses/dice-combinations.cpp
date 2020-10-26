@@ -32,8 +32,18 @@ ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
     return o << "(" << p.first << ", " << p.second << ")";
 }
 
-int main() {
-    std::ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+const ll MOD = 1e9 + 7;
+const ll MAX = 1e6 + 5;
+int nps[MAX];
+
+int main() { 
+    int n; cin >> n;
+    nps[0] = 1; nps[1] = 1;
+    for(int i = 2; i <= n; ++i) {
+        for(int j = 1; j <= min(6, i); ++j) {
+            nps[i] = (nps[i] + nps[i-j]) % MOD;
+        }
+    }
+    cout << nps[n] << "\n";
     return 0;
 }
