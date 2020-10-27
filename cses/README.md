@@ -16,6 +16,9 @@ will use some neat abstract algebra or a more insightful technique.
 - [Towers](https://cses.fi/problemset/task/1073)
 - [Tasks and deadlines](https://cses.fi/problemset/task/1630/) 
   Have hand wavy calculus proof, need to check that its correct.
+- [Book shop](https://cses.fi/problemset/task/1158/) and 
+  [Coin combinations II](https://cses.fi/problemset/task/1636). What structure
+  of the problem are we able to exploit to make it 'monotonic-like'?
 
 ## Unsolved with resrictions
 - [Ferris wheel](https://cses.fi/problemset/task/1090): find matroid
