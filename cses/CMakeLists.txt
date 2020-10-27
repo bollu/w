@@ -87,5 +87,17 @@ set_target_properties(coin-combinations-1.out PROPERTIES CXX_STANDARD 17)
 add_executable(coin-combinations-2.out coin-combinations-2.cpp)
 set_target_properties(coin-combinations-2.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(removing-digits.out removing-digits.cpp)
+set_target_properties(removing-digits.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(grid-paths.out grid-paths.cpp)
+set_target_properties(grid-paths.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(book-shop.out book-shop.cpp)
+set_target_properties(book-shop.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(edit-distance.out edit-distance.cpp)
+set_target_properties(edit-distance.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

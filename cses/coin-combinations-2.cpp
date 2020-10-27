@@ -147,8 +147,9 @@ int main() {
     // dp[m][i]: number of ways to break money `m` into coins of ix >= i
     for (int i = n - 1; i >= 0; i--) {
         const int c = cs[i];
-        dp[c] = (dp[c] + 1) % MOD;
-        for (int m = c + 1; m <= x; m++) {
+        for (int m = 0; m <= x; m++) {
+            if (m - c < 0) { continue; }
+            if (m == c) { dp[m] = (dp[m] + 1) % MOD; continue; }
             dp[m] = (dp[m] + dp[m - c]) % MOD;
         }
     }
