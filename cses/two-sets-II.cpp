@@ -32,47 +32,8 @@ ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
     return o << "(" << p.first << ", " << p.second << ")";
 }
 
-static const int MAXNUMCOINS = 100 + 5;
-static const int MAXCOINVAL = 1000 + 5;
-
-
-// find total possible types of money
-void dpf(int cix, set<int> &ms, const vector<pair<int, int>> &coins) {
-    if (cix == 0) {
-        ms.insert(coins[0].first);
-    } else {
-        // insert all previous;
-        dpf(cix - 1, ms, coins);
-        set<int> curms;
-        curms.insert(coins[cix].first);
-        // create all new types of monies
-        for (int m : ms) {
-            curms.insert(m + coins[cix].first);
-        }
-        ms.insert(curms.begin(), curms.end());
-    }
-}
-
 int main() {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n;
-    cin >> n;
-    vector<pair<int, int>> coins(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> coins[i].first;
-        coins[i].second = i;
-
-    }
-
-    set<int> ms;
-     dpf(n - 1, ms, coins);
-    // dpf(0, ms, coins);
-    cout << ms.size() << "\n";
-    for (int m : ms) {
-        cout << m << " ";
-    }
-    cout << "\n";
-
     return 0;
 }

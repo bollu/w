@@ -108,5 +108,11 @@ set_target_properties(money-sums.out PROPERTIES CXX_STANDARD 17)
 add_executable(rectangle-cutting.out rectangle-cutting.cpp)
 set_target_properties(rectangle-cutting.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(removal-game.out removal-game.cpp)
+set_target_properties(removal-game.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(two-sets-II.out two-sets-II.cpp)
+set_target_properties(two-sets-II.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
