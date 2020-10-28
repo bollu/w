@@ -32,10 +32,36 @@ ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
     return o << "(" << p.first << ", " << p.second << ")";
 }
 
-int dpf(int player, 
+enum Choice { L, R };
+
+int best_us_turn_enemy(int l, int r, const vector<int> &xs);
+int best_us_turn_us(int l, int r, const vector<int> &xs);
+
+int best_us_turn_enemy(int l, int r, const vector<int> &xs) {
+    assert(l <= r);
+    if (l == r) {
+        return 0;
+    }
+
+    return std::min<int>(best_us_turn_us(l + 1, r, xs),
+            best_us_turn_us(l, r - 1, xs));
+}
+
+int best_us_turn_us(int l, int r, const vector<int> &xs) {
+    assert(l <= r);
+    if (l == r) {
+        return xs[l];
+    }
+    return std::max<int>(xs[l] + best_us_turn_enemy(l + 1, r, xs),
+            xs[r] + best_us_turn_enemy(l, r - 1, xs));
+}
 
 int main() {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+    int n; cin >> n;
+    vector<int> xs(n);
+    for(int i = 0; i < n; ++i) { cin >> xs[i]; }
+    cout << best_us_turn_us(0, n-1, xs) << "\n";
     return 0;
 }
