@@ -99,5 +99,14 @@ set_target_properties(book-shop.out PROPERTIES CXX_STANDARD 17)
 add_executable(edit-distance.out edit-distance.cpp)
 set_target_properties(edit-distance.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(array-description.out array-description.cpp)
+set_target_properties(array-description.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(money-sums.out money-sums.cpp)
+set_target_properties(money-sums.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(rectangle-cutting.out rectangle-cutting.cpp)
+set_target_properties(rectangle-cutting.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

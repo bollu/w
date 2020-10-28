@@ -19,6 +19,8 @@ will use some neat abstract algebra or a more insightful technique.
 - [Book shop](https://cses.fi/problemset/task/1158/) and 
   [Coin combinations II](https://cses.fi/problemset/task/1636). What structure
   of the problem are we able to exploit to make it 'monotonic-like'?
+- [Rectangle cutting](https://cses.fi/problemset/task/1744/): why do we need to loop
+  over both width and height?
 
 ## Unsolved with resrictions
 - [Ferris wheel](https://cses.fi/problemset/task/1090): find matroid
