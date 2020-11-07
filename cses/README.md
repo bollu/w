@@ -4,12 +4,15 @@ To find problems that are solved in multiple ways, look for `namespace`. Often
 the first implementation `f0 { ... }` will be the naive solution, while `f1 { ... }`
 will use some neat abstract algebra or a more insightful technique.
 
+
 - [Consider solving USACO next](https://usaco.guide/)
+- [Super awesome notebook](https://github.com/koosaga/olympiad/blob/master/Library/teamnote.pdf)
 
 
 
 ## Unsolved problems
 - [Nearest smaller values](https://cses.fi/problemset/task/1645)
+- [Increasing subsequence](https://cses.fi/problemset/task/1145) needs segtree.
 
 ## Unsolved correctness proofs
 - [Playlist](https://cses.fi/problemset/task/1141) Have handwavy proof.
@@ -21,6 +24,8 @@ will use some neat abstract algebra or a more insightful technique.
   of the problem are we able to exploit to make it 'monotonic-like'?
 - [Rectangle cutting](https://cses.fi/problemset/task/1744/): why do we need to loop
   over both width and height?
+- Money sums: write non cheese actual DP solution.
+- [Two Sets II](https://cses.fi/problemset/task/1093/): I don't understand the boundary conditions well
 
 ## Unsolved with resrictions
 - [Ferris wheel](https://cses.fi/problemset/task/1090): find matroid
@@ -153,3 +158,6 @@ to find the minimum time where we make X number of widgets.
 - Look at `subarray_sums_{1, 2}.cpp` where we use a `map` to check whether a 
   'back pointer' has computed some information that we need to satisfy the
   predicate.
+
+
+

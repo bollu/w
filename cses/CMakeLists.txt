@@ -114,5 +114,11 @@ set_target_properties(removal-game.out PROPERTIES CXX_STANDARD 17)
 add_executable(two-sets-II.out two-sets-II.cpp)
 set_target_properties(two-sets-II.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(increasing-subsequence.out increasing-subsequence.cpp)
+set_target_properties(increasing-subsequence.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(range-sum-queries-1.out range-sum-queries-1.cpp)
+set_target_properties(range-sum-queries-1.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
