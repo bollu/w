@@ -120,5 +120,14 @@ set_target_properties(increasing-subsequence.out PROPERTIES CXX_STANDARD 17)
 add_executable(range-sum-queries-1.out range-sum-queries-1.cpp)
 set_target_properties(range-sum-queries-1.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(range-sum-queries-II.out range-sum-queries-II.cpp)
+set_target_properties(range-sum-queries-II.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(range-minimum-queries-II.out range-minimum-queries-II.cpp)
+set_target_properties(range-minimum-queries-II.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(range-xor-queries.out range-xor-queries.cpp)
+set_target_properties(range-xor-queries.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

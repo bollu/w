@@ -32,66 +32,55 @@ ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
     return o << "(" << p.first << ", " << p.second << ")";
 }
 
-// standard segtree, closed intervals.
-namespace f0 {
-
-static const int N = 2 * int(1e5) + 10;
-ll n, nq;
-ll xs[N];
+const ll N = 2 * ll(1e5) + 10;
+ll arr[N];
 ll tree[4*N];
-void build(ll l, ll r, ll t) {
-    if (l > r) { return; }
-    if (l == r) { tree[t] = xs[l]; return; }
+
+void build(ll t, ll l, ll r) {
+    if (l == r) { tree[t] = arr[l]; return; }
     ll mid = (l + r)/2;
     // l <= mid < r
-    // 1 1 2
-    build(l, mid, t*2); // length of [l..mid] decreased from [l..r]
-    build(mid+1, r, t*2+1); // length of [mid+1,r] decreased from [l..r]
+    build(t*2, l, mid);
+    build(t*2+1, mid+1, r);
     tree[t] = tree[t*2] + tree[t*2+1];
 }
-void build() { build(0, n-1, 1); }
 
-// 4sort
-// tuple<ll, ll, ll, ll> sort4(ll n0, ll n1, ll n2, ll n3) {
-//     // ([0, 1] || [2, 3]); ([0, 2] || [1, 3]); [1, 2]
-//     if(n0>n1) { swap(n0, n1); }
-//     if(n2>n3) { swap(n1, n3); }
-//     if(n0>n2) { swap(n0, n2); }
-//     if(n1>n3) { swap(n1, n3); }
-//     if(n1>n2) { swap(n1, n2);
-//     return make_tuple(n0, n1, n2, n3);
-// }
-
-ll q(ll l, ll r, ll t, ll ql, ll qr) {
-    if (l > r) { return 0; }
-
-    // qqtt | ttqq
-    if (qr < l || r < ql) { return 0; }
-
+ll query(ll t, ll l, ll r, ll ql, ll qr) {
     // qttq
     if (ql <= l && r <= qr) { return tree[t]; }
-
-    ll mid = (l + r)/2;
-    return q(l, mid, t*2, ql, qr) + q(mid+1, r, t*2+1, ql, qr);
+    // ttqq | qqtt
+    if (r < ql || qr < l) { return 0; }
+    ll mid = (l+r)/2;
+    return query(t*2, l, mid, ql, qr) + query(t*2+1, mid+1, r, ql, qr);
 }
 
-ll q(ll ql, ll qr) { return q(0, n-1, 1, ql, qr); }
+void upd(ll t, ll l, ll r, ll qix, ll qval) {
+    if (qix < l || r < qix) { return; }
+    if (l == r) { tree[t] = qval; return; }
+
+    ll mid = (l + r)/2;
+    if (qix <= mid) { upd(t*2, l, mid, qix, qval); }
+    else { upd(t*2+1, mid+1, r, qix, qval); }
+    tree[t] = tree[t*2] + tree[t*2+1];
+}
 
 
 int main() {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    cin >> n >> nq;
-    for(ll i = 0; i < n; ++i) { cin >> xs[i]; }
-    build();
+    ll n, q; cin >> n >> q;
+    for(ll i = 1; i <= n; ++i) { cin >> arr[i]; }
+    build(1, 1, n);
 
-    for(ll i = 0; i < nq; ++i) {
-        ll ql, qr; cin >> ql >> qr;
-        cout << q(ql-1, qr-1) << "\n";
+    while(q--) {
+        ll ty; cin >> ty;
+        if (ty == 1) {
+            ll k, u; cin >> k >> u;
+            upd(1, 1, n, k, u);
+        } else {
+            ll ql, qr; cin >> ql >> qr;
+            cout << query(1, 1, n, ql, qr) << "\n";
+        }
     }
-
     return 0;
 }
-}
-
-int main() { f0::main(); }
