@@ -129,5 +129,12 @@ set_target_properties(range-minimum-queries-II.out PROPERTIES CXX_STANDARD 17)
 add_executable(range-xor-queries.out range-xor-queries.cpp)
 set_target_properties(range-xor-queries.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(range-update-queries.out range-update-queries.cpp)
+set_target_properties(range-update-queries.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(forest-queries.out forest-queries.cpp)
+set_target_properties(forest-queries.out PROPERTIES CXX_STANDARD 17)
+
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
