@@ -141,5 +141,9 @@ set_target_properties(hotel-queries.out PROPERTIES CXX_STANDARD 17)
 add_executable(list-removals.out list-removals.cpp)
 set_target_properties(list-removals.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(salary-queries.out salary-queries.cpp)
+set_target_properties(salary-queries.out PROPERTIES CXX_STANDARD 17)
+
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
