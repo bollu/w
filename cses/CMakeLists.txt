@@ -159,5 +159,8 @@ set_target_properties(building-roads.out PROPERTIES CXX_STANDARD 17)
 add_executable(message-route.out message-route.cpp)
 set_target_properties(message-route.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(building-teams.out building-teams.cpp)
+set_target_properties(building-teams.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
