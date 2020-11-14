@@ -111,10 +111,22 @@ namespace f1 {
         i = root(i), j = root(j);
         if (i == -1 || j == -1) { return; }
         if (i == j) { return; }
+        // randomization works!
+        if (rand() % 2) { parents[i] = j; } else { parents[j] = i; }
+        return; 
         // i is deeper 
         if (depth[i] < depth[j]) { swap(i, j); };
         parents[j] = i; // attach lower depth to larger depth.
         if (depth[i] == depth[j]) { depth[i]++; }
+        // *         o             * 
+        // * *      o  o ->       * * o      [rank of * unchanged]
+        // * * *                 * * * o o   
+
+        // *        o             * 
+        // * *      o o ->       * * o       [rank of * increased by 1, because]
+        // * * *    o o o        * * * o o   [we have node that is 1 more depth]
+        //                             o o o [than `*`. ]  
+
     }
 
     int main() {
