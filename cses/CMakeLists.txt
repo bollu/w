@@ -156,5 +156,8 @@ set_target_properties(labyrinth.out PROPERTIES CXX_STANDARD 17)
 add_executable(building-roads.out building-roads.cpp)
 set_target_properties(building-roads.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(message-route.out message-route.cpp)
+set_target_properties(message-route.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
