@@ -78,7 +78,7 @@ to find the minimum time where we make X number of widgets.
 - I wonder if every two pointer algorithm can be viewed in terms of this
   "mountain peak - baseline" style solution.
 
-  
+ 
 #### [Towers](https://cses.fi/problemset/task/1073)
 
 - Greedily choose to place blocks on top of current towers.
@@ -91,6 +91,25 @@ to find the minimum time where we make X number of widgets.
 - `(A1)` In this case, we have that `T1 > cur-block` and `T1* > cur-block`.
   For the optimal solution, move the blocks on top of `T1*` to be on top of `T1`.
 - **TODO**
+
+#### [Building teams](https://cses.fi/problemset/task/1668/)
+
+- Bipartite <-> 2 colorable <-> no odd length cycle.
+- Check bipartition => cycles of even length
+- [CP algorithms page on checking if graph is bipartite](https://cp-algorithms.com/graph/bipartite-check.html)
+- Why does BFS work for 2 bipartite?
+
+- **If algo works => graph is bipartite**: Assume run BFS, color each layer 
+  with an alternate color, and when we finally check edges, we get that each edge
+  connects vertices with different colors. Then we clearly have a valid 2 coloring
+  (by definition) and the graph is bipartite.
+  
+- **graph is bipartite => algo will work**: Say we start with a node in part A 
+  of the graph. All of its neighbours will be in part B of the graph, which will receive
+  the other color. The neighbours of part B (at distance 3 from the start node) will be
+  at part A, and so on. Perform induction on path length.
+ 
+- [Notes from McGill uni that goes through the same](https://www.cs.mcgill.ca/~pnguyen/360W11/a1sol.pdf)
 
 #### Variable naming convention for updated variable
 

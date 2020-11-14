@@ -8,6 +8,7 @@
 #include <set>
 #include <stack>
 #include <vector>
+#include <stdlib.h> // for exit()
 
 // https://codeforces.com/blog/entry/11080
 #include <ext/pb_ds/assoc_container.hpp>  // Common file
