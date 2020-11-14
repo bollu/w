@@ -121,7 +121,7 @@ int main() {
 
 // https://codeforces.com/blog/entry/77128
 namespace f1 {
-
+int main() { return 0; }
 }
 
 

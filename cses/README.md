@@ -33,7 +33,7 @@ will use some neat abstract algebra or a more insightful technique.
   your own!
 - [Sliding window](https://cses.fi/problemset/task/1076/). I cheesed and used policy
   based data structures. Implement your own!
-
+- Counting rooms: solve using DSU.
 
 ## Solved correctness proofs
 
@@ -92,7 +92,25 @@ to find the minimum time where we make X number of widgets.
   For the optimal solution, move the blocks on top of `T1*` to be on top of `T1`.
 - **TODO**
 
+#### Variable naming convention for updated variable
 
+```cpp
+// STYLISTIC CHOICE: repeat letter for new version.
+coord cc = { c.first+delta[i].first, c.second + delta[i].second};
+```
+
+Use variable name `cc` for the new version of `c`. Works in general to repeat
+the letter, instead of using `c'` as we would in Haskell.
+
+#### Representing directions in grids
+
+```cpp
+// ESWN [clockwise from east.
+const coord delta[4] = { {1, 0}, {0, -1}, {-1, 0}, {0, 1}};
+```
+
+This allows us to find the opposite direction with `(i+2)%2`. Very neat. Plus I'm
+sure that storing in consistent clockwise order will come in handy for more things.
 
 #### Intuition for `lower_bound`, `upper_bound`:
 
@@ -158,6 +176,7 @@ to find the minimum time where we make X number of widgets.
 - Look at `subarray_sums_{1, 2}.cpp` where we use a `map` to check whether a 
   'back pointer' has computed some information that we need to satisfy the
   predicate.
+
 
 
 

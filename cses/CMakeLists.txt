@@ -144,6 +144,17 @@ set_target_properties(list-removals.out PROPERTIES CXX_STANDARD 17)
 add_executable(salary-queries.out salary-queries.cpp)
 set_target_properties(salary-queries.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(forest-queries-II.out forest-queries-II.cpp)
+set_target_properties(forest-queries-II.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(counting-rooms.out counting-rooms.cpp)
+set_target_properties(counting-rooms.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(labyrinth.out labyrinth.cpp)
+set_target_properties(labyrinth.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(building-roads.out building-roads.cpp)
+set_target_properties(building-roads.out PROPERTIES CXX_STANDARD 17)
 
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
