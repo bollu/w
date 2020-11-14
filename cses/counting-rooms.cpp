@@ -97,6 +97,7 @@ int main() {
 namespace f1 {
     const int N = int(1e3) + 5;
     int parents[N*N];
+    int depth[N*N];
     int filled[N][N];
     int n, m;
 
@@ -104,14 +105,16 @@ namespace f1 {
     int di[4] = {1, 0, -1, 0};
     int dj[4] = {0, -1, 0, 1};
 
-    int root(int i) { if (i == -1) { return -1; } if (i == parents[i]) { return i; } return root(parents[i]); }
+    int root(int i) { if (i == -1) { return -1; } if (i == parents[i]) { return i; } return parents[i] = root(parents[i]); }
 
     void unite(int i, int j) {
-        int ri = root(i), rj = root(j);
-        if (ri == -1 || rj == -1) { return; }
-        // expected log height?
-        if (rand() % 2) { parents[rj] = ri; }
-        else { parents[ri] = rj; }
+        i = root(i), j = root(j);
+        if (i == -1 || j == -1) { return; }
+        if (i == j) { return; }
+        // i is deeper 
+        if (depth[i] < depth[j]) { swap(i, j); };
+        parents[j] = i; // attach lower depth to larger depth.
+        if (depth[i] == depth[j]) { depth[i]++; }
     }
 
     int main() {
