@@ -165,5 +165,11 @@ set_target_properties(building-teams.out PROPERTIES CXX_STANDARD 17)
 add_executable(round-trip.out round-trip.cpp)
 set_target_properties(round-trip.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(monsters.out monsters.cpp)
+set_target_properties(monsters.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(shortest-routes-I.out shortest-routes-I.cpp)
+set_target_properties(shortest-routes-I.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
