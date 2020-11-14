@@ -18,6 +18,11 @@
 using ll = long long;
 using namespace std;
 
+// min priority queue. Useful for djikstras, or in general, to be
+// explicit.
+template<typename T>
+using minqueue = priority_queue<T,vector<T>,greater<T>>;
+
 template <typename T>
 using ordered_set =
     __gnu_pbds::tree<T, __gnu_pbds::null_type, less<T>, __gnu_pbds::rb_tree_tag,
