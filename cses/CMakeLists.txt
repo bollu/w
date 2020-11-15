@@ -171,5 +171,8 @@ set_target_properties(monsters.out PROPERTIES CXX_STANDARD 17)
 add_executable(shortest-routes-I.out shortest-routes-I.cpp)
 set_target_properties(shortest-routes-I.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(shortest-routes-II.out shortest-routes-II.cpp)
+set_target_properties(shortest-routes-II.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

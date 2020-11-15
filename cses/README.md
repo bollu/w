@@ -111,6 +111,23 @@ to find the minimum time where we make X number of widgets.
  
 - [Notes from McGill uni that goes through the same](https://www.cs.mcgill.ca/~pnguyen/360W11/a1sol.pdf)
 
+#### Unsolved problem: Line of Wines
+
+- [Question from errichto](https://www.youtube.com/watch?v=pwpOC1dph6U&list=PLl0KD3g-oDOHpWRyyGBUJ9jmul0lUOD80&index=6)
+
+#### Intuition for coin change
+
+- [Errichto youtube video](https://www.youtube.com/watch?v=1mtvm2ubHCY&list=PLl0KD3g-oDOHpWRyyGBUJ9jmul0lUOD80&index=5)
+If we had coins `{1, 2, 3}` we want to only count say `1 + 2 + 3`, not `2 + 1 + 3` and  `3 + 1 + 2` and so on,
+so the order does not matter.  
+
+We encode this by canonicalizing into the lex smallest order. So we pick the representative `[1, 1, 2]`.
+This allows us to reduce the dp state to `(sum, max coin used so far)` since we have reduced the
+state space to lex ordered coin sequences. This is what gives us the state space reduction.
+
+
+
+
 #### Variable naming convention for updated variable
 
 ```cpp
