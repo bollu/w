@@ -111,6 +111,17 @@ to find the minimum time where we make X number of widgets.
  
 - [Notes from McGill uni that goes through the same](https://www.cs.mcgill.ca/~pnguyen/360W11/a1sol.pdf)
 
+#### [Monsters: multi source BFS](https://cses.fi/problemset/task/1194)
+
+TIL such a thing exists. It's fairly intuitive, we can imagine that we create a fake
+source node connected to all our "real sources"
+and start running BFS from this node. If we did this, then in one iteration
+of the algorithm, the queue would have been filled with the "real sources". So we might
+as well just start our BFS from the "real sources". This line of thought makes the
+correctness proof feel easier to me.
+
+## Food for thought
+
 #### Unsolved problem: Line of Wines
 
 - [Question from errichto](https://www.youtube.com/watch?v=pwpOC1dph6U&list=PLl0KD3g-oDOHpWRyyGBUJ9jmul0lUOD80&index=6)

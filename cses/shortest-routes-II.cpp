@@ -36,11 +36,9 @@ using ordered_map =
 template <typename T1, typename T2>
 ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
     return o << "(" << p.first << ", " << p.second << ")";
-
 }
 
-// use max + semiring for all pairs shortest, TLE.
-namespace f0 {
+
 
 const int N = 500 + 10;
 const int C = int(1e9) + 7;
@@ -50,12 +48,11 @@ int dists[N*N];
 int n, m, q;
 
 // A = B . C
-void muldistt(int *out, const int *in1, const int *in2) {
+void muldistt(int *out) {
     for(int i = 1; i <= n; ++i) {
-        for(int j = 1; j <= n; ++j) {
-            out[i*N+j] = in1[i*N+j];
-            for(int k = 1; k <= n; ++k) {
-                out[i*N+j] = min<int>(out[i*N+j], in1[i*N+k] + in2[k*N+j]);
+        for(int k = 1; k <= n; ++k) {
+            for(int j = 1; j <= n; ++j) {
+                out[i*N+j] = min<int>(out[i*N+j], out[i*N+k] + out[k*N+j]);
             }
         }
     }
@@ -97,7 +94,7 @@ int main() {
 
     bool ixin = 0;
     for(int i = 1; i <= 10; ++i) {
-        muldistt(dists, dists, dists);
+        muldistt(dists);
     }
 
     while(q--) {
@@ -111,7 +108,3 @@ int main() {
 
     return 0;
 }
-
-}
-
-int main() { return f0::main(); }
