@@ -113,12 +113,21 @@ to find the minimum time where we make X number of widgets.
 
 #### [Monsters: multi source BFS](https://cses.fi/problemset/task/1194)
 
-TIL such a thing exists. It's fairly intuitive, we can imagine that we create a fake
+TIL "multi source BFS". It's fairly intuitive, we can imagine that we create a fake
 source node connected to all our "real sources"
 and start running BFS from this node. If we did this, then in one iteration
 of the algorithm, the queue would have been filled with the "real sources". So we might
 as well just start our BFS from the "real sources". This line of thought makes the
 correctness proof feel easier to me.
+
+
+
+- **Correctness, part 1**: if the monster can reach the
+  escape node before you, there's no way you can escape using this route.
+
+- **Correctness, part 2**: if you can reach an escape node before the monsters, then
+   we can escape through this path *if* we can reach it in time, because the monsters
+   cannot reach it in time.
 
 ## Food for thought
 

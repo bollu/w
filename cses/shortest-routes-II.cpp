@@ -1,3 +1,4 @@
+// https://jeffe.cs.illinois.edu/teaching/algorithms/book/09-apsp.pdf
 #include <assert.h>
 
 #include <algorithm>
@@ -39,6 +40,8 @@ ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
 }
 
 
+//use matmul, takes O(V^3 log V time)
+namespace f0 {
 
 const int N = 500 + 10;
 const int C = int(1e9) + 7;
@@ -57,8 +60,6 @@ void muldistt(int *out) {
         }
     }
 }
-
-
 
 void printarr(int *arr) {
     for(int i = 1; i <= n; ++i) {
@@ -105,6 +106,67 @@ int main() {
         else { cout << d << "\n"; }
     }
 
-
     return 0;
 }
+} // end namespace f0
+
+namespace f1 {
+
+const int N = 500 + 10;
+const int C = int(1e9) + 7;
+const ll INFTY = ll(1e12);
+ll es[N*N];
+int n, m, q;
+
+void printarr(int *arr) {
+    for(int i = 1; i <= n; ++i) {
+        for(int j = 1; j <= n; ++j) {
+            cout << arr[i*N+j] << " ";
+        }
+        cout << "\n";
+    }
+    cout << "---\n";
+}
+
+
+int main() {
+    std::ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> n >> m >> q;   
+
+    for(int i = 1; i <= n; ++i) {
+        for(int j = 1; j <= n; ++j) {
+            es[i*N+j]  = i == j ? 0 : INFTY;
+        }
+    }
+
+
+    while(m--) {
+        int a, b, c; cin >> a >> b >> c;
+        es[a*N+b] = min<ll>(es[a*N+b], c);
+        es[b*N+a] = min<ll>(es[b*N+a], c);
+    }
+
+    for(int r = 1; r <= n; ++r) {
+        for(int u = 1; u <= n; ++u) {
+            for(int v = 1; v <= n; ++v) {
+                es[u*N+v] = min<ll>(es[u*N+v], es[u*N+r] + es[r*N+v]);
+            }
+        }
+    }
+
+
+    while(q--) {
+        int a, b;
+        cin >> a >> b;
+        ll d =  es[a*N+b];
+        if (d == INFTY) { cout << "-1\n"; }
+        else { cout << d << "\n"; }
+    }
+    return 0;
+}
+
+} // end namespace f1
+
+int main() { return f1::main(); }
