@@ -129,6 +129,30 @@ correctness proof feel easier to me.
    we can escape through this path *if* we can reach it in time, because the monsters
    cannot reach it in time.
 
+#### High Score
+
+- perform floyd warshall on each node.
+- To check if we have a cycle of positive length along the path from 1 to n,
+  check if we have a cycle at node `a` and if we can get from `1` to `a`
+  and then again from `a` to `n`.
+  
+```cpp
+if (adj[1][a] != -INFTY && adj[a][n] != -INFTY && adj[a][a] > 0) {
+    cout << "-1\n"; exit(0);
+}
+```
+
+- Write custom addition utilities to deal with representing infinity, gets
+  messy otherwise:
+```cpp
+int add(int a, int b) {
+    if (a == -INFTY || b == -INFTY) { return -INFTY; }
+    return a + b;
+}
+```
+- Need faster solution, use single source shortest path.
+
+
 ## Food for thought
 
 #### Unsolved problem: Line of Wines

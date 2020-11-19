@@ -174,5 +174,12 @@ set_target_properties(shortest-routes-I.out PROPERTIES CXX_STANDARD 17)
 add_executable(shortest-routes-II.out shortest-routes-II.cpp)
 set_target_properties(shortest-routes-II.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(high-score.out high-score.cpp)
+set_target_properties(high-score.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(flight-discount.out flight-discount.cpp)
+set_target_properties(flight-discount.out PROPERTIES CXX_STANDARD 17)
+
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
