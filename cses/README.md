@@ -13,6 +13,8 @@ will use some neat abstract algebra or a more insightful technique.
 ## Unsolved problems
 - [Nearest smaller values](https://cses.fi/problemset/task/1645)
 - [Increasing subsequence](https://cses.fi/problemset/task/1145) needs segtree.
+- cycle finding: I don't like the part where we need to traverse back on edges; use DFS to 
+  figure out when we find a backedge (and thus a cycle) that's a negative weight cycle.
 
 ## Unsolved correctness proofs
 - [Playlist](https://cses.fi/problemset/task/1141) Have handwavy proof.
@@ -33,7 +35,6 @@ will use some neat abstract algebra or a more insightful technique.
   your own!
 - [Sliding window](https://cses.fi/problemset/task/1076/). I cheesed and used policy
   based data structures. Implement your own!
-- Counting rooms: solve using DSU.
 
 ## Solved correctness proofs
 
@@ -153,11 +154,12 @@ int add(int a, int b) {
 - Need faster solution, use single source shortest path.
 
 
+#### Flight discount
+
+Found this interesting. To change something in the middle, compute data in each prefix path,
+and in each suffix path. This allows us to easily edit the middle!
+
 ## Food for thought
-
-#### Unsolved problem: Line of Wines
-
-- [Question from errichto](https://www.youtube.com/watch?v=pwpOC1dph6U&list=PLl0KD3g-oDOHpWRyyGBUJ9jmul0lUOD80&index=6)
 
 #### Intuition for coin change
 
@@ -168,8 +170,6 @@ so the order does not matter.
 We encode this by canonicalizing into the lex smallest order. So we pick the representative `[1, 1, 2]`.
 This allows us to reduce the dp state to `(sum, max coin used so far)` since we have reduced the
 state space to lex ordered coin sequences. This is what gives us the state space reduction.
-
-
 
 
 #### Variable naming convention for updated variable
@@ -187,6 +187,15 @@ the letter, instead of using `c'` as we would in Haskell.
 ```cpp
 // ESWN [clockwise from east.
 const coord delta[4] = { {1, 0}, {0, -1}, {-1, 0}, {0, 1}};
+```
+
+#### Deciding to print ` ` or `\n`: golfing
+
+```cpp
+for(int i = 0; i < dists.size(); ++i) {
+  // can be useful when I want to print arrays
+  cout << d << " \n"[i+1== dists.size()];
+}
 ```
 
 This allows us to find the opposite direction with `(i+2)%2`. Very neat. Plus I'm

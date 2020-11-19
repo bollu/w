@@ -180,6 +180,18 @@ set_target_properties(high-score.out PROPERTIES CXX_STANDARD 17)
 add_executable(flight-discount.out flight-discount.cpp)
 set_target_properties(flight-discount.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(cycle-finding.out cycle-finding.cpp)
+set_target_properties(cycle-finding.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(flight-routes.out flight-routes.cpp)
+set_target_properties(flight-routes.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(round-trip-II.out round-trip-II.cpp)
+set_target_properties(round-trip-II.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(course-schedule.out course-schedule.cpp)
+set_target_properties(course-schedule.out PROPERTIES CXX_STANDARD 17)
+
 
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
