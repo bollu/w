@@ -192,6 +192,12 @@ set_target_properties(round-trip-II.out PROPERTIES CXX_STANDARD 17)
 add_executable(course-schedule.out course-schedule.cpp)
 set_target_properties(course-schedule.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(longest-flight-route.out longest-flight-route.cpp)
+set_target_properties(longest-flight-route.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(game-routes.out game-routes.cpp)
+set_target_properties(game-routes.out PROPERTIES CXX_STANDARD 17)
+
 
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

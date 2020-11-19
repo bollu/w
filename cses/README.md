@@ -35,6 +35,8 @@ will use some neat abstract algebra or a more insightful technique.
   your own!
 - [Sliding window](https://cses.fi/problemset/task/1076/). I cheesed and used policy
   based data structures. Implement your own!
+- [Longest flight route](https://cses.fi/problemset/task/1680): solve by keeping pointers from child->parent instead of parent->child
+  to convince yourself that both directions are fine. Also, can use djikstra for this?
 
 ## Solved correctness proofs
 
@@ -200,6 +202,62 @@ for(int i = 0; i < dists.size(); ++i) {
 
 This allows us to find the opposite direction with `(i+2)%2`. Very neat. Plus I'm
 sure that storing in consistent clockwise order will come in handy for more things.
+
+#### Why reverse of finishing time for topo sort?
+
+Finish time of parent will be greater than that of children. So sorting
+by finish time guarantees that parent will be "done". We reverse to
+access parents before children.
+
+```
+   B--|
+ /    v
+ root D
+ \    ^
+   C--|
+```
+
+The above example will have
+
+- (t=1) root: [1, _]
+- (t=2) C: [2, _]
+- (t=3) D: [3, _]
+- (t=4) D: [3, 4]
+- (t=5) C: [2, 5]
+- (t=6) B: [6, _]
+- (t=7) D: [3, 3] (revisited)
+- (t=8) B: [5, 8]
+- (t=9) root: [1, 9]
+
+Sorting in reverse finish time, we have:
+
+- root: 9
+- B: 8
+- C: 5
+- D: 4
+
+It's quite weird that `D` is at the correct position, *even though* us revisiting
+`D` through `B` at `t=7` **didn't change anything** about `D`!
+
+Why does this work?
+
+
+##### Why *not* sort by starting time for topo sort?
+
+See that in the previous example, sorting by the starting time would have led
+us to the order:
+- root: 1
+- C: 2
+- D: 3
+- B: 6 **(ERROR!)
+
+This is incorrect, because `D` depends on `B`.
+
+#### Longest flight route: when to use `prev`, when to use `next` pointers?
+
+When should we recurse and keep *parent* information, versus recursing and
+keeping *child* information? I dilly dallied on this for a while.
+
 
 #### Intuition for `lower_bound`, `upper_bound`:
 
