@@ -7,7 +7,7 @@ will use some neat abstract algebra or a more insightful technique.
 
 - [Consider solving USACO next](https://usaco.guide/)
 - [Super awesome notebook](https://github.com/koosaga/olympiad/blob/master/Library/teamnote.pdf)
-
+- [Awesome chinese blog with succinct (code golfed) solutions to CSES](https://yuihuang.com/cses-1750/)
 
 
 ## Unsolved problems
