@@ -207,6 +207,16 @@ set_target_properties(planet-queries-I.out PROPERTIES CXX_STANDARD 17)
 add_executable(planet-queries-II.out planet-queries-II.cpp)
 set_target_properties(planet-queries-II.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(subordinates.out subordinates.cpp)
+set_target_properties(subordinates.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(tree-matching.out tree-matching.cpp)
+set_target_properties(tree-matching.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(tree-diameter.out tree-diameter.cpp)
+set_target_properties(tree-diameter.out PROPERTIES CXX_STANDARD 17)
+
+
 add_executable(company-queries-I.out company-queries-I.cpp)
 set_target_properties(company-queries-I.out PROPERTIES CXX_STANDARD 17)
 

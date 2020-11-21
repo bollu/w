@@ -188,5 +188,57 @@ int main() {
 
 // binary lifting, no memory wasted:
 // https://codeforces.com/blog/entry/74847
-namespace f2 {};
-int main() { return f1::main(); }
+namespace f2 {
+
+const int N = 2e5 + 10;
+int depth[N]; // number of times needed to walk parent to reach root.
+int parent[N];
+int jump[N]; // some ancestor.
+
+
+int ancestorAtDepth(int v, int d) { // jump if we do not overshoot
+    while (depth[v] > d) { v = depth[jump[v]] >= d ? jump[v] : parent[v]; }
+    return v;
+}
+
+void mkleaf(int ix, int p) {
+    parent[ix] = p;
+    depth[ix] = depth[p] + 1;
+
+    // jumps according to binary representation, interesting.
+    if (depth[p] - depth[jump[p]] == depth[jump[p]] - depth[jump[jump[p]]]) {
+        jump[ix] = jump[jump[p]];
+    } else {
+        jump[ix] = p;
+    }
+}    
+
+int lca(int u, int v) {
+  if (depth[u] > depth[v]) {
+    return lca(v, u);
+  }
+
+  v = ancestorAtDepth(v, depth[u]);
+
+  while (u != v) {
+    if (jump[u] == jump[v]) {
+      u = parent[u]; v = parent[v];
+    } else {
+      u = jump[u];
+      v = jump[v];
+    }
+  }
+  return u;
+}
+
+
+int main() {
+
+    parent[1] = 1;
+    depth[1] = 0;
+    jump[1] = 1;
+
+    return 0;
+}
+};
+int main() { return f2::main(); }

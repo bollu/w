@@ -28,6 +28,18 @@ To quote the essay:
 - [`incunabulum.c` - original J incunabulum source](incunabulum.c)
 - [`incunabulum-mine.c` - heavily annotated version by me](incunabulum-mine.c)
 
+#### Shortes path algorithms
+
+- **Djikstra:** single-source shortest path. Doesn't do well with negative cycles.
+  Works by discretizing the real world simulation of burning fire across ropes
+  into events. `O(V . smallest-in-queue + E . decrease-key)`.
+- **Bellman ford:** Single source shortest path that works with negative cycles.
+- `min, +` semiring: find all pairs shortest path by matrix expoentitation. Takes `O(V^3 log V)`.
+- **Floyd Warshall:** All source shortest path. `O(V^3)`. Idea: use DP over shortest paths that
+  have internal path nodes  numbered `<= r`. This gives us `dp[u][v][r]` as the shortest path from `u`
+  to `v` that uses internal path nodes labelled at most `<= r` for some arbitrary labelling of nodes.
+  so we start with `dp[u][v] 0 = dist[u][v]` and then check a new node `r` at each iteration.
+
 #### Flows
 
 - Ford-fulkerson (method): Choose augmenting path and send flow.

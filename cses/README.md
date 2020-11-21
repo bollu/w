@@ -163,8 +163,23 @@ and in each suffix path. This allows us to easily edit the middle!
 
 ## Food for thought
 
+#### Traversing undirected trees
 
-## LCA to RMQ: subtlety
+Unlike the case of a graph, we don't need to store a `bool visited[N]` in an
+undirected tree, because we know that the only "non-forward edge" is the
+parent edge. So we can have `adj` be a symmetric/undirected adjacency list,
+and can do something like:
+
+```cpp
+void visit(int parent, int cur) {
+  for (int next : adj[cur]) {
+    if (next == parent) continue;
+    visit(next);
+  }
+}
+```
+
+#### LCA to RMQ: subtlety
 
 - [Solve Gym by SecondThread for AlgorithmsThread](https://codeforces.com/gym/102694)
 
