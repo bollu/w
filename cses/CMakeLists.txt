@@ -207,6 +207,9 @@ set_target_properties(planet-queries-I.out PROPERTIES CXX_STANDARD 17)
 add_executable(planet-queries-II.out planet-queries-II.cpp)
 set_target_properties(planet-queries-II.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(company-queries-I.out company-queries-I.cpp)
+set_target_properties(company-queries-I.out PROPERTIES CXX_STANDARD 17)
+
 
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

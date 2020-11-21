@@ -163,6 +163,28 @@ and in each suffix path. This allows us to easily edit the middle!
 
 ## Food for thought
 
+
+## LCA to RMQ: subtlety
+
+- [Solve Gym by SecondThread for AlgorithmsThread](https://codeforces.com/gym/102694)
+
+When converting an LCA to an RMQ, changing if we increment the timestamp
+on entry or on both entry AND exit changes the data structure.
+
+- If we increment ONLY on enter, then we can answer subtree queries easily because
+  we have a timestamp per node.
+  
+- If we increment on both enter AND exit, then we can answer path queries easily,
+  because we have a timestamp per "interval".
+  Store positive values on the entry time, store negative values on the exit time.
+  When we make a segtre query, we wil only get data of nodes we have entered and
+  not exited.
+
+#### Planet Queries II: functional graph
+
+- Very interesting that we use the structure of a functional graph to break into
+  cases of cycles/paths and then solve for the cases.
+  
 #### Intuition for coin change
 
 - [Errichto youtube video](https://www.youtube.com/watch?v=1mtvm2ubHCY&list=PLl0KD3g-oDOHpWRyyGBUJ9jmul0lUOD80&index=5)
