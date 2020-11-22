@@ -230,6 +230,12 @@ target_link_libraries(distance-queries.out cgraph gvc)
 add_executable(subtree-queries.out subtree-queries.cpp)
 set_target_properties(subtree-queries.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(path-queries.out path-queries.cpp)
+set_target_properties(path-queries.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(distinct-colors.out distinct-colors.cpp)
+set_target_properties(distinct-colors.out PROPERTIES CXX_STANDARD 17)
+
 
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

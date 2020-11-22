@@ -171,10 +171,9 @@ and in each suffix path. This allows us to easily edit the middle!
 
 - One type where we have `n` elements in the array, one for each node. This is
   useful for node queries.
-- Other type where we have `V + E` (?) elements in the aray: `V` for entry times,
-  `E` for each edge; every time we have an edge, we recurse into the child,
-  *and then push the parent node* into the array.
-  This is used for paths.
+- Other type where we have `2V`elements in the array, one for entry and one for
+  exit?
+- I don't grok this yet.
 
 #### Priority in a treap is about the order in which we insert nodes.
 
