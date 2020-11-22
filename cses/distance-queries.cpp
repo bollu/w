@@ -15,6 +15,7 @@
 #include <ext/pb_ds/detail/standard_policies.hpp>
 #include <ext/pb_ds/tree_policy.hpp>  // Including tree_order_statistics_node_update
 
+#include "grapher.h"
 using ll = long long;
 using namespace std;
 
@@ -44,6 +45,7 @@ vector<int> es[N]; //edges
 int ds[N]; //depths
 int ps[N][EXP]; // parents
 
+
 void dfs(int u, int v, int d) {
     ds[v] = d; for(int w: es[v]) {  if (w == u) { continue; } dfs(v, w, d+1); ps[w][0] = v; }
 }
@@ -55,15 +57,24 @@ int up(int a, int dist) {
 }
 
 int main() {
+    grapher_init();
     std::ios_base::sync_with_stdio(false); cin.tie(NULL);
     cin >> n >> q;
     ps[1][0] = 1;
+    // for(int i = 1; i <= n; ++i) { grapher_v(i); }
+    
     for(int i = 2; i <= n; ++i)  { 
         int a, b; cin >> a >> b;
         es[a].push_back(b); es[b].push_back(a);
+        grapher_e(a, b);
     }
+    grapher_show();
+    
     ps[1][0] = 1; dfs(1, 1, 1); //root
-
+    
+    for(int i = 1; i <= n; ++i) { grapher_v(i, std::to_string(i) + ":" + std::to_string(ds[i])); }
+    grapher_show();
+    
     for(int exp = 1; exp < EXP; ++exp) {// binary lift.
         for(int i = 1; i <= n; ++i) {
             int mid = ps[i][exp - 1]; ps[i][exp] = ps[mid][exp-1]; // to travel 2n, travel n;n

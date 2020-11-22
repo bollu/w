@@ -225,6 +225,7 @@ set_target_properties(company-queries-II.out PROPERTIES CXX_STANDARD 17)
 
 add_executable(distance-queries.out distance-queries.cpp)
 set_target_properties(distance-queries.out PROPERTIES CXX_STANDARD 17)
+target_link_libraries(distance-queries.out cgraph gvc)
 
 
 add_executable(YY.out YY.cpp)
