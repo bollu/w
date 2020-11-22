@@ -167,6 +167,17 @@ and in each suffix path. This allows us to easily edit the middle!
 
 ## Food for thought
 
+#### Two types of Euler tours
+
+- One type where we have `n` elements in the array, one for each node. This is
+  useful for node queries.
+- Other type where we have `V + E` (?) elements in the aray: `V` for entry times,
+  `E` for each edge; every time we have an edge, we recurse into the child,
+  *and then push the parent node* into the array.
+  This is used for paths.
+
+#### Priority in a treap is about the order in which we insert nodes.
+
 #### Traversing undirected trees
 
 Unlike the case of a graph, we don't need to store a `bool visited[N]` in an
