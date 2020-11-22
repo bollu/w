@@ -206,6 +206,15 @@ void mkleaf(int ix, int p) {
     depth[ix] = depth[p] + 1;
 
     // jumps according to binary representation, interesting.
+    // consider:
+    // 1 -> 1 | dist=0
+    // INS 2 | 2 -1- 1 -0- 1 | create 2 -1- 1
+    // INS 3 | 2 -1- 1 -1- 0 | create 3 -2- 1
+    // INS 4 | 3 -2- 1 -1- 0 | create 4 -1- 3
+    // INS 5 | 4 -1- 3 -2- 1 | create 5 -1- 4
+    // INS 6 | 5 -1- 4 -1- 3 | create 6 -2- 4
+    // INS 7 | 7 -1- 6 -1- 5 | create 7 -1- 
+
     if (depth[p] - depth[jump[p]] == depth[jump[p]] - depth[jump[jump[p]]]) {
         jump[ix] = jump[jump[p]];
     } else {
@@ -241,4 +250,235 @@ int main() {
     return 0;
 }
 };
+
+// binary lifting based LCA, with LCA code written as binary search.
+// NOTE: THIS IS INCORRECT, but VERY EDUCATIONAL!
+namespace f3 {
+const int N = 1e5*2 + 10;
+const int EXP = 32;
+
+int n, q;
+int ps[N][EXP];
+int depth[N];
+
+vector<int> children[N];
+
+int up(int v, int d) {
+    for(int exp = 0; exp < EXP; ++exp) if (d &  (1 << exp)) v = ps[v][exp];
+    return v;
+}
+
+void dfs(int v, int d) {
+    depth[v] = d; for(int w : children[v]) { dfs(w, d+1); }
+}
+
+int main() {
+    std::ios_base::sync_with_stdio(false);
+    
+    cin.tie(NULL);
+    cin >> n >> q;
+
+    for(int i = 2; i <= n; ++i) {
+        int parent; cin >> parent;
+        ps[i][0] = parent; children[parent].push_back(i);
+
+    }
+    ps[1][0] = 1;
+    for(int i = 1; i <= n; ++i) {
+        for(int exp = 1; exp < EXP; ++exp) {
+            int mid = ps[i][exp - 1];
+            ps[i][exp] = ps[mid][exp - 1];
+        }
+    }
+
+    dfs(1, 1);
+    for(int i = 0; i < q; ++i) {
+        int a, b; cin >> a >> b;
+
+        int md = min<int>(depth[a], depth[b]);
+
+        // cerr << "\n"; for(int i = 1; i <= n; ++i) { cerr << i << "=" << depth[i]<< " "; } cerr << "\n";
+        a = up(a, depth[a] - md);
+        b = up(b, depth[b] - md);
+
+        // consider storing distances of : 2^n - 1 ? That way
+        // we don't need special case for (a == b).
+        if (a == b) { cout << a << "\n"; continue; }
+        // cerr <<"a=" << a << "| b=" << b << "\n";
+
+
+        // PROBLEM: IT MAY NOT BE POSSIBLE TO REACH LCA DIRECTLY FROM ps[a][....]
+        // BECAUSE PS[a] ONLY STORES POWERS OF 2!        
+        int l = 0, r = EXP-1;
+        while (l < r) {
+            int mid = (l+r)/2; 
+            // cerr << "[" << l << " " << mid << " " << r << "] " << (ps[a][mid] != ps[b][mid]) << "; ";
+            if (ps[a][mid] == ps[b][mid]) {
+                r = mid; // we want to find first location where predicate is TRUE.
+            } else {
+                // ps[a][mid] = ps[b][mid]
+                l = mid + 1; // we want to find first location where predicate is TRUE.
+            }
+        }
+        // cerr << "FINAL: [" << l << " " << r << "] " << (ps[a][l] != ps[b][l]) << "\n";;
+        cout << ps[a][l] << "\n"; 
+    }
+    return 0;
+}
+} // namespace f3
+
+
+// binary lifting based LCA, with LCA code written as *correct* binary search.
+namespace f4 {
+const int N = 1e5*2 + 10;
+const int EXP = 32;
+
+int n, q;
+int ps[N][EXP];
+int depth[N];
+
+vector<int> children[N];
+
+int up(int v, int d) {
+    for(int exp = 0; exp < EXP; ++exp) if (d &  (1 << exp)) v = ps[v][exp];
+    return v;
+}
+
+void dfs(int v, int d) {
+    depth[v] = d; for(int w : children[v]) { dfs(w, d+1); }
+}
+
+int main() {
+    std::ios_base::sync_with_stdio(false);
+    
+    cin.tie(NULL);
+    cin >> n >> q;
+
+    for(int i = 2; i <= n; ++i) {
+        int parent; cin >> parent;
+        ps[i][0] = parent; children[parent].push_back(i);
+
+    }
+    ps[1][0] = 1;
+    for(int i = 1; i <= n; ++i) {
+        for(int exp = 1; exp < EXP; ++exp) {
+            int mid = ps[i][exp - 1];
+            ps[i][exp] = ps[mid][exp - 1];
+        }
+    }
+
+    dfs(1, 1);
+    for(int i = 0; i < q; ++i) {
+        int a, b; cin >> a >> b;
+
+        int md = min<int>(depth[a], depth[b]);
+
+        // cerr << "\n"; for(int i = 1; i <= n; ++i) { cerr << i << "=" << depth[i]<< " "; } cerr << "\n";
+        a = up(a, depth[a] - md);
+        b = up(b, depth[b] - md);
+
+        // consider storing distances of : 2^n - 1 ? That way
+        // we don't need special case for (a == b).
+        if (a == b) { cout << a << "\n"; continue; }
+        // cerr <<"a=" << a << "| b=" << b << "\n";
+        while(1) {
+            // find first index l such that ps[a][l] == ps[b][l]
+            int l = 0, r = EXP-1;
+            while (l < r) {
+                int mid = (l+r)/2; 
+                if (ps[a][mid] == ps[b][mid]) {
+                    r = mid; // we want to find first location where predicate is TRUE.
+                } else {
+                    l = mid + 1; // we want to find first location where predicate is TRUE.
+                }
+            }
+            // if it is direct parent, use it
+            if (l == 0) { cout << ps[a][l] << "\n"; break; }
+            // otherwise, we might have overshot, because we only contain powers of 2.
+            // so, go to just shy of index where agreement happens and use that.
+            a = ps[a][l-1];
+            b = ps[b][l-1];
+        }
+    }
+    return 0;
+}
+} // namespace f4
+
+
+
+
+// binary lifting based LCA, RANDOMIZED walk up to LCA.
+// AC: https://cses.fi/problemset/result/1280195/
+namespace f5 {
+const int N = 1e5*2 + 10;
+const int EXP = 32;
+
+int n, q;
+int ps[N][EXP];
+int depth[N];
+
+vector<int> children[N];
+
+int up(int v, int d) {
+    for(int exp = 0; exp < EXP; ++exp) if (d &  (1 << exp)) v = ps[v][exp];
+    return v;
+}
+
+void dfs(int v, int d) {
+    depth[v] = d; for(int w : children[v]) { dfs(w, d+1); }
+}
+
+int main() {
+    srand(0);
+    std::ios_base::sync_with_stdio(false);
+    
+    cin.tie(NULL);
+    cin >> n >> q;
+
+    for(int i = 2; i <= n; ++i) {
+        int parent; cin >> parent;
+        ps[i][0] = parent; children[parent].push_back(i);
+
+    }
+    ps[1][0] = 1;
+    for(int i = 1; i <= n; ++i) {
+        for(int exp = 1; exp < EXP; ++exp) {
+            int mid = ps[i][exp - 1];
+            ps[i][exp] = ps[mid][exp - 1];
+        }
+    }
+
+    dfs(1, 1);
+    for(int i = 0; i < q; ++i) {
+        int a, b; cin >> a >> b;
+
+        int md = min<int>(depth[a], depth[b]);
+
+        // cerr << "\n"; for(int i = 1; i <= n; ++i) { cerr << i << "=" << depth[i]<< " "; } cerr << "\n";
+        a = up(a, depth[a] - md);
+        b = up(b, depth[b] - md);
+
+        if (a == b) { cout << a << "\n"; continue; }
+
+        // I want to find a parent whose direct ancestor is the LCA.
+        while(1) {
+            int ix = rand() % 32;
+            // NON-LCA.
+            if (ps[a][ix] != ps[b][ix]) {
+                a = ps[a][ix];
+                b = ps[b][ix];
+            }
+
+            // LCA.
+            if (ps[a][0] == ps[b][0]) {
+                cout << ps[a][0] << "\n"; break;
+            }
+        }
+    }
+    return 0;
+}
+} // namespace f5
+
+
+
 int main() { return f2::main(); }

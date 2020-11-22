@@ -223,5 +223,9 @@ set_target_properties(company-queries-I.out PROPERTIES CXX_STANDARD 17)
 add_executable(company-queries-II.out company-queries-II.cpp)
 set_target_properties(company-queries-II.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(distance-queries.out distance-queries.cpp)
+set_target_properties(distance-queries.out PROPERTIES CXX_STANDARD 17)
+
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

@@ -8,7 +8,7 @@ will use some neat abstract algebra or a more insightful technique.
 - [Consider solving USACO next](https://usaco.guide/)
 - [Super awesome notebook](https://github.com/koosaga/olympiad/blob/master/Library/teamnote.pdf)
 - [Awesome chinese blog with succinct (code golfed) solutions to CSES](https://yuihuang.com/cses-1750/)
-
+- [Clean explanation of binary search in terms of predicates](https://www.topcoder.com/community/competitive-programming/tutorials/binary-search)
 
 ## Unsolved problems
 - [Nearest smaller values](https://cses.fi/problemset/task/1645)
@@ -37,8 +37,12 @@ will use some neat abstract algebra or a more insightful technique.
   based data structures. Implement your own!
 - [Longest flight route](https://cses.fi/problemset/task/1680): solve by keeping pointers from child->parent instead of parent->child
   to convince yourself that both directions are fine. Also, can use djikstra for this?
+- [Company queries II](https://cses.fi/problemset/task/1688) Use wild data structure described in [Binary Lifting: No memory wasted](https://codeforces.com/blog/entry/74847)
+- [Company queries II](https://cses.fi/problemset/task/1688) Write LCA + binary lifting in the framework of "binary search", instead of thinking about it
+  in terms of loop with decreasing exponent.
 
 ## Solved correctness proofs
+
 
 
 # [Factory machines](https://cses.fi/problemset/task/1620)
