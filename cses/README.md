@@ -168,6 +168,10 @@ and in each suffix path. This allows us to easily edit the middle!
 
 ## Food for thought
 
+#### Distinct colors
+- [DSU on trees/sack: original](https://codeforces.com/blog/entry/44351)
+- [DSU on trees/sack: explained?](https://codeforces.com/blog/entry/67696)
+
 #### Two types of Euler tours
 
 - One type where we have `n` elements in the array, one for each node. This is
