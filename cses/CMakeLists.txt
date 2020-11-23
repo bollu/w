@@ -207,6 +207,10 @@ set_target_properties(planet-queries-I.out PROPERTIES CXX_STANDARD 17)
 add_executable(planet-queries-II.out planet-queries-II.cpp)
 set_target_properties(planet-queries-II.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(road-reparation.out road-reparation.cpp)
+set_target_properties(road-reparation.out PROPERTIES CXX_STANDARD 17)
+
+
 add_executable(subordinates.out subordinates.cpp)
 set_target_properties(subordinates.out PROPERTIES CXX_STANDARD 17)
 
