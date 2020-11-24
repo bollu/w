@@ -166,6 +166,35 @@ int add(int a, int b) {
 Found this interesting. To change something in the middle, compute data in each prefix path,
 and in each suffix path. This allows us to easily edit the middle!
 
+#### Flight Check Routes
+
+Check if we have a single SCC.  We have only a single component, 
+so `u ~> v /\ p ~> q for all v, u, p, q`
+
+**CLAIM:**This is same as `1 ~> v` and `p ~> 1` for all u, v!
+
+##### Forward: everywhere reachability => 1 reachability
+
+We have `u ~> v` and `p ~> q` for all `u, v, p, q`. Set `v=1, p=1`;
+we get `1 ~> v` and `p ~> 1` for all `v, p`. Hence done.
+
+##### Backward: 1 reachability => every reachability
+
+we have `1 ~> v` and `p ~> 1` for all `v, p`.  To show `x ~> y` for arbitrary
+`x, y` set `p=x, v=y` to get `x=p ~> 1 ~> v=y` to get `x ~> y`. Hence done.
+
+##### Algorithm
+
+Hence it suffices to use D(B)FS to check reachability `1 ~> n`.
+
+
+To check `n ~> 1` for all `n`, we reverse the graph and run reachability from `1`.
+In the reverse graph, if `reachable(Grev, 1, n)` then this implies `reachable(G, n, 1)` 
+since we have literally reversed paths. Thus, reachability if `Grev` `1 ~> n`
+guarantees `n ~> 1` in the original graph. This is subtle! We can imagine
+this as "backpropping", where we start from `1` and "reverse search"
+along the "wrong direction" of each edge to get to all the `n`s.
+
 ## Food for thought
 
 #### Distinct colors

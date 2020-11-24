@@ -23,7 +23,7 @@ using namespace std;
 template<typename T>
 using minqueue = priority_queue<T,vector<T>,greater<T>>;
 
-template <typename T>
+template<typename T>
 using ordered_set =
     __gnu_pbds::tree<T, __gnu_pbds::null_type, less<T>, __gnu_pbds::rb_tree_tag,
                      __gnu_pbds::tree_order_statistics_node_update>;
@@ -37,13 +37,14 @@ template <typename T1, typename T2>
 ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
     return o << "(" << p.first << ", " << p.second << ")";
 }
+
+// demonstrates incorrect algorithm for SCCs.
+// that does not take cross edges into account.
+namespace f0 {
 const int N = 1e5 + 10;
 int n, m;
 vector<int> es[N];
 
-int t0;
-int entertime[N], exittime[N];
-int components[N];
 int parentdfs[N];
 int colordfs[N];
 const int WHITE = 0, GRAY = 1, BLACK = 2;
@@ -72,10 +73,7 @@ void dfs(int u, int v) {
     if (colordfs[v] == BLACK) { return; }
 
     parentdfs[v] = u;
-    t0++; entertime[v] = t0;
-
     colordfs[v] = GRAY;
-    components[v] = v;
 
     for (int w : es[v]) {
         if (colordfs[w] == WHITE) { dfs(v, w); }
@@ -94,7 +92,6 @@ void dfs(int u, int v) {
         }
     }
     colordfs[v] = BLACK;
-    t0++; exittime[v] = t0;
 }
 
 
@@ -126,3 +123,61 @@ int main() {
     cout << "YES\n";
     return 0;
 }
+} // end f0
+
+namespace f1 {
+const int N = 1e5 + 10;
+int n, m;
+vector<int> es[N];
+vector<int> esrev[N];
+vector<int> exits; // order nodes by exit time.
+bool vis[N];
+
+void dfs(int v) {
+    vis[v] = true;
+    for(int w : es[v]) {
+        if (vis[w]) { continue; }
+        dfs(w);
+    }
+    exits.push_back(v);
+}
+
+bool visrev[N];
+void dfsrev(int v) {
+    visrev[v] = true;
+    for(int w : esrev[v]) {
+        if (visrev[w]) { continue; }
+        dfsrev(w);
+    }
+}
+
+// We have only a single component, so u ~> v and v ~> u for all v, u.
+// This is same as `u ~> 1` and `1 ~> v` for all u, v!
+int main() {
+    std::ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cin >> n >> m;
+    for(int i = 0; i < m; ++i) {
+        int a, b; cin >> a >> b;
+        es[a].push_back(b);
+        esrev[b].push_back(a);
+    }
+
+    dfs(1);
+    dfsrev(1);
+    for(int i = 1; i <= n; ++i) {
+        if (!vis[i]) {
+            cout << "NO\n" << 1 << " " << i << "\n";
+            return 0;
+        }
+        if (!visrev[i]) { 
+            cout << "NO\n" << i << " " << 1 << "\n";
+            return 0;
+        }
+    }
+    cout << "YES\n";
+    return 0;
+}
+} // end f1
+
+int main() { return f1::main(); }
