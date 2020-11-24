@@ -46,11 +46,13 @@ vector<int> es[N];
 vector<int> exitvs; // vertices pushed back as we exit.
 
 void dfs(int v)  {
+    cerr << "ENTER: " << v << "\n";
     vis[v] = true;
     for(int w : es[v]) {
         if (vis[w]) { continue; } dfs(w);
     }
     exitvs.push_back(v);
+    cerr << "EXIT: " << v << "\n";
 }
 vector<int> esrev[N];
 bool visrev[N];
@@ -83,6 +85,11 @@ int main() {
     }
 
     for(int i = 1; i <= n; ++i) { if (!vis[i]) { dfs(i); } }
+
+
+    cerr << "exitvs: ";
+    for(int i = 0; i < exitvs.size(); i++) { cerr << exitvs[i] << " "; } 
+    cerr << "\n";
 
    // a<->b->c<->d
    // DFS from a: a -> b -> c -> d
@@ -122,3 +129,40 @@ int main() { return f0::main(); }
 // dfs visit: (a (b (e (f f) e) (c (d d) c) b) a)
 // exit times: f e d c b a
 // f e; d c; b a
+
+
+// FAILURE!
+// 1 2
+// 2 3
+// 3 1
+// 1 4
+//
+// 1
+// 1 1 1 1
+// d<---- a -> b
+//        ^    |
+//        |    v
+//        *-c--*
+// dfs visit:  (a (d d) (b (c c) b) a) | exit order: d c b a | CORRECT!
+// dfs visit:  (a (b (c c) b) (d d) a) | exit order: c b d a | 
+//             start DFS from c: c, d, a, b. Will find everything!
+//             But this is incorrect. It's because the DFS "leaks out"
+
+
+// smaller counterexample:
+// 3 3
+// 1 2
+// 2 1
+// 1 3
+// a<->b->c | [a->b->c] vs  [b->a; c] or [b->c; a]
+// ENTER: 1
+// ENTER: 2
+// EXIT: 2
+// ENTER: 3
+// EXIT: 3
+// EXIT: 1
+// exitvs: 2 3 1
+// 1
+// 1 1 1
+
+// Need to know which vertex to start from.
