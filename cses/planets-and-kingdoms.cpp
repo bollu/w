@@ -117,9 +117,84 @@ int main() {
 
     return 0;
 }
+} // end f0
+
+
+// Correct algorithm, is accepted.
+namespace f1 {
+const int N = 1e5 + 10;
+bool vis[N];
+vector<int> es[N];
+vector<int> exitvs; // vertices pushed back as we exit.
+
+void dfs(int v)  {
+    // cerr << "ENTER: " << v << "\n";
+    vis[v] = true;
+    for(int w : es[v]) {
+        if (vis[w]) { continue; } dfs(w);
+    }
+    exitvs.push_back(v);
+    // cerr << "EXIT: " << v << "\n";
+}
+vector<int> esrev[N];
+bool visrev[N];
+
+int comp[N];
+void dfsrev(int v, int c)  {
+    if (visrev[v]) return; 
+    comp[v] = c;
+    visrev[v] = true;
+    // for(int w: es[v]) {
+    for(int w : esrev[v]) {
+        if (visrev[w]) { continue; } dfsrev(w, c);
+    }
 }
 
-int main() { return f0::main(); }
+int n, m;
+
+// https://www.hackerearth.com/practice/algorithms/graphs/strongly-connected-components/tutorial/
+// https://www.youtube.com/watch?v=9Wbej7Fy5Lw
+// https://www.youtube.com/watch?v=iYJqgMKYsdI
+// https://www.iarcs.org.in/inoi/online-study-material/topics/scc.php
+int main() {
+    std::ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cin >> n >> m;
+    for(int i = 0; i < m; ++i) {
+        int a, b; cin >> a >> b;
+        es[a].push_back(b);
+        esrev[b].push_back(a);
+    }
+
+    for(int i = 1; i <= n; ++i) { if (!vis[i]) { dfs(i); } }
+
+
+    // 1 2 3 4 5 -> 5 4 3 2 1 : last to exit is first in exitvs
+    std::reverse(exitvs.begin(), exitvs.end());
+
+    for(int i = 0; i < exitvs.size(); i++) {
+        int v = exitvs[i];
+        if (!visrev[v]) { dfsrev(v, v); }
+    }
+
+    map<int, int> comp2ix;
+    for(int i = 1; i <= n; ++i) {
+        auto it = comp2ix.find(comp[i]);
+        if (it == comp2ix.end()) {
+            comp2ix[comp[i]] =  comp2ix.size()+1;
+        }
+    }
+
+    cout << comp2ix.size() << "\n";
+    for(int i = 1; i <= n; ++i) {
+        cout << comp2ix[comp[i]] << " \n"[i==n];
+    }
+
+    return 0;
+}
+} // end f1
+
+int main() { return f1::main(); }
 
 // a<->b -> c<->d
 //     |      |
@@ -166,3 +241,4 @@ int main() { return f0::main(); }
 // 1 1 1
 
 // Need to know which vertex to start from.
+// Document with proof: https://timroughgarden.org/w11/l/scc.pdf
