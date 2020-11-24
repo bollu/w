@@ -213,6 +213,12 @@ set_target_properties(road-reparation.out PROPERTIES CXX_STANDARD 17)
 add_executable(road-construction.out road-construction.cpp)
 set_target_properties(road-construction.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(flight-routes-check.out flight-routes-check.cpp)
+set_target_properties(flight-routes-check.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(planets-and-kingdoms.out planets-and-kingdoms.cpp)
+set_target_properties(planets-and-kingdoms.out PROPERTIES CXX_STANDARD 17)
+
 
 add_executable(subordinates.out subordinates.cpp)
 set_target_properties(subordinates.out PROPERTIES CXX_STANDARD 17)
