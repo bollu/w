@@ -88,6 +88,10 @@ void dfs(int u, int v) {
                 if (cur == w) { break; }
             }
         }
+        // found cross edge. This is the *real* problem.
+        else if (colordfs[w] == BLACK) {
+            assert(false && "cross edge!");
+        }
     }
     colordfs[v] = BLACK;
     t0++; exittime[v] = t0;
