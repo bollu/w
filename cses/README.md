@@ -41,6 +41,7 @@ will use some neat abstract algebra or a more insightful technique.
 - [Company queries II](https://cses.fi/problemset/task/1688) Use wild data structure described in [Binary Lifting: No memory wasted](https://codeforces.com/blog/entry/74847)
 - [Company queries II](https://cses.fi/problemset/task/1688) Write LCA + binary lifting in the framework of "binary search", instead of thinking about it
   in terms of loop with decreasing exponent.
+- SCC With Gabow: https://www.cs.princeton.edu/courses/archive/spr04/cos423/handouts/path%20based...pdf
 
 ## Solved correctness proofs
 

@@ -219,6 +219,9 @@ set_target_properties(flight-routes-check.out PROPERTIES CXX_STANDARD 17)
 add_executable(planets-and-kingdoms.out planets-and-kingdoms.cpp)
 set_target_properties(planets-and-kingdoms.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(giant-pizza.out giant-pizza.cpp)
+set_target_properties(giant-pizza.out PROPERTIES CXX_STANDARD 17)
+
 
 add_executable(subordinates.out subordinates.cpp)
 set_target_properties(subordinates.out PROPERTIES CXX_STANDARD 17)
