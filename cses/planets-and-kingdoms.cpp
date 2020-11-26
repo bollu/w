@@ -269,64 +269,57 @@ int main() {
 }
 } // end f2
 
-// My weird DSU based solution, made correct by insight from Gabow?
+// tarjan's algorithm.
 namespace f3 {
-int n, m;
 const int N = 1e5 + 10;
+int n, m;
 vector<int> es[N];
+int ixs[N];
+int lowlink[N];
+stack<int> S;
+int index = 1;
 
-int dsuparent[4*N];
-int dsurank[4*N];
+int ncomps;
+int comps[N];
 
-int dsuroot(int i) {
-    if (dsuparent[i] == i) { return i; }
-    return i = dsuroot(dsuparent[i]);
-}
-void dsuunite(int i, int j) {
-    i = dsuroot(i); j = dsuroot(j);
-    if (i == j)  { return; }
-    if (dsurank[i] < dsurank[j]) { 
-        dsuparent[i] = j; return;
-    } else if (dsurank[j] < dsurank[i]) { 
-        dsuparent[j] = i; return;
-    } else {
-        dsuparent[j] = i; dsurank[i]++; return;
-    }
-}
+    // a node remains on the stack after it has been visited if and only if
+    // there exists a path in the input graph from it to some node earlier on
+    // the stack
+    void ssc(int v) {
+        ixs[v] = lowlink[v] = index;
+        index++;
+        S.push(v);
 
-int WHITE = 0, GRAY = 1, BLACK = 2;
-int dfscolor[4*N];
-int nnewnodes = 0;
-void dfs(int root) {
-    stack<int> vs;
-    vs.push(root);
-    while(!vs.empty()) {
-        int v = vs.top();
-        if (dfscolor[v] == WHITE) {
-            dfscolor[v] = GRAY;
-            for(int w : es[v]) {
-                if (dfscolor[w] == WHITE) {
-                    vs.push(w);
-                } else {
-                    while(1) {
-                        dsuunite(vs.top(), w);
-                        vs.pop();
-                        if (dsuroot(vs.top()) == dsuroot(w)) { break; }
-                    }
-                    ++nnewnodes;
-                    dsuparent[nnewnodes] = nnewnodes;
-                    dsuunite(nnewnodes, w);
-                    // push a node corresponding to the contraction, represnted by w.
-                    vs.push(nnewnodes);
-                    dfscolor[nnewnodes] = BLACK;
-                }
+        for(int w : es[v]) {
+            // unvisited
+            if (!ixs[w]) { 
+                ssc(w);
+                lowlink[v]  = min<int>(lowlink[v], lowlink[w]);
             }
-        } else if (dfscolor[v] == GRAY) {
-            vs.pop(); dfscolor[v] = BLACK;
+            // visited; unSSC'd.
+            else if (!comps[w]) {
+                // w is in current SSC
+                // if w is not on stack then (v, w) points to an existing
+                // SSC, must be ignored [because it is in the condensation DAG?]
+                lowlink[v] = min<int>(lowlink[v], ixs[w]);
+            }
+        }
+
+        if (lowlink[v] == ixs[v]) {
+            ncomps++;
+            while (1) {
+                int w = S.top(); S.pop();
+                comps[w] = ncomps;
+                if (w == v) { break; }
+            }
         }
     }
 
-}
+    void tarjanssc() {
+        for(int i = 1; i <= n; ++i) {
+            if (ixs[i] == 0) { ssc(i); }
+        }
+    }
 
 int main() {
     std::ios_base::sync_with_stdio(false);
@@ -336,12 +329,18 @@ int main() {
         int a, b; cin >> a >> b;
         es[a].push_back(b);
     }
-    for(int i = 0; i < N; ++i) { dsuparent[i] = i; }
-    return 0;
-}
-}
 
-int main() { return f2::main(); }
+    tarjanssc();
+
+    cout << ncomps << "\n";
+    for(int i = 1; i <= n; ++i) {
+        cout << comps[i] << " \n"[i==n];
+    }
+    return 0; 
+}
+} // end f3
+
+int main() { return f3::main(); }
 
 // a<->b -> c<->d
 //     |      |
