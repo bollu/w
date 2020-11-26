@@ -59,6 +59,7 @@ void visit(int v) {
 
     for(int w : es[v]) {
         if (!v2t[w]) { visit(w); low[v] = min<int>(low[v], low[w]); }
+        // else if (!v2comp[w]) { low[v] = min<int>(low[v], low[w]); }
         else if (!v2comp[w]) { low[v] = min<int>(low[v], v2t[w]); }
     }
 
