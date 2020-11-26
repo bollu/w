@@ -297,7 +297,7 @@ int comps[N];
                 lowlink[v]  = min<int>(lowlink[v], lowlink[w]);
             }
             // visited; unSSC'd.
-            else if (!comps[w]) {
+            if (!comps[w]) {
                 // w is in current SSC
                 // if w is not on stack then (v, w) points to an existing
                 // SSC, must be ignored [because it is in the condensation DAG?]
