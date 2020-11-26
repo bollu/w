@@ -252,6 +252,9 @@ set_target_properties(path-queries.out PROPERTIES CXX_STANDARD 17)
 add_executable(distinct-colors.out distinct-colors.cpp)
 set_target_properties(distinct-colors.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(coin-collector.out coin-collector.cpp)
+set_target_properties(coin-collector.out PROPERTIES CXX_STANDARD 17)
+
 
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

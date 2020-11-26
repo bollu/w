@@ -296,11 +296,14 @@ int comps[N];
                 ssc(w);
                 lowlink[v]  = min<int>(lowlink[v], lowlink[w]);
             }
-            // visited; unSSC'd.
-            if (!comps[w]) {
+            // visited; This is a backedge.
+            // lowlink[v] only talks about the *subtree* of v, so we should
+            // use enterts[w], not lowlink[w].
+            else if (!comps[w]) {
                 // w is in current SSC
                 // if w is not on stack then (v, w) points to an existing
                 // SSC, must be ignored [because it is in the condensation DAG?]
+                // lowlink[v] = min<int>(lowlink[v], ixs[w]);
                 lowlink[v] = min<int>(lowlink[v], ixs[w]);
             }
         }
