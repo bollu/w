@@ -255,6 +255,11 @@ set_target_properties(distinct-colors.out PROPERTIES CXX_STANDARD 17)
 add_executable(coin-collector.out coin-collector.cpp)
 set_target_properties(coin-collector.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(mail-delivery.out mail-delivery.cpp)
+set_target_properties(mail-delivery.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(hamiltonian-flights.out hamiltonian-flights.cpp)
+set_target_properties(hamiltonian-flights.out PROPERTIES CXX_STANDARD 17)
 
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
