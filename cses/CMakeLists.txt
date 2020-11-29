@@ -265,5 +265,11 @@ set_target_properties(hamiltonian-flights.out PROPERTIES CXX_STANDARD 17)
 add_executable(download-speed.out download-speed.cpp)
 set_target_properties(download-speed.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(police-chase.out police-chase.cpp)
+set_target_properties(police-chase.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(school-dance.out school-dance.cpp)
+set_target_properties(school-dance.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

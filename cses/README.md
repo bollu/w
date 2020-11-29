@@ -43,6 +43,10 @@ will use some neat abstract algebra or a more insightful technique.
   in terms of loop with decreasing exponent.
 - SCC With Gabow: https://www.cs.princeton.edu/courses/archive/spr04/cos423/handouts/path%20based...pdf
 - Mail Delivery: Euler tour with tucker's algorithm.
+- Police chase: Min cardinality cut with randomized algorithm: [Karger's algorithm](https://en.wikipedia.org/wiki/Karger%27s_algorithm).
+  **EDIT**: No this doesn't work, because we want min cardinality `s-t` cut, not a general min cardinality cut.
+  
+
 ## Solved correctness proofs
 
 
@@ -197,6 +201,55 @@ this as "backpropping", where we start from `1` and "reverse search"
 along the "wrong direction" of each edge to get to all the `n`s.
 
 ## Food for thought
+
+#### Finding min-cut from max-flow
+
+
+
+Consider some incorrect cut to find cut edges:
+
+```cpp
+  vector<pair<int, int>> cuts;
+  while (!dfs.empty()) {
+    int v = dfs.top();
+    dfs.pop();
+    for (int w : es[v]) {
+      if (parent[w]) {
+        continue;
+      }
+      if (Ffn[v][w] == cap[v][w]) { cuts.push_back({v, w})};
+      else { parent[w] = v; dfs.push(w); }
+    }
+  }
+```
+- Consider G:
+```
+1⋯ ⋯ 2
+┃╲   ⋮
+┃ ╲  ⋮
+┃  ╲ ⋮
+┃   ╲⋮
+4────3
+```
+- Flow is sent through bold lines. All edges are unit capacity.
+
+```
+Now look at the residual graph:
+1⋯ ⋯ 2
+     ⋮
+     ⋮
+     ⋮
+     ⋮
+4    3
+```
+- `{1, 2, 3}` are in one connected component. Thus, (1, 4) and (3, 4) are a min-cut.
+- On the other hand, according to the flawed algorithm, because the edge
+  `(1, 3)` is saturated, the edge `(1, 3)` must be a cut edge. This is patently **FALSE**.
+- **Saturated edges are not cut edges**! Cut edges are those that cross from
+  the s component into the t component.
+- The core reason is that while a saturated edge maybe a cut edge, it need not be.
+  It's only a cut edge if it DISCONNECTS.  In this case, while `(1, 3)` was saturated,
+  it doesn't disconnect `3` from `1`: the path `1->2->3` keeps things connected.
 
 #### Distinct colors
 - [DSU on trees/sack: original](https://codeforces.com/blog/entry/44351)
