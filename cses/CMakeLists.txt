@@ -261,5 +261,9 @@ set_target_properties(mail-delivery.out PROPERTIES CXX_STANDARD 17)
 add_executable(hamiltonian-flights.out hamiltonian-flights.cpp)
 set_target_properties(hamiltonian-flights.out PROPERTIES CXX_STANDARD 17)
 
+
+add_executable(download-speed.out download-speed.cpp)
+set_target_properties(download-speed.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

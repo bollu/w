@@ -8,6 +8,7 @@
 #include <set>
 #include <stack>
 #include <vector>
+#include <bitset> // instead of bool[N];
 #include <stdlib.h> // for exit()
 
 // https://codeforces.com/blog/entry/11080

@@ -3,25 +3,24 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
-#include <numeric>  // for gcd
+#include <numeric> // for gcd
 #include <queue>
 #include <set>
 #include <stack>
-#include <vector>
 #include <stdlib.h> // for exit()
+#include <vector>
 
 // https://codeforces.com/blog/entry/11080
-#include <ext/pb_ds/assoc_container.hpp>  // Common file
+#include <ext/pb_ds/assoc_container.hpp> // Common file
 #include <ext/pb_ds/detail/standard_policies.hpp>
-#include <ext/pb_ds/tree_policy.hpp>  // Including tree_order_statistics_node_update
+#include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
 
 using ll = long long;
 using namespace std;
 
 // min priority queue. Useful for djikstras, or in general, to be
 // explicit.
-template<typename T>
-using minqueue = priority_queue<T,vector<T>,greater<T>>;
+template <typename T> using minqueue = priority_queue<T, vector<T>, greater<T>>;
 
 template <typename T>
 using ordered_set =
@@ -35,76 +34,98 @@ using ordered_map =
 
 template <typename T1, typename T2>
 ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
-    return o << "(" << p.first << ", " << p.second << ")";
+  return o << "(" << p.first << ", " << p.second << ")";
 }
 
+// Heirholz (magic!)
 namespace f0 {
 
 const int N = 2 * (1e5 + 10);
 const int M = 3 * (1e5 + 10);
 
-using count = int;
 int n, m;
-
-struct edge {int v; int w; bool vis; };
-edge edges[M];
-vector<int> es[N];
-vector<int> path;
-
-
-void visit(int v) {
-    for (int vwix: es[v]) {
-        edge *e = edges + vwix;
-        if (e->vis) { continue; }
-        e->vis = true;
-        int w = e->v == v ? e->w : e->v;
-        visit(w);
-    }
-    path.push_back(v);
-}
-
-bool ereachable[M];
-bool connected[N];
-void ccomp(int v)  {
-    connected[v] = true;
-    for (int eix : es[v]) {
-        ereachable[eix] = true;
-        edge *e = edges + eix;
-        int w = e->v == v ? e->w : e->v;
-        if (!connected[w]) { ccomp(w); }
-    }
-}
+set<int> es[N];
+queue<int> vspath;
 
 int main() {
-    std::ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cin >> n >> m;
-    for(int i = 1; i <= m; ++i) {
-        int a, b; cin >> a >> b;
-        edges[i].v = a;
-        edges[i].w = b;
-        edges[i].vis = false;
-        es[a].push_back(i); es[b].push_back(i);
+  std::ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cin >> n >> m;
+  for (int i = 1; i <= m; ++i) {
+    int a, b;
+    cin >> a >> b;
+    es[a].insert(b);
+    es[b].insert(a);
+  }
+
+  for (int i = 1; i <= n; ++i) {
+    if (es[i].size() % 2 == 1) {
+      cout << "IMPOSSIBLE\n";
+      return 0;
     }
+  }
 
-    for(int i = 1; i <= n; ++i) {
-        if (es[i].size() % 2 == 1) {
-            cout << "IMPOSSIBLE\n"; return 0;
-        }
+  // Proof of correctness:
+  stack<int> vs;
+  vs.push(1);
+  while (!vs.empty()) {
+    int v = vs.top();
+    if (es[v].size() == 0) {
+      vspath.push(v); // visit vertex first, then visit its entire subtree.
+      vs.pop();
+    } else {
+      int w = *es[v].begin();
+      es[v].erase(w);
+      es[w].erase(v);
+      vs.push(w);
     }
-
-    ccomp(1);
-    for(int i = 1; i <= m; ++i) {
-        if (!ereachable[i]) { cout << "IMPOSSIBLE\n"; return 0; }
-    }
-
-    visit(1); std::reverse(path.begin(), path.end());
-
-    for(int v : path) { cout << v << " "; }
-    cout << "\n";
+  }
+  if (vspath.size() != m + 1) {
+    cout << "IMPOSSIBLE\n";
     return 0;
+  }
+
+  while (!vspath.empty()) {
+    cout << vspath.front() << " ";
+    vspath.pop();
+  }
+  cout << "\n";
+  return 0;
 }
 
-} // end f0
+} // namespace f0
 
-int main() { return f0::main(); }
+// Tucker
+// https://scihub.wikicn.top/10.2307/2319893
+// http://www.mathcs.emory.edu/~rg/book/chap5.pdf
+// https://cstheory.stackexchange.com/questions/31538/runtime-of-tuckers-algorithm-for-generating-a-eulerian-circuit
+// https://gyu.people.wm.edu/Fall2009/math490/euler%20circuit-Sarah%20Will.pdf
+// 1. At each vertex arbitrarily pair off, and link together, the incident
+// edges. The result is a set
+//   of chains that, having no ends, must be circuits.
+// 2. Repeatedly combine any two circuits with a common vertex until we have
+//    vertex-disjoint circuits
+// 3. Since the graph is connected, there is just one circuit – an Euler
+//    Circuit.
+namespace f1 {
+const int N = 1e5 + 10;
+int n, m;
+vector<int> fwd[N];
+vector<int> bwd[N];
+int fwdix[N];
+int bwdix[N];
+
+vector<tuple<int, int, int>> epairs;
+int main() {
+  cin >> n >> m;
+  for (int i = 1; i <= m; ++i) {
+    int a, b;
+    cin >> a >> b;
+    fwd[a].push_back(b);
+    bwd[b].push_back(a);
+  }
+  return 0;
+  }
+} // namespace f1
+
+int main() { return f1::main(); }
