@@ -38,6 +38,8 @@ ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
   return o << "(" << p.first << ", " << p.second << ")";
 }
 
+// incorrect solution: compute edge disjoint paths while sending flow. Is
+// incorrect. Only compute paths at the end.
 namespace f0 {
 int n, m;
 const ll INFTY = 1e13;
@@ -131,4 +133,105 @@ int main() {
 
 } // namespace f0
 
-int main() { return f0::main(); }
+namespace f1 {
+const int N = 600;
+const ll INFTY = 1e13;
+int n, m;
+vector<int> es[N];
+int cap[N][N];
+int F[N][N];
+int prev[N];
+int main() {
+  std::ios::sync_with_stdio(false);
+  cin.tie(NULL);
+
+  cin >> n >> m;
+  for (int i = 0; i < m; ++i) {
+    int a, b;
+    cin >> a >> b;
+    es[a].push_back(b);
+    es[b].push_back(a);
+    cap[a][b] += 1;
+  }
+
+  ll Ftot = 0;
+  // let the spice flow!
+  while (1) {
+    ll Fiter = 0;
+    queue<pair<int, ll>> q;
+    q.push({1, INFTY});
+    for (int i = 0; i < N; ++i) {
+      prev[i] = i == 1 ? 1 : 0;
+    }
+    while (!q.empty()) {
+      int v = q.front().first;
+      ll Fv = q.front().second;
+      q.pop();
+      if (v == n) {
+        Fiter = Fv;
+        break;
+      }
+      for (int w : es[v]) {
+        ll Fw = min<ll>(Fv, cap[v][w] - F[v][w]);
+        if (prev[w] || Fw == 0) {
+          continue;
+        }
+        q.push({w, Fw});
+        prev[w] = v;
+      }
+    }
+
+    if (Fiter == 0) {
+      break;
+    }
+    Ftot += Fiter;
+    for (int v = n; v != 1; v = prev[v]) {
+      F[prev[v]][v] += Fiter;
+      F[v][prev[v]] -= Fiter;
+    }
+  }
+
+  cout << Ftot << "\n";
+
+  while (1) {
+    stack<int> dfs;
+    dfs.push(1);
+    for (int i = 0; i < N; ++i) {
+      prev[i] = i == 1 ? 1 : 0;
+    }
+
+    while (!dfs.empty()) {
+      int v = dfs.top();
+      dfs.pop();
+      if (v == n) {
+        break;
+      }
+      for (int w : es[v]) {
+        if (prev[w] || F[v][w] == 0) {
+          continue;
+        }
+        dfs.push(w);
+        prev[w] = v;
+      }
+    }
+
+    if (prev[n] == 0) {
+      return 0;
+    }
+    vector<int> path;
+    for (int v = n; v != 1; v = prev[v]) {
+      path.push_back(v);
+      F[prev[v]][v] = 0; // mark path as used.
+    }
+    path.push_back(1);
+
+    cout << path.size() << "\n";
+    for (int i = path.size() - 1; i >= 0; i--) {
+      cout << path[i] << " ";
+    }
+    cout << "\n";
+  }
+}
+}; // namespace f1
+
+int main() { return f1::main(); }

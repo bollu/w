@@ -203,6 +203,27 @@ along the "wrong direction" of each edge to get to all the `n`s.
 
 ## Food for thought
 
+#### Distinct routes: computing edge disjoint paths
+
+- We should not compute the paths as we send flow, because we might cancel the
+  flow later on! consider the graph, all unit capacity, we want `1-8` flow:
+
+```
+   6-----7
+   ^     |
+   |     v
+1->2->3->8
+|     ^
+v     |
+4-----5
+```
+
+- say we send flow along (a) `1->2->3->8` and (b) `1->4->5->3->2->6->7->8`.
+- The correct edge disjoint paths from this flow are `1->2->6->7->8` and `1->4->5->3->8`.
+- This is because the flows `2->3` and `3->2` cancel!
+- So we must only compute the edge decomposition after the full flow has been sent.
+- In general, compute NO STATE about the flow while you're still sending flow.
+
 #### Flow implementation
 
 The capacity is immutable, the only thing that changes it the flow.
@@ -217,7 +238,6 @@ want to do a full matrix-like computation. So in general, have:
    or capacity or distance information.
 
 #### Finding min-cut from max-flow
-
 
 
 Consider some incorrect cut to find cut edges:
