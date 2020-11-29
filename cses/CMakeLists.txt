@@ -271,5 +271,8 @@ set_target_properties(police-chase.out PROPERTIES CXX_STANDARD 17)
 add_executable(school-dance.out school-dance.cpp)
 set_target_properties(school-dance.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(distinct-routes.out distinct-routes.cpp)
+set_target_properties(distinct-routes.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

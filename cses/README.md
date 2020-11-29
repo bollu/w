@@ -45,7 +45,8 @@ will use some neat abstract algebra or a more insightful technique.
 - Mail Delivery: Euler tour with tucker's algorithm.
 - Police chase: Min cardinality cut with randomized algorithm: [Karger's algorithm](https://en.wikipedia.org/wiki/Karger%27s_algorithm).
   **EDIT**: No this doesn't work, because we want min cardinality `s-t` cut, not a general min cardinality cut.
-  
+- School dance: solve using alternating paths (Kuhn's algorithm)
+- School dance: Solving using faster version: Hopcroft–Karp–Karzanov algorithm
 
 ## Solved correctness proofs
 
@@ -201,6 +202,19 @@ this as "backpropping", where we start from `1` and "reverse search"
 along the "wrong direction" of each edge to get to all the `n`s.
 
 ## Food for thought
+
+#### Flow implementation
+
+The capacity is immutable, the only thing that changes it the flow.
+
+#### Graph representations
+
+It seems like it's advantageous to *always* use adjacency lists by default,
+and switch to adjacency matrices in rare situations when we really
+want to do a full matrix-like computation. So in general, have:
+1. adjacency lists to quickly visit neighbours
+2. matrices `VxV -> F` to associate information to edges. For example, flow
+   or capacity or distance information.
 
 #### Finding min-cut from max-flow
 
