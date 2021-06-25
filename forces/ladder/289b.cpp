@@ -7,66 +7,46 @@
 using namespace std;
 using ll = long long;
 
-ll as[100L*100L + 5];
-ll ds[100L*100L + 5];
 int n, m, d; 
+static const int INF = 1e9;
 
-ll myabs(ll x) { return x >= 0 ? x : -x; }
-ll cost(ll ix) {
-    ll c = 0;
-    for(int i = 0; i < n*m; ++i) { c += myabs(ds[i] - ix); }
+int cost(std::vector<int> &as, int mid) {
+    int c = 0;
+    for(int i = 0; i < (int)as.size(); ++i) {
+        c += abs(as[i] - as[mid]);
+    }
     return c;
 }
 
 int main() {
-    // cin.tie(nullptr); ios::sync_with_stdio(false);
     cin >> n >> m >> d;
-    for(int i = 0; i < n*m; ++i) { cin >> as[i];  }
-    for(int i = 0; i < n*m; ++i) { if (as[i] % d != as[0] % d) { cout << -1; return 0; }}
-    for(int i = 0; i < n*m; ++i) { ds[i] = as[i]/d; assert(as[i] == ds[i]*d + (as[0]%d)); }
+    vector<int> nums(n*m);
 
-    ll l = ds[0], r = ds[0];
-    for(int i = 0; i < n*m; ++i) { l = std::min<ll>(l, ds[i]); r = std::max<ll>(r, ds[i]); }
-
-
-    if(1) {
-        ll  mincost = cost(l);
-        for(int i = 0; i <= r+1; ++i) {
-            const ll c = cost(i);
-            mincost = std::min<ll>(c, mincost);
-        }  
-        cout << mincost; return 0;
+    for(int i = 0; i < n*m; ++i) { 
+        cin >> nums[i];
     }
-    
-    /*
-    while(l != r) {
-        const ll m1 = l + (r - l)/4, m2 = l + 2 * (r - l) / 4, m3 = l + 3*(r-l)/4;
-
-        if(1) {
-            cerr << "cost[" << d*m1 << "] := " << cost(m1) << 
-                " |cost[" << d*m2 << "] := " << cost(m2) <<
-                " |cost[" << d*m3 << "] := " << cost(m3) << "\n";
-        }
-
-        if (cost(m1) <= cost(m2)) {
-            if (cost(m2) <= cost(m3)) { r = m3; }
-            else { l = m1; r = m3; }
-        } 
-        else { 
-            // cost(m1) >= cost(m2)
-            if (cost(m2) < cost(m3)) { assert(false && "impossible."); }
-            // m1 > m2 > m3
-            else { l = m3; }
-         }
+    for(int i = 0; i < n*m; ++i) {
+        if (nums[0] % d == nums[i] % d) continue;;
+        cout << "-1";
+        return 0;
     }
 
-    ll mincost = cost(l);
-    for(int i = l; i <= r; ++i) {
-        mincost = min(mincost, cost(i)); 
+    vector<int> steps(n*m);
+    for(int i = 0; i < n*m; ++i) {
+        int residue = nums[i] % d;
+        steps[i] = (nums[i] - residue)/d;
+        assert(steps[i] * d + residue == nums[i]);
     }
-    cout << mincost;
-
-    */
+    std::sort(steps.begin(), steps.end());
+    int mid = (n*m)/2;
+    int c = INF;
+    // TODO: think about what the exact range should be for median.
+    for(int i = mid -2; i <= mid+3; ++i) {
+        if (i  < 0) continue;
+        if (i >= n*m) continue;
+        c = min(c, cost(steps, mid));
+    }
+    std::cout << c << "\n";
 
     return 0;
 }

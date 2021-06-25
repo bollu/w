@@ -18,4 +18,6 @@ add_executable(1345b 1345b.cpp)
 add_executable(331c1 331c1.cpp)
 add_executable(998b 998b.cpp)
 add_executable(729b 729b.cpp)
+add_executable(1320a 1320a.cpp)
+add_executable(289b 289b.cpp)
 
