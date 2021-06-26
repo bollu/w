@@ -92,6 +92,12 @@ int main() {
         int a, b; cin >> a >> b;
 
         int md = min<int>(depth[a], depth[b]);
+
+        // equalize depths to be the smallest depth of the two.
+        // so if two nodes are at depth (3, 1), equalize to depths (1, 1).
+        // If two nodes are at depth (3, 3), they STAY at (3, 3).
+        // This is always safe to do, since the LCA will have depth NOT GREATER (SMALLER) than the min of the both.
+        // As a bonus, if one is a proper ancestor of the other, this will pull up one to the other.
         a = up(a, depth[a] - md);
         b = up(b, depth[b] - md);
         // cerr << "a equal depth: " << a << " | b: " << b << "\n";
