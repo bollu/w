@@ -277,5 +277,8 @@ set_target_properties(distinct-routes.out PROPERTIES CXX_STANDARD 17)
 add_executable(subarray-distinct-values.out subarray-distinct-values.cpp)
 set_target_properties(subarray-distinct-values.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(counting-towers.out counting-towers.cpp)
+set_target_properties(counting-towers.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
