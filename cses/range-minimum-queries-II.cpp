@@ -32,6 +32,8 @@ ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
     return o << "(" << p.first << ", " << p.second << ")";
 }
 
+namespace segtree {
+
 const int N = 2 * int(1e5) + 10;
 int arr[N];
 int tree[4 * N];
@@ -99,4 +101,18 @@ int main() {
         }
     }
     return 0;
+}
+}
+
+
+// https://cp-algorithms.com/data_structures/sqrt_decomposition.html
+namespace sqrtdecomp {
+
+    int main() {
+        return 0;
+    }
+};
+
+int main() {
+    return sqrtdecomp::main();
 }

@@ -280,5 +280,11 @@ set_target_properties(subarray-distinct-values.out PROPERTIES CXX_STANDARD 17)
 add_executable(counting-towers.out counting-towers.cpp)
 set_target_properties(counting-towers.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(missing-coin-sum.out missing-coin-sum.cpp)
+set_target_properties(missing-coin-sum.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(collecting-numbers.out collecting-numbers.cpp)
+set_target_properties(collecting-numbers.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
