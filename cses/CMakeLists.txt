@@ -286,5 +286,11 @@ set_target_properties(missing-coin-sum.out PROPERTIES CXX_STANDARD 17)
 add_executable(collecting-numbers.out collecting-numbers.cpp)
 set_target_properties(collecting-numbers.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(projects.out projects.cpp)
+set_target_properties(projects.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(elevator-rides.out elevator-rides.cpp)
+set_target_properties(elevator-rides.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

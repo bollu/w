@@ -47,7 +47,8 @@ int main() {
   cin.tie(NULL);
 
   for (int i = 0; i < n; ++i) {
-      int x; cin >> x;
+    int x;
+    cin >> x;
     // cin >> xs[i];
     // we want to extend the chain with the smallest element so far.
     // If no chain [c(1)..c(cn), d(1)..d(dn), e(1)..e(en)]
@@ -57,20 +58,12 @@ int main() {
     // then start a new chain. This new chain will be the
     //   new smallest chain.
     //
-    auto fstkv = occs.begin();
-    if (fstkv == occs.end()) {
-        occs.insert(x);
-    } else {
-      // fstkv exists.
-      // x is too small, start a new chain.
-      if (x <= *fstkv) {
-          occs.insert(x);
-        assert(occs.find(x) == occs.begin());
-      } else {
-          occs.erase(fstkv);
-          occs.insert(x);
-      }
+    // find first elem > x;
+    auto it = occs.upper_bound(x);
+    if (it == occs.end()) {
+        occs.insert(x); continue; 
     }
+
   }
 
   cout << occs.size() << "\n";

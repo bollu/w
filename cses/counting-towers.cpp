@@ -51,11 +51,10 @@ int main() {
     // dp[_][false]: one 2x1 tile
 
     dp[1][false] = 1;
-    dp[1][true] = 2;
+    dp[1][true] = 1;
 
     for(int i = 2; i < N; ++i) {
         dp[i][false] = dp[i][true] = 0;
-
         // -- 2x1 --
         // --previous 1x1--
         // (a) close both previous 1x1s, create new 2x1
@@ -81,12 +80,12 @@ int main() {
         // -- two 1x1 --
         // --previous 1x1--
         // (a) extend left 1x1, close right 1x1
-        // | |1|
+        // | | |
         // | +-|
         // | | |
         dp[i][true] = (dp[i][true]+ dp[i-1][true]) % MOD;
         // (b) close left 1x1, extend right 1x1
-        // |1| |
+        // | | |
         // |-+ |
         // | | |
         dp[i][true] = (dp[i][true]+ dp[i-1][true]) % MOD;
