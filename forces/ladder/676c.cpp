@@ -27,13 +27,10 @@ int main() {
         // [l, r]
         for (int r = 0; r < n; ++r) {
             // change to 'a'
-            if (s[r] != c) {
-                changed++;
-            }
-            while (changed > k && l < r) {
-                if (s[l] != c) {
-                    changed--;
-                }
+            if (s[r] != c) { changed++; }
+
+            while (changed > k) {
+                if (s[l] != c) { changed--; }
                 l++;
             }
             best = max(best, r - l + 1);
@@ -145,5 +142,5 @@ namespace binarysearch {
     };
 };
 
-int main() { return binarysearch::main(); }
+int main() { return forloop::main(); }
 

@@ -54,22 +54,28 @@ struct P {
 // find rightmost ix such that ps[ix].b < t
 // TODO: how to write this with closed llervals?!
 ll max_earlier(ll t, vector<P> &ps) {
+    assert(ps.size() > 0);
     // cerr << "t: " << t << "\n";
-    ll l = 0, r = ps.size();
-    // closed llerval.
+    // [l, r]
+    ll l = 0, r = ps.size()-1;
+    // closed interval.
     while (1) {
-        if (l + 1 == r) { break; }
-        // l + 1 < r
-        // r >= l + 2
-        ll mid = (l + r)/2;
-        // mid >= (l + l + 2)/2 >= l + 1
-        // l < l+1 <= mid < l + 2 <= r
-        // l < mid < r
+        if (l == r) { break; }
+        // l < r
+        // r >= l + 1
+
+        // round up, so that we split the `mid` at a higher point,
+        // so that in the `else` case, we make progress.
+        ll mid = (l+r+1)/2;
+        // mid = (l + r + 1)/2 
+        // mid >= (l + (l+1)+2)/2 >= l + 1
+        // l < l+1 <= mid <= r
+        // l < mid <= r
         if (ps[mid].b >= t) {
-            // [l, r) -> [l, mid) | mid < r
-            r = mid;
+            // [l, r] -> [l, mid-1] | mid-1 < mid <= r
+            r = mid-1;
         } else {
-            // [l, r) -> [mid, r) | l < mid
+            // [l, r] -> [mid, r] | l < mid
             l = mid;
         }
     }
@@ -95,43 +101,6 @@ ll best(ll i, vector<P> &ps) {
     // else { cerr << i << " =COPY= " << i-1 << "!" << out << "\n"; }
     return dp[i] = out;
 };
-
-
-// CLOSED INTERVAL
-// // find rightmost ix such that ps[ix].b < t
-// // TODO: how to write this with closed llervals?!
-// ll max_earlier(ll t, vector<P> &ps) {
-//     assert(ps.size() > 0);
-//     // cerr << "t: " << t << "\n";
-//     // [l, r]
-//     ll l = 0, r = ps.size()-1;
-//     // closed interval.
-//     while (1) {
-//         if (l == r) { break; }
-//         // l < r
-//         // r >= l + 1
-// 
-//         // round up, so that we split the `mid` at a higher point,
-//         // so that in the `else` case, we make progress.
-//         ll mid = (l+r+1)/2;
-//         // mid = (l + r + 1)/2 
-//         // mid >= (l + (l+1)+2)/2 >= l + 1
-//         // l < l+1 <= mid <= r
-//         // l < mid <= r
-//         if (ps[mid].b >= t) {
-//             // [l, r] -> [l, mid-1] | mid-1 < mid <= r
-//             r = mid-1;
-//         } else {
-//             // [l, r] -> [mid, r] | l < mid
-//             l = mid;
-//         }
-//     }
-//     // cerr << "\tl: " << l << " ps[l]: " << ps[l].a << " " << ps[l].b << " " << ps[l].p << "\n";
-//     assert(ps[l].b < t);
-//     if (l + 1 < ps.size()) { assert(ps[l+1].b >= t); }
-//     return l;
-// }
-
 
 
 int main() {
