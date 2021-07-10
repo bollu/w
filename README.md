@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
 # Flows
 
-```
+```cpp
 int cap[N][N];
 int flow[N][N];
 int pred[N];
@@ -186,7 +186,7 @@ void solve() {
     }
 ```
 
-- Interesting part is that *capacity is constant*
+- Interesting part is that *capacity `cap[N][N]` is constant*. Only mutate `flow[N][N]`.
 - We send _positive flow_ in `(u, v)` direction, and send _negative flow_ 
   in `(v, u)` direction, which starts with `0` capacity. This gives us
   a "buffer" of, say, `-10...0`.
@@ -214,42 +214,18 @@ u <----------------- v
 
 ## Stack:
 
-```
+```cpp
 int stk[N], int sp = 0;
 void push(int val) { stk[sp++] = val; } int pop(int val) { stk[--sp] = val; }
 ```
-## Priority queue (Heap) (TODO)
-
-## Map / Set: maintain treap. (TODO)
-
 ## FIFO queue
 
-```
+```cpp
 int q[N]; int hd = 0, len=0;
 void qin(int val) { q[hd] = val; hd = (hd+1)%N; len++; }
 int qout() { return q[(hd + --len)%N] }
 ```
-
-# To think about
-
-```cpp
-void update(int v, int tl, int tr, int ql, int qr, int val){
-    if(ql > qr)
-        return;
-    if(tl == ql && tr == qr){
-        t[v] += val;
-        return;
-    }
-    int tm = (tl + tr) >> 1;
-    // TODO: what is the point of this `min` and `max`?
-    update(v << 1, tl, min(qr, tm), ql, qr, val);
-    update(v << 1 | 1, max(ql, tm+1), tr, ql, qr, val)
-}
-```
-
 # Codeforces-isms
-
-- sort by tags;
 
 ```
 https://codeforces.com/problemset?order=BY_SOLVED_DESC&tags=implementation
