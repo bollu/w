@@ -254,3 +254,26 @@ void update(int v, int tl, int tr, int ql, int qr, int val){
 ```
 https://codeforces.com/problemset?order=BY_SOLVED_DESC&tags=implementation
 ```
+
+# Problems Spreadsheet
+
+| Solved | Links                                        | Idea                                                  |
+|--------| ----------------------------------------------|----------------------------------------------         |
+|     N  | https://codeforces.com/contest/1437/problem/C	| hungarian                                             |
+|     N  | https://www.youtube.com/watch?v=GLmNtIQFYYU     | monoid for substring match string concatenation     |
+|     N  | https://codeforces.com/contest/1538/problem/E   | monoid for substring match string concatenation     |
+|     Y  | https://codeforces.com/contest/1541/problem/D	  |                                                     |
+|     N  | https://codeforces.com/contest/1541/problem/E1	|                                                   |
+|     N  | https://usaco.guide/plat/sqrt?lang=cpp	        | sqrt decomposition                                |
+|     N  | https://cp-algorithms.com/data_structures/sqrt_decomposition.html	| sqrt decomposition                |
+|     N  | https://cses.fi/problemset/result/2428543/	| Two pointers does not work?                           |
+|     Y  | https://codeforces.com/contest/545/problem/C	 | DP with multiple states (woodcutter)                 |
+|     N  | https://codeforces.com/blog/entry/68138	     | DFS tree                                             |
+|     Y  | https://codeforces.com/problemset/problem/166/E	 | DP on tetrahedron paths (cool states)            |
+|     Y  | https://codeforces.com/contest/676/submission/18075788	| binary search for greedy                  |
+|     Y  | https://codeforces.com/contest/1542/problem/C	        | Nice idea about what LCM, indicator fn        |
+|     N  | https://codeforces.com/contest/1542/problem/D	        |                                               |
+|     N  | https://codeforces.com/contest/1542/problem/E1	        |                                               |
+|     N  | https://codeforces.com/contest/1543/problem/C	        |                                               |
+|     N  | https://codeforces.com/contest/1543/problem/E	        |                                               |
+|     N  | https://codeforces.com/blog/entry/92602                  | DP with connected components
