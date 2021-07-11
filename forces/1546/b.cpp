@@ -17,31 +17,34 @@ void solve() {
 
     vector<string> ss(n);
     vector<string> pss(n-1);
-    // map<int, map<char, int>> col2char2count;
-    map<char, int> cs;
-    map<char, int> pcs;
+    map<int, map<char, int> > col2char2count;
 
     for(int i = 0; i < n; ++i) {
         cin >> ss[i];
-        for(char c : ss[i]) { cs[c]++; }
-    }
-
-    for(int i = 0; i < n-1; ++i) {
-        cin >> pss[i];
-        for(char c : pss[i]) { pcs[c]++; }
-    }
-
-
-    // check if this is possible.
-    for(string &s : ss) {
-        map<char, int> scs;
-        bool success = true;
-        for(char c : s) { scs[c]++; }
-        for (auto it : scs) {
-            if (cs[it.first] - pcs[it.first] >= it.second) { continue; }
-            success = false; break;
+        for(int j = 0; j < m; ++j) {
+            col2char2count[j][ss[i][j]]++;
         }
-        if (success) { cout << s << std::endl; cout.flush(); break; }
+    }
+    // cout << __LINE__ << "\n";
+
+    for(int i = 0; i < n-1; i++) {
+        cin >> pss[i];
+        for(int j = 0; j < m; ++j) {
+            col2char2count[j][pss[i][j]]--;
+        }
+    }
+    // cout << __LINE__ << "\n";
+
+    for(int i = 0; i < n; ++i) {
+        bool correct = true;
+        for(int j = 0; j < m; ++j) {
+            if (col2char2count[j][ss[i][j]] > 0) { continue; }
+            correct = false;
+        }
+        if (correct) {
+            cout << ss[i] << std::endl;
+            break;
+        }
     }
 }
 
