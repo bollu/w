@@ -292,5 +292,8 @@ set_target_properties(projects.out PROPERTIES CXX_STANDARD 17)
 add_executable(elevator-rides.out elevator-rides.cpp)
 set_target_properties(elevator-rides.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(dynamic-range-sum-queries-mo.out dynamic-range-sum-queries-mo.cpp)
+set_target_properties(dynamic-range-sum-queries-mo.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
