@@ -1,45 +1,43 @@
 #include <assert.h>
-#include<iostream>
-#include<vector>
-#include<map>
-#include<set>
-#include<utility>
-#include<algorithm>
+
+#include <algorithm>
+#include <iostream>
+#include <map>
 #include <queue>
+#include <set>
 #include <stack>
+#include <utility>
+#include <vector>
 using namespace std;
 using ll = long long;
 
 int main() {
     ios::sync_with_stdio(false);
-    int t; cin >> t;
-    vector<int> sums;
-    sums.push_back(0);
-    sums.push_back(1);
-    int sum = 1, k = 3;
-    while(sum < 1e6) {
-        sum += k;
-        k += 2;
-        sums.push_back(sum);
-    }
+    int t;
+    cin >> t;
+    while (t--) {
+        ll n, a, b;
+        cin >> n >> a >> b;
+        string s;
+        cin >> s;
 
-    while(t--) {
-        int s; cin >> s;
-        int l = 0, r = sums.size() - 1;
-        int best = 0; // largest index i such that  sums[i] < s
-        while(l <= r) {
-            int m = (l + r)/2;
-            if (sums[m] < s) {
-                best = max<int>(best, m);
-                // can try larger
-                l = m+1;
-            } else {
-                r = m - 1;
+        int nalters = 0;
+        int l = 0;
+        while (l < n) {
+            int r = l;
+            while (r < n && s[r] == s[l]) {
+                r++;
             }
+            // [l, r) has same value.
+            nalters++;
+            l = r;
         }
-        cout << best + 1<< "\n";
+
+        if (b >= 0) {
+            cout << a * n + b * n << "\n";
+        } else {
+            cout << a * n + ((nalters / 2) + 1) * b << "\n";
+        }
     }
 }
-
-
 
