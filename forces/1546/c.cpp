@@ -14,41 +14,43 @@
 using namespace std;
 using ll = long long;
 
-struct v {
-    int ix = -42; int val = -42;
-    v() : ix(-42), val(-42) {}
-    v(int ix, int val) : ix(ix), val(val) {}
-    bool operator < (const v &other) const {
-        return this->val < other.val || (this->val == other.val && this->ix < other.ix);
-    }
-};
-
 void solve() {
     int n; cin >> n;
-    vector<v> as(n);
+    vector<int> as(n);
+    // invariant: after sorting, number of values in odd and even locations must be the same,
+    // since upon travelling, odd ixed values go to odd ixed values (R -> L -> R ⇒ ±2 index) and
+    // similarly for even.
+    map<int, int> nOdd;
+    map<int, int> nEven;
     for(int i = 0; i < n; ++i){ 
-        as[i].ix = i;
-        cin >> as[i].val;
+        as[i] = i;
+        cin >> as[i];
+        if (i % 2 == 1) {
+            nOdd[as[i]]++;
+        } else {
+            nEven[as[i]]++;
+        }
     }
 
-    map<int, int> nodd;
     std::sort(as.begin(), as.end());
     for(int i = 0; i < n; ++i) {
-        if ((as[i].ix - i)%2 != 0) {
-            nodd[as[i].val]++;
+        if (i % 2 == 1) {
+            nOdd[as[i]]--;
+        } else {
+            nEven[as[i]]--;
         }
     }
     bool success = true;
-    for(auto it : nodd) {
-        if (it.second % 2 != 0) {
-            cout << "NO\n";
-            success = false;
-            break;
-        }
+    for(auto it : nOdd) {
+        if (it.second != 0) { success = false; break; }
     }
-
+    for(auto it : nEven) {
+        if (it.second != 0) { success = false; break; }
+    }
     if (success) {
         cout << "YES\n";
+    } else {
+        cout << "NO\n";
     }
 }
 
