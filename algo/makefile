@@ -1,3 +1,6 @@
+z.out: z.cpp
+	g++ -std=c++17 -fsanitize=address -fsanitize=undefined -O2 -g z.cpp -o z.out
+
 duval.out: duval.cpp
 	g++ -std=c++17 -fsanitize=address -fsanitize=undefined -O2 -g duval.cpp -o duval.out
 
