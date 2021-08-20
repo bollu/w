@@ -295,5 +295,9 @@ set_target_properties(elevator-rides.out PROPERTIES CXX_STANDARD 17)
 add_executable(dynamic-range-sum-queries-mo.out dynamic-range-sum-queries-mo.cpp)
 set_target_properties(dynamic-range-sum-queries-mo.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(word-combinations.out word-combinations.cpp)
+set_target_properties(word-combinations.out PROPERTIES CXX_STANDARD 17)
+
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
