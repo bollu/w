@@ -298,6 +298,11 @@ set_target_properties(dynamic-range-sum-queries-mo.out PROPERTIES CXX_STANDARD 1
 add_executable(word-combinations.out word-combinations.cpp)
 set_target_properties(word-combinations.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(string-matching.out string-matching.cpp)
+set_target_properties(string-matching.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(finding-borders.out finding-borders.cpp)
+set_target_properties(finding-borders.out PROPERTIES CXX_STANDARD 17)
 
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
