@@ -307,5 +307,9 @@ set_target_properties(finding-borders.out PROPERTIES CXX_STANDARD 17)
 add_executable(finding-periods.out finding-periods.cpp)
 set_target_properties(finding-periods.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(minimal-rotation.out minimal-rotation.cpp)
+set_target_properties(minimal-rotation.out PROPERTIES CXX_STANDARD 17)
+
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
