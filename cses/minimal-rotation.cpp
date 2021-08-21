@@ -76,27 +76,26 @@ void extend(char c) {
   cur->minend = cur->len - 1; // ending index.
   cur->smol = nullptr;        // to be discovered.
 
-  cur->smol = end;
+  Node *relink = end;
   end = cur; // update end.
 
-  while (!cur->smol->beeg.count(c)) {
-    cur->smol->beeg[c] = cur;
-    if (cur->smol == start) {
+  while (!relink->beeg.count(c)) {
+     relink->beeg[c] = cur;
+    if (relink == start) {
+      cur->smol = start;
       return;
     } else {
-      cur->smol = cur->smol->smol;
+        relink = relink->smol;
     }
   }
 
   // we tried to add [x+c], where x is a suffix of s.
   // such a state already exists.
-  assert(cur->smol->beeg.count(c));
-  // assert(relink != start);
-  // relink can be start. It could be that the start node has an edge to c.
-  Node *p = cur->smol;
-  Node *q = cur->smol->beeg[c];
-  if (p->len + 1 == q->len) {
-    // [q] = [p]:c
+  assert(relink->beeg.count(c));
+  // relink -c-> q
+  Node *q = relink->beeg[c];
+  if (relink->len + 1 == q->len) {
+    // [q] = [relink]:c
     cur->smol = q;
     return;
   } else {
@@ -106,7 +105,7 @@ void extend(char c) {
     // vvv TODO: why is it okay to not modify minend?
 
     Node *qsmol = new Node(*q);
-    qsmol->len = cur->smol->len + 1;
+    qsmol->len = relink->len + 1;
     assert(qsmol->len < q->len);
     cur->smol = qsmol; // setup link.
 
@@ -117,12 +116,12 @@ void extend(char c) {
     q->smol = qsmol;
     // relink all things smoler than p that used to point to p to point to
     // qsmol.
-    while (p->beeg.count(c) && p->beeg[c] == q) {
-      p->beeg[c] = qsmol;
-      if (p == start) {
+    while (relink->beeg.count(c) && relink->beeg[c] == q) {
+      relink->beeg[c] = qsmol;
+      if (relink == start) {
         return;
       } else {
-        p = p->smol;
+        relink = relink->smol;
       }
     }
     return;
