@@ -304,5 +304,8 @@ set_target_properties(string-matching.out PROPERTIES CXX_STANDARD 17)
 add_executable(finding-borders.out finding-borders.cpp)
 set_target_properties(finding-borders.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(finding-periods.out finding-periods.cpp)
+set_target_properties(finding-periods.out PROPERTIES CXX_STANDARD 17)
+
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)
