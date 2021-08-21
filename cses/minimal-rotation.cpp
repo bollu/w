@@ -4,6 +4,7 @@
 #include <bitset> // instead of bool[N];
 #include <ext/typelist.h>
 #include <iostream>
+#include <iterator>
 #include <map>
 #include <numeric> // for gcd
 #include <queue>
@@ -43,46 +44,57 @@ ostream &operator<<(ostream &o, const pair<T1, T2> &p) {
 
 namespace automata {
 struct Node {
-  int len; // length of longest string in equivalence class
+  int len;    // length of longest string in equivalence class
+  int minend; // minimum ending position of occurence
+
   Node *smol;
   map<char, Node *> beeg;
+  Node() = default;
+  Node(const Node &other) {
+    this->len = other.len;
+    this->minend = other.minend;
+    this->smol = other.smol;
+    this->beeg = other.beeg;
+  }
 };
 
-Node *start;
-Node *end;
+Node *start = nullptr;
+Node *end = nullptr;
+
 
 void init() {
-  start = end = new Node;
+  start = new Node;
   start->smol = start;
   start->len = 0;
+  start->minend = -1;
+  end = start;
 }
 
 void extend(char c) {
-  Node *cur = new Node;
+  Node *cur = new Node();
   cur->len = end->len + 1;
+  cur->minend = cur->len - 1; // ending index.
+  cur->smol = nullptr;        // to be discovered.
 
   Node *relink = end;
   end = cur; // update end.
   while (!relink->beeg.count(c)) {
     relink->beeg[c] = cur;
-    if (relink->smol == relink) {
-      break;
+    if (relink == start) {
+      cur->smol = start;
+      return;
+    } else {
+      relink = relink->smol;
     }
-    relink = relink->smol;
-  }
-
-  if (!relink->beeg.count(c)) {
-    assert(relink == relink->smol);
-    assert(relink == start);
-    cur->smol = start;
-    return;
   }
 
   // we tried to add [x+c], where x is a suffix of s.
   // such a state already exists.
   assert(relink->beeg.count(c));
+  // assert(relink != start);
+  // relink can be start. It could be that the start node has an edge to c.
   Node *p = relink;
-  Node *q = relink->beeg[c];
+  Node *q = p->beeg[c];
   if (p->len + 1 == q->len) {
     // [q] = [p]:c
     cur->smol = q;
@@ -91,7 +103,8 @@ void extend(char c) {
     // [q] is longer that [x+c]
     // so [q] is of the form [x+c+delta]
     // [q] must be longer than [p] since q contains [x+c].
-    Node *qsmol(q);
+    // vvv TODO: why is it okay to not modify minend?
+    Node *qsmol = new Node(*q);
     qsmol->len = p->len + 1;
     assert(qsmol->len < q->len);
     cur->smol = qsmol; // setup link.
@@ -99,23 +112,46 @@ void extend(char c) {
     // q contains [p]:c
     // we have a state for [p]:c.
     // relink q to [p]:c.
-    // vvv DEAR GOD WHY IS THIS CORRECT GOD DAMN IT?
+    // vvv TODO: DEAR GOD WHY IS THIS CORRECT GOD DAMN IT?
     q->smol = qsmol;
     // relink all things smoler than p that used to point to p to point to
     // qsmol.
     while (p->beeg.count(c) && p->beeg[c] == q) {
       p->beeg[c] = qsmol;
-      if (p->smol == p) {
-        break;
+      if (p == start) {
+        return;
+      } else {
+        p = p->smol;
       }
-      p = p->smol;
     }
+    return;
   }
 }
 
 int main() {
   std::ios_base::sync_with_stdio(false);
   cin.tie(NULL);
+  string s;
+  cin >> s;
+  init();
+  // build automata for s+s.
+  for (char c : s) {
+    extend(c);
+  }
+  for (char c : s) {
+    extend(c);
+  }
+
+  Node *minimal = start;
+  for (int i = 0; i < s.size(); ++i) {
+    /// cout << sa[root].edge.begin() -> first; /// if you want to output such
+    /// string
+    cout << minimal->beeg.begin()->first;
+    minimal = minimal->beeg.begin()->second;
+  }
+
+  cout << "\n";
+
   return 0;
 }
 
@@ -124,7 +160,7 @@ int main() {
 namespace hashsoln {
 
 const int MOD = 1e9 + 7;
-const int BASE = 123;
+const int BASE = 53;
 
 int powmod(int x, int n) {
   if (n == 0)
@@ -242,4 +278,8 @@ int main() {
 }
 }; // namespace hashsoln
 
-int main() { hashsoln::main(); }
+int main() {
+  // hashing collides x(
+  // hashsoln::main();
+  automata::main();
+}
