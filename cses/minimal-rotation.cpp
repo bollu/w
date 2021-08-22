@@ -163,6 +163,22 @@ const int MOD = 1e9 + 7;
 const int BASE = 53;
 
 int powmod(int x, int n) {
+  int result = 1;
+  while(n > 0) {
+      if (n & 1) { result = (1LL * result * x) % MOD; }
+      x = (1LL * x * x) % MOD;
+      n = n >> 1;
+  }
+  return result;
+
+  /*
+  for(int i = 0; i < 32; ++i) {
+      if (n & (1 << i)) { result = (result * x) % MOD; }
+      x = (x * x) % MOD;
+  }
+  return result;
+  */
+  /*
   if (n == 0)
     return 1;
   if (n % 2 == 1) {
@@ -171,6 +187,7 @@ int powmod(int x, int n) {
     int half = powmod(x, n / 2);
     return (1LL * half * half) % MOD;
   }
+  */
 }
 
 // P[l] = pow(base, -l) (mod MODULO)
