@@ -265,7 +265,7 @@ int main() {
   cin.tie(NULL);
   string s;
   cin >> s;
-  init(s);
+  init(s+s);
   const int n = s.size();
 
   int rot = min_cyc(s);
@@ -280,6 +280,6 @@ int main() {
 
 int main() {
   // hashing collides x(
-  // hashsoln::main();
-  automata::main();
+  hashsoln::main();
+  // automata::main();
 }
