@@ -4,10 +4,9 @@ N = 20
 M = 10
 
 def mex(xs):
-    xsset = set(xs)
     i = 0
     while True:
-        if i in xsset:
+        if i in xs:
             i += 1
             continue
         return i
@@ -55,10 +54,23 @@ def ans(n, m):
  k = smallest_pot_divides(m)
  return max(0, m - (n // k) * k)
 
-for i in range(N):
-    xs = [i^j for j in range(M)]
-    ys = [(k, mex(xs[0:k])) for k in range(M+1)]
-    zs = [(k, ans(i, k)) for k in range(M+1)]
-    print("i: %s\n\t| vals: %s\n\t| mexs: %s\n\t| anss: %s\n\t| eq: %s" % (i, list(enumerate(xs)), ys, zs, ys == zs))
+
+
+N = 5
+M = 13
+
+print("N: %s | M: %s" % (N, M))
+
+xs = [N^i for i in range(0, M+1)]
+m = mex(xs)
+print("xs: %s " % xs)
+print("mex: %s" % m)
+print("xs ^ mex: %s" % ([x ^ m for x in xs]))
+
+# for i in range(N):
+    # xs = [i^j for j in range(M)]
+    # ys = [(k, mex(xs[0:k])) for k in range(M+1)]
+    #zs = [(k, ans(i, k)) for k in range(M+1)]
+    # print("i: %s\n\t| vals: %s\n\t| mexs: %s\n\t| anss: %s\n\t| eq: %s" % (i, list(enumerate(xs)), ys, zs, ys == zs))
     # print("i: %s\n\t| vals: %s\n\t| mexs: %s\n"% (i, list(enumerate(xs)), ys))
         

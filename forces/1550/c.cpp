@@ -12,8 +12,8 @@ using namespace std;
 using ll = long long;
 
 struct Vertex {
-    ll sum = 0;
-    ll c, d; // children
+    int sum = 0;
+    int c, d; // children
 };
 
 static const int N = 2e5 + 10;
@@ -100,7 +100,7 @@ ll upd(ll q, ll u, ll i, ll s, ll t) {
 // TODO: find out how many such pairs exist!
 // 8 byte * 2 * N 
 // = 16 byte * 2e5 = 32e5 byte < 100e5 byte  = 1e7 byte  = 10MB
-ll goodAll[2][N];
+bool goodAll[2][N];
 // 4 byte * N
 // = 4 * 2e5
 // =  8e5 < 10e5 = 1e6 = 1MB  
@@ -111,7 +111,7 @@ ll n;
 ll roots[N];
 // total: 100MB + 10MB + 1MB + 1MB << 256 MB 
 
-ll good(map<int, int> &compress, ll l, ll r) {
+bool good(map<int, int> &compress, ll l, ll r) {
     assert(l >= 0);
     assert(r >= 0);
     assert(l < n);
@@ -125,8 +125,8 @@ ll good(map<int, int> &compress, ll l, ll r) {
         const ll vl = min(compress[as[l]], compress[as[r]]);
         const ll vr = max(compress[as[l]], compress[as[r]]);
 
-        const ll nl = rangeq(vl, vr, roots[l], 0, N);
-        const ll nr = rangeq(vl, vr, roots[r - 1], 0, N);
+        const ll nl = rangeq(vl, vr, roots[l], 0, n);
+        const ll nr = rangeq(vl, vr, roots[r - 1], 0, n);
         bool out = (nr - nl) == 0;
         assert(nr >= nl);
         return out;
@@ -134,7 +134,7 @@ ll good(map<int, int> &compress, ll l, ll r) {
 }
 
 
-int main() {
+int mainfancy() {
     ios::sync_with_stdio(false);
     // sum[n] = 1 + 2 + ... n
     // sum[0] = 0;
@@ -199,6 +199,107 @@ int main() {
         }
 
         for (int len = 1; len < n; ++len) {
+            buffer = !buffer;
+            for (int l = 0; l < n; ++l) {
+                int r = l + len;
+                if (r >= n) {
+                    break;
+                }
+                goodAll[buffer][l] =
+                    (l + 1 < n ? goodAll[!buffer][l + 1] : true) &&
+                    (r - 1 >= 0 ? goodAll[!buffer][l] : true) &&
+                    good(compress, l, r);
+                tot += goodAll[buffer][l];
+            }
+        }
+
+        cout << tot << "\n";
+    }
+    return 0;
+}
+
+
+// Key thing to notice: if we have a total order, then given 5 elements, they will have a 3 term increasing / sequence.
+// idea: keep the terms in a line.
+// a_b_c_d_e
+//
+// Heuristic: 
+// We will have relationships betwen then. We have two types of relations, `<` and `>`. We have 4 slots and 2 symbols {<, >}
+// So we will definitely achieve a subsequence of two symbols of the type `p < q < r` inside `a_b_c_d_e`.
+//
+// More formal proof: 
+// consider the tableaux by inserting [a b c d e] into the empty tableaux.
+// Recall that the LIS is the length of the first row, and LDS (longest decreasing subsequence) is length of first column.
+// We have 5 elements, which can't fit in a box of size 2x2 (LIS x LDS). So we must have either LIS or LDS >= 3!
+//
+//
+int main() {
+    ios::sync_with_stdio(false);
+    // sum[n] = 1 + 2 + ... n
+    // sum[0] = 0;
+    // for (int i = 1; i < LEN; ++i) {
+    //   sum[i] = i + sum[i - 1];
+    // }
+    int t;
+    cin >> t;
+    while (t--) {
+	nvs = 0;
+        cin >> n;
+        nvs = 0;
+        map<int, int> compress;
+        for (int i = 0; i < n; ++i) {
+            cin >> as[i];
+            compress[as[i]];
+        }
+
+        int compressed = 0;
+        for (auto it : compress) {
+            compress[it.first] = compressed++;
+        }
+
+        // cerr << "***as: ";
+
+        // for (int i = 0; i < n; ++i) {
+        //   cerr << "[" << i << "]" << as[i] << " ";
+        // }
+        // cerr << "***\n";
+
+        // --
+        roots[0] = build(0, n);
+        roots[0] = upd(compress[as[0]], 1, roots[0], 0, n);
+        for (int i = 1; i < n; ++i) {
+            roots[i] = upd(compress[as[i]], 1, roots[i - 1], 0, n);
+        }
+
+        // This fails for test case:
+        //  - [10 1000 500 25] -> we have a bad subrange [1000 500 25].
+        /// - But for the above, we count the entire range as
+        //    good since we try to find a point in
+        //    [10..25] to determine badness. There are no such points!
+        // - So we must DP over subranges as well.
+        // for (int l = 0; l < as.size(); ++l) {
+        //   for (int r = l; r < as.size(); ++r) {
+        //     if (good(roots, compress, as, l, r)) {
+        //       cerr << "\tgood " << l << " " << r;
+        //       cerr << "[";
+        //       for(int k = l; k <= r; ++k) {
+        //         cout << "[" << k << "]" << as[k] << " ";
+        //       }
+        //       cerr << "]\n";
+        //       tot++;
+        //     } else {
+        //       break;
+        //     }
+        //   }
+        // }
+        ll tot = 0;
+        bool buffer = 0;
+        for (int l = 0; l < n; ++l) {
+            goodAll[buffer][l] = 1;
+            tot += 1;
+        }
+
+        for (int len = 1; len < n && len < 7; ++len) {
             buffer = !buffer;
             for (int l = 0; l < n; ++l) {
                 int r = l + len;

@@ -27,4 +27,8 @@ add_executable(545c 545c.cpp)
 add_executable(166e 166e.cpp)
 add_executable(1389c 1389c.cpp)
 add_executable(676c 676c.cpp)
+add_executable(1304c 1304c.cpp)
+add_executable(1385d 1385d.cpp)
+add_executable(1559a 1559a.cpp)
+add_executable(1559b 1559b.cpp)
 

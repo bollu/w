@@ -1,3 +1,6 @@
+fft.out: fft.cpp
+	g++ -std=c++17 -fsanitize=address -fsanitize=undefined -O2 -g fft.cpp -o fft.out
+
 z.out: z.cpp
 	g++ -std=c++17 -fsanitize=address -fsanitize=undefined -O2 -g z.cpp -o z.out
 

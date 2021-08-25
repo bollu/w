@@ -250,6 +250,6 @@ https://codeforces.com/problemset?order=BY_SOLVED_DESC&tags=implementation
 |     Y  | https://codeforces.com/contest/1542/problem/C	        | Nice idea about what LCM, indicator fn        |
 |     N  | https://codeforces.com/contest/1542/problem/D	        |                                               |
 |     N  | https://codeforces.com/contest/1542/problem/E1	        |                                               |
-|     N  | https://codeforces.com/contest/1543/problem/C	        |                                               |
+|     Y  | https://codeforces.com/contest/1543/problem/C	        | how to compute expectation with floats        |
 |     N  | https://codeforces.com/contest/1543/problem/E	        |                                               |
 |     N  | https://codeforces.com/blog/entry/92602                  | DP with connected components

@@ -20,6 +20,8 @@ inline int positive_mod(int i, int n) {
 }
 
 
+// greedy does not work. eg: s=aab, t=ab. Need to backspace then match.
+// greedy from the right?
 bool solve() {
     string s, t;
     cin >> s >> t;

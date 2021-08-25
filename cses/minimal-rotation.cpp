@@ -58,9 +58,12 @@ struct Node {
   }
 };
 
+vector<Node *> states;
 Node *start = nullptr;
 Node *end = nullptr;
 
+
+vector<int> border;
 
 void init() {
   start = new Node;
@@ -68,13 +71,17 @@ void init() {
   start->len = 0;
   start->minend = -1;
   end = start;
+  states.push_back(start);
+  border.push_back(0);
 }
 
 void extend(char c) {
   Node *cur = new Node();
+  states.push_back(cur);
   cur->len = end->len + 1;
   cur->minend = cur->len - 1; // ending index.
   cur->smol = nullptr;        // to be discovered.
+  border.push_back(0);
 
   Node *relink = end;
   end = cur; // update end.
@@ -93,6 +100,8 @@ void extend(char c) {
   // such a state already exists.
   assert(relink->beeg.count(c));
   // relink -c-> q
+
+
   Node *q = relink->beeg[c];
   if (relink->len + 1 == q->len) {
     // [q] = [relink]:c
@@ -105,6 +114,7 @@ void extend(char c) {
     // vvv TODO: why is it okay to not modify minend?
 
     Node *qsmol = new Node(*q);
+    states.push_back(qsmol);
     qsmol->len = relink->len + 1;
     assert(qsmol->len < q->len);
     cur->smol = qsmol; // setup link.

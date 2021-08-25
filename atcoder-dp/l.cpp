@@ -21,63 +21,33 @@ struct state {
     : l(l), r(r), delta(delta) {}
 };
 
-state t(ll l, ll r);
-state j(ll l, ll r);
-
-// maximiser plays first.
-state j_(ll l, ll r) {
+state f(ll l, ll r, int sign);
+state f_(ll l, ll r, int sign) {
   if (l == r) {
-    return state(l, r, -as[l]);
+    return state(l, r, sign*as[l]);
   } else {
-    state takel = t(l + 1, r);
-    takel.delta -= as[l];
-    state taker = t(l, r - 1);
-    taker.delta -= as[r];
-    if (takel.delta < taker.delta) {
-      return takel;
+    state sl = f(l+1, r, -sign);
+    sl.delta += sign*as[l];
+    state sr = f(l, r-1, -sign);
+    sr.delta += sign*as[r];
+    
+    if (sl.delta * sign > sr.delta * sign) {
+      return sl;
     } else {
-      return taker;
+      return sr;
     }
   }
 }
 
-map<pair<int, int>, state> jcache;
-state j(ll l, ll r) {
-  auto it = jcache.find({l, r});
-  if (it == jcache.end()) {
-    state s = j_(l, r);
-    jcache[{l, r}] = s;
-    return s;
-  } else {
+map<tuple<int, int, int>, state> cache;
+state f(ll l, ll r, int sign) {
+  auto it = cache.find({l, r, sign});
+  if (it != cache.end()) {
     return it->second;
   }
-}
-
-state t_(ll l, ll r) {
-  if (l == r) {
-    return state(l, r, as[l]);
-  } else {
-    state takel = j(l + 1, r);
-    takel.delta += as[l];
-    state taker = j(l, r - 1);
-    taker.delta += as[r];
-    if (takel.delta > taker.delta) {
-      return takel;
-    } else {
-      return taker;
-    }
-  }
-}
-map<pair<int, int>, state> tcache;
-state t(ll l, ll r) {
-  auto it = tcache.find({l, r});
-  if (it == tcache.end()) {
-    state s = t_(l, r);
-    tcache[{l, r}] = s;
-    return s;
-  } else {
-    return it->second;
-  }
+  state s = f_(l, r, sign);
+  cache[{l, r, sign}] = s;
+  return s;
 }
 
 int main() {
@@ -85,7 +55,7 @@ int main() {
   for (int i = 0; i < n; ++i) {
     cin >> as[i];
   }
-  state out = t(0, n-1);
+  state out = f(0, n-1, 1);
   cout << (out.delta) << "\n";
   return 0;
 }

@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/bollu/work/codeforces/forces/1553/build",
+  "command": "/usr/bin/c++   -fdiagnostics-color=always -O2 -g -Wall -fsanitize=address -fsanitize=undefined -g -std=gnu++17 -o CMakeFiles/b.dir/b.cpp.o -c /home/bollu/work/codeforces/forces/1553/b.cpp",
+  "file": "/home/bollu/work/codeforces/forces/1553/b.cpp"
+},
+{
+  "directory": "/home/bollu/work/codeforces/forces/1553/build",
+  "command": "/usr/bin/c++   -fdiagnostics-color=always -O2 -g -Wall -fsanitize=address -fsanitize=undefined -g -std=gnu++17 -o CMakeFiles/a.dir/a.cpp.o -c /home/bollu/work/codeforces/forces/1553/a.cpp",
+  "file": "/home/bollu/work/codeforces/forces/1553/a.cpp"
+}
+]
