@@ -15,14 +15,14 @@ int n, q;
 int *base;
 
 struct Node {
-    int basel, baser; // indexes of original array controlled by node
-    int p; // lenth on longest non-decreasing prefix
-    int s; // length of longest non-decreasing suffix
-    int count; // number of subsegments internal (not in prefix & suffix)
+    ll basel, baser; // indexes of original array controlled by node
+    ll p; // lenth on longest non-decreasing prefix
+    ll s; // length of longest non-decreasing suffix
+    ll count; // number of subsegments internal (not in prefix & suffix)
     bool full; // if the entire array is <. Can be check by p == baser - basel + 1.
 };
 
-int f(int n) {
+ll f(ll n) {
     return (1LL*n*1LL*(n+1))/2;
 }
 
@@ -83,6 +83,8 @@ void merge(Node *l, Node *r, Node *&out) {
             out->full = false;
         }
     } else { 
+        assert(!l->full);
+        assert(!r->full);
         if (base[l->baser] <= base[r->basel]) {
             // L<<<----<<<----<<<L<R<<<---<<<<--<<<<<<<<<R
             out->count = l->count + r->count + f(l->s + r->p);
@@ -107,11 +109,12 @@ void build(int nodeix, int basel, int baser) {
     // cerr << "[" << basel << " " << baser << "]" << endl;
     assert(basel <= baser);
     if (basel == baser) {
-        tree[nodeix].p =1;
+        tree[nodeix].p = 1;
         tree[nodeix].s = 1;
         tree[nodeix].full = true;
         tree[nodeix].count = 1;
-        tree[nodeix].basel = tree[nodeix].baser = basel;
+        tree[nodeix].basel = basel;
+        tree[nodeix].baser = basel;
         return;
     } else {
         int basem = (basel + baser)/2;
@@ -120,7 +123,6 @@ void build(int nodeix, int basel, int baser) {
         Node *cl = tree + nodeix*2;
         Node *cr = tree + nodeix*2+1;
         merge(cl, cr, cur);
-
     }
 }
 
@@ -140,52 +142,44 @@ void upd(int qix, int qval, int nodeix, int basel, int baser) {
     }
 }
 
-int query(int ql, int qr, int nodeix, int basel, int baser, int &sufflen) {
+void query(int ql, int qr, int nodeix, int basel, int baser, ll &out, ll &sufflen) {
     // [basel---baser] [ql---qr] [basel---baser]
     if (baser < ql || qr < basel) { 
         // TODO: do we need to reset sufflen?
-        sufflen = 0;
-        return 0;
-    }
-
-    // [ql---[bsael---baser]--qr]
-    if (ql <= basel && baser <= qr) {
+        // sufflen = 0; // <- WHY DONT WE NEED TO RESET SUFLEN?
+        return;
+    } 
+    // [ql---[basel---baser]--qr] 
+    else if (ql <= basel && baser <= qr) {
         if (tree[nodeix].full) {
             // extends suffix.
-            if (basel > 0 && base[basel-1] <= base[basel]) {
+            if (basel == 0 || (basel > 0 && base[basel-1] <= base[basel])) {
                 //<<<<<;<;[basel<<<<<<<<]
                 sufflen += tree[nodeix].s;
-                return 0;
             } else {
                 //<<<<<;>;[basel<<<<<<<<]
                 // close previous suffix, open new suffix.
-                int out = f(sufflen);
+                out += f(sufflen);
                 sufflen = tree[nodeix].s;
-                return out;
             }
         } else {
             // node is not entiremy of the form [<<<<<<<<<<<<<]
             // <<<<<<;?;<<<<---<<<<---<<<<<
-            if (basel > 0 && base[basel-1] <= basel) {
+            if (basel == 0 || (basel > 0 && base[basel-1] <= basel)) {
                 // <<<<<<;<;<<<<---<<<<---<<<<<
-                int out = f(sufflen + tree[nodeix].p) + tree[nodeix].count;
+                out += f(sufflen + tree[nodeix].p) + tree[nodeix].count;
                 sufflen = tree[nodeix].s;
-                return out;
             } else {
                 // <<<<<<;>;<<<<---<<<<---<<<<<
-                int out = f(sufflen) + f(tree[nodeix].p) + tree[nodeix].count;
+                out += f(sufflen) + f(tree[nodeix].p) + tree[nodeix].count;
                 sufflen = tree[nodeix].s;
-                return  out;
             }
             
         }
-        assert(false && "unreachable");
     } else {
         int basem = (basel + baser)/2;
-        int out = 0;
-        out += query(ql, qr, nodeix*2, basel, basem, sufflen);
-        out += query(ql, qr, nodeix*2+1, basem+1, baser, sufflen);
-        return out;
+        query(ql, qr, nodeix*2, basel, basem, out, sufflen);
+        query(ql, qr, nodeix*2+1, basem+1, baser, out, sufflen);
     }
 }
 
@@ -203,8 +197,9 @@ int main() {
           upd(ix, val, 1, 1, n);
       } else {
           int l, r; cin >> l >> r;
-          int sufflen = 0;
-          int out = query(l, r, 1, 1, n, sufflen);
+          ll sufflen = 0;
+          ll out = 0;
+          query(l, r, 1, 1, n, out, sufflen);
           out += f(sufflen);
           cout << out << "\n";
       }
