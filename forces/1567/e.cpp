@@ -11,7 +11,6 @@ using namespace std;
 using ll = long long;
 
 const int N = 1e9 + 10;
-int n, q; 
 int *base;
 
 struct Node {
@@ -22,13 +21,18 @@ struct Node {
     bool full; // if the entire array is <. Can be check by p == baser - basel + 1.
 };
 
+ostream & operator <<(ostream &o, const Node &n) {
+    return o << "[l:" << n.basel << " r:" << n.baser << 
+        " p:" << n.p << " s:" << n.s << " count:" << n.count << " full:" << (n.full ? "t" : "f") << "]";
+}
+
 ll f(ll n) {
     return (1LL*n*1LL*(n+1))/2;
 }
 
 
 // NON-decreasing: 1 1 1 2 3 4 a[i] <= a[i+1]
-void merge(Node *l, Node *r, Node *&out) {
+void merge(Node *l, Node *r, Node *out) {
     assert(l->baser + 1 == r->basel);
     out->basel = l->basel;
     out->baser = r->baser;
@@ -60,7 +64,7 @@ void merge(Node *l, Node *r, Node *&out) {
             out->s = l->s + r->s;
             out->full = false;
         } else {
-            // L<<<<--<<<L>R<<<<<<<<<<<<<<<<R
+            // L<<<<---<<<---<<<L>R<<<<<<<<<<<<<<<<R
             out->count = l->count + f(l->s);
             out->p = l->p;
             out->s = r->s;
@@ -112,7 +116,7 @@ void build(int nodeix, int basel, int baser) {
         tree[nodeix].p = 1;
         tree[nodeix].s = 1;
         tree[nodeix].full = true;
-        tree[nodeix].count = 1;
+        tree[nodeix].count = 0;
         tree[nodeix].basel = basel;
         tree[nodeix].baser = basel;
         return;
@@ -145,12 +149,12 @@ void upd(int qix, int qval, int nodeix, int basel, int baser) {
 void query(int ql, int qr, int nodeix, int basel, int baser, ll &out, ll &sufflen) {
     // [basel---baser] [ql---qr] [basel---baser]
     if (baser < ql || qr < basel) { 
-        // TODO: do we need to reset sufflen?
-        // sufflen = 0; // <- WHY DONT WE NEED TO RESET SUFLEN?
+        // out += f(sufflen); sufflen = 0;
         return;
     } 
     // [ql---[basel---baser]--qr] 
     else if (ql <= basel && baser <= qr) {
+        // cerr << "\t\t" << tree[nodeix] << " | out:" << out << " sufflen: " << sufflen << "\n";
         if (tree[nodeix].full) {
             // extends suffix.
             if (basel == 0 || (basel > 0 && base[basel-1] <= base[basel])) {
@@ -163,9 +167,9 @@ void query(int ql, int qr, int nodeix, int basel, int baser, ll &out, ll &suffle
                 sufflen = tree[nodeix].s;
             }
         } else {
-            // node is not entiremy of the form [<<<<<<<<<<<<<]
+            // node is not entirely of the form [<<<<<<<<<<<<<]
             // <<<<<<;?;<<<<---<<<<---<<<<<
-            if (basel == 0 || (basel > 0 && base[basel-1] <= basel)) {
+            if (basel == 0 || (basel > 0 && base[basel-1] <= base[basel])) {
                 // <<<<<<;<;<<<<---<<<<---<<<<<
                 out += f(sufflen + tree[nodeix].p) + tree[nodeix].count;
                 sufflen = tree[nodeix].s;
@@ -174,7 +178,6 @@ void query(int ql, int qr, int nodeix, int basel, int baser, ll &out, ll &suffle
                 out += f(sufflen) + f(tree[nodeix].p) + tree[nodeix].count;
                 sufflen = tree[nodeix].s;
             }
-            
         }
     } else {
         int basem = (basel + baser)/2;
@@ -185,6 +188,7 @@ void query(int ql, int qr, int nodeix, int basel, int baser, ll &out, ll &suffle
 
 int main() {
   ios::sync_with_stdio(false);
+  int n, q; 
   cin >> n >> q;
   base = (int *)calloc(n+1, sizeof(int));
   for(int i = 1; i <= n; ++i) { cin >> base[i]; }
@@ -199,7 +203,9 @@ int main() {
           int l, r; cin >> l >> r;
           ll sufflen = 0;
           ll out = 0;
+          // cerr << "\t-before q(" << l << ", " << r << "): "; for(int i = l; i <= r; ++i) { cerr << base[i] << " "; } cerr << "\n";
           query(l, r, 1, 1, n, out, sufflen);
+          // cerr << "\t\tout: " << out << " |sufflen: " << sufflen << "\n";
           out += f(sufflen);
           cout << out << "\n";
       }
