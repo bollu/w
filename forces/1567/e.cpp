@@ -186,6 +186,30 @@ void query(int ql, int qr, int nodeix, int basel, int baser, ll &out, ll &suffle
     }
 }
 
+void queryfold(int ql, int qr, int nodeix, int basel, int baser, Node &nl) {
+    // [basel---baser] [ql---qr] [basel---baser]
+    if (baser < ql || qr < basel) { 
+        // out += f(sufflen); sufflen = 0;
+        return;
+    }
+
+    // [ql---[basel---baser]--qr] 
+    else if (ql <= basel && baser <= qr) {
+        Node nr = tree[nodeix];
+        if (nl.basel == 0) { nl = nr; }
+        else {
+            Node merged;
+            merge(&nl, &nr, &merged);
+            nl = merged;
+        }
+
+    } else {
+        int basem = (basel + baser)/2;
+        queryfold(ql, qr, nodeix*2, basel, basem, nl);
+        queryfold(ql, qr, nodeix*2+1, basem+1, baser, nl);
+    }
+}
+
 int main() {
   ios::sync_with_stdio(false);
   int n, q; 
@@ -201,12 +225,17 @@ int main() {
           upd(ix, val, 1, 1, n);
       } else {
           int l, r; cin >> l >> r;
-          ll sufflen = 0;
-          ll out = 0;
           // cerr << "\t-before q(" << l << ", " << r << "): "; for(int i = l; i <= r; ++i) { cerr << base[i] << " "; } cerr << "\n";
-          query(l, r, 1, 1, n, out, sufflen);
+          Node left {  .basel = 0, .baser = 0, .p = 0, .s = 0 , .count = 0, .full = true }; 
+          queryfold(l, r, 1, 1, n, left);
           // cerr << "\t\tout: " << out << " |sufflen: " << sufflen << "\n";
-          out += f(sufflen);
+          ll out = 0; 
+          if (left.full) {
+              out = f(left.p);
+          } else {
+              out = left.count + f(left.p) + f(left.s);
+          }
+
           cout << out << "\n";
       }
   }
