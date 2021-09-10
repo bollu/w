@@ -111,138 +111,20 @@ void mergeflip(Node *l, Node *r, Node *out) {
     assert(l->baser + 1 == r->basel);
     out->basel = l->basel;
     out->baser = r->baser;
-    out->count = 0;
-    out->p = out->s = 0;
-    out->full = false;
-
-    // vvvv NEW CODE vvvv
 
     if (base[l->baser] <= base[r->basel]) {
-        if (l->full && r-> full) {
-            // L<<<<<<<<<<<<<<<<<L<R<<<<<<<<<<<<<<<<<R
-            out->count = 0;
-            out->p = l->p + r->p;
-            out->s = r->s + l->s;
-            out->full = true;
-        } else if (r->full) {
-            assert(!l->full);
-            // L<<<<--<<<--<<<L<R<<<<<<<<<<<<<<<<R
-            out->count = l->count;
-            out->p = l->p;
-            out->s = l->s + r->s;
-            out->full = false;
-        } else if (l->full) {
-            assert(!r->full); 
-            // L<<<<<<<<L<R<<<---<<<<--<<<<<<<<<R
-            out->count = r->count;
-            out->p = l->p + r->p;
-            out->s = r->s;
-            out->full = false;
-        } else {
-            assert(!l->full);
-            assert(!r->full);
-            // L<<<----<<<----<<<L<R<<<---<<<<--<<<<<<<<<R
-            out->count = l->count + r->count + f(l->s + r->p);
-            out->p = l->p;
-            out->s = r->s;
-            out->full = false;
-        }
+        out->full = l->full && r->full;
+        out->count = l->count + r->count +
+             (!l->full && !r->full) * f(l->s + r->p);
+        out->p = l->p + l->full * r->p;
+        out->s = r->s + r->full * l->s;
     } else {
-        if (l->full && r-> full) {
-            // L<<<<<<<<<<<<<<<<<L>R<<<<<<<<<<<<<<<<<R
-            out->count = 0;
-            out->p = l->p;
-            out->s =  r->s;
-            out->full = false;
-        } else if (r->full) {
-            assert(!l->full);
-            // L<<<<---<<<---<<<L>R<<<<<<<<<<<<<<<<R
-            out->count = l->count + f(l->s);
-            out->p = l->p;
-            out->s = r->s;
-            out->full = false;
-        } else if (l->full) {
-            assert(!r->full); 
-            // L<<<<<<<<L>R<<<---<<<<--<<<<<<<<<R
-            out->count = f(r->p) + r->count;
-            out->p = l->p;
-            out->s = r->s;
-            out->full = false;
-        } else {
-            assert(!l->full);
-            assert(!r->full);
-            // L<<<----<<<----<<<L>R<<<---<<<<--<<<<<<<<<R
-            out->count = l->count + r->count + f(l->s) + f(r->p);
-            out->p = l->p;
-            out->s = r->s;
-            out->full = false;
-        }
-    }
-
-    // vvvv OLD CODE vvvv
-
-    if (l->full && r-> full) {
-        if (base[l->baser] <= base[r->basel]) {
-            // L<<<<<<<<<<<<<<<<<L<R<<<<<<<<<<<<<<<<<R
-            out->count = 0;
-            out->p = l->p + r->p;
-            out->s = r->s + l->s;
-            out->full = true;
-        } else {
-            // L<<<<<<<<<<<<<<<<<L>R<<<<<<<<<<<<<<<<<R
-            out->count = 0;
-            out->p = l->p;
-            out->s =  r->s;
-            out->full = false;
-        }
-    }
-    else if (r->full) {
-        assert(!l->full);
-        if (base[l->baser] <= base[r->basel]) {
-            // L<<<<--<<<--<<<L<R<<<<<<<<<<<<<<<<R
-            out->count = l->count;
-            out->p = l->p;
-            out->s = l->s + r->s;
-            out->full = false;
-        } else {
-            // L<<<<---<<<---<<<L>R<<<<<<<<<<<<<<<<R
-            out->count = l->count + f(l->s);
-            out->p = l->p;
-            out->s = r->s;
-            out->full = false;
-        }
-    }
-    else if (l->full) {
-        assert(!r->full);
-        if (base[l->baser] <= base[r->basel]) {
-            // L<<<<<<<<L<R<<<---<<<<--<<<<<<<<<R
-            out->count = r->count;
-            out->p = l->p + r->p;
-            out->s = r->s;
-            out->full = false;
-        } else{
-            // L<<<<<<<<L>R<<<---<<<<--<<<<<<<<<R
-            out->count = f(r->p) + r->count;
-            out->p = l->p;
-            out->s = r->s;
-            out->full = false;
-        }
-    } else { 
-        assert(!l->full);
-        assert(!r->full);
-        if (base[l->baser] <= base[r->basel]) {
-            // L<<<----<<<----<<<L<R<<<---<<<<--<<<<<<<<<R
-            out->count = l->count + r->count + f(l->s + r->p);
-            out->p = l->p;
-            out->s = r->s;
-            out->full = false;
-        } else {
-            // L<<<----<<<----<<<L>R<<<---<<<<--<<<<<<<<<R
-            out->count = l->count + r->count + f(l->s) + f(r->p);
-            out->p = l->p;
-            out->s = r->s;
-            out->full = false;
-        }
+        out->full = false;
+        out->count = l->count + r->count +
+            (!l->full) * f(l->s) + 
+            (!r->full) * f(r->p);
+        out->p = l->p; 
+        out->s = r->s;
     }
 }
 
