@@ -310,6 +310,12 @@ set_target_properties(finding-periods.out PROPERTIES CXX_STANDARD 17)
 add_executable(minimal-rotation.out minimal-rotation.cpp)
 set_target_properties(minimal-rotation.out PROPERTIES CXX_STANDARD 17)
 
+add_executable(finding-patterns.out finding-patterns.cpp)
+set_target_properties(finding-patterns.out PROPERTIES CXX_STANDARD 17)
+
+add_executable(longest-palindrome.out longest-palindrome.cpp)
+set_target_properties(longest-palindrome.out PROPERTIES CXX_STANDARD 17)
+
 
 add_executable(YY.out YY.cpp)
 set_target_properties(YY.out PROPERTIES CXX_STANDARD 17)

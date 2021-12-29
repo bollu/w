@@ -1,5 +1,6 @@
 # Algorithms collection
 
+
 All of these are written in Whitney style C++ as an exercise to learn his dense
 programming style. As I understand, the argument for this style is that it
 enables one to rapidly scan code. Since no scrolling is needed (all code fits
@@ -19,6 +20,9 @@ To quote the essay:
 > fragment is as follows:
 
 ![Sample screenshot of how I view the code](screenshot-incunabulum.png)
+
+
+- [Contest collection with problems colored by rating](https://cftracker.netlify.app/contests)
 
 #### Code written in this style of common algorithms
 
