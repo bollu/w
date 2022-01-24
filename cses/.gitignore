@@ -1,3 +1,6 @@
+*.exe
+*.pdb
+*.exp
 .clangd/
 build/
 .vscode/
