@@ -159,5 +159,4 @@ namespace f1 {
 }
 
 // Mo's algorithm on paths: https://codeforces.com/blog/entry/43230
-
 int main() { return f1::main(); }

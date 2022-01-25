@@ -3,6 +3,8 @@
 #include <assert.h>
 using namespace std;
 
+#define LOG 
+// #define LOG fprintf
 // https://cses.fi/problemset/task/1136
 const int N = 2 * 1e5 + 10;
 // tree_value[a] = sum_{d : descentand(a)} v2contrib[a]
@@ -51,12 +53,12 @@ void dfs(int v, int vparent, int vdepth) {
 // that is at the top of the heavy chain v belongs to.
 // hp is the heavy parent of node v.
 // this initialize heavy_parent.
-void go_heavy_parent(int v, int parent, int hp) {
-    heavy_parent[v] = hp;
+void go_heavy_parent(int v, int v_parent, int v_heavy_parent) {
+    heavy_parent[v] = v_heavy_parent;
     for(int child : adj[v]) {
-        if (child == parent) { continue; }
+        if (child == v_parent) { continue; }
         if (child == heavy[v]) {
-            go_heavy_parent(child, v, hp);
+            go_heavy_parent(child, v, v_heavy_parent);
         } else {
             // child starts a new heavy
             // Singletons live in their own node.
@@ -83,37 +85,42 @@ int go_ixs(int v, int freeix) {
     return freeix;
 }
 
-int query(int ix, int stix, int stl, int str) {
-    fprintf(stderr, "query(ix=%4d,stix=%4d,stl=%4d,str=%4d)\n", ix, stix, stl, str);
-    assert(stl <= str);
-    assert(stl <= ix);
-    assert(ix <= str);
-    if (stl == str) {
-        assert(stix == stl);
-        return st[stix];
+// A(pex)
+/// \
+//B  C
+//<----> array
+int query(int i, int apex, int b, int c) {
+    // fprintf(stderr, "query(i=%4d,apex=%4d,b=%4d,c=%4d)\n", i, apex, b, c);
+    assert(b <= c);
+    assert(b <= i);
+    assert(i <= c);
+    if (b == c) {
+        return st[apex];
     }
-    int stmid = (stl + str)/2;
-    if (ix <= stmid) {
-        return st[stix] + query(ix, stix*2, stl, stmid);
+    int mid = (b + c)/2;
+    if (i <= mid) {
+        return st[apex] + query(i, apex*2, b, mid);
     } else {
-        return st[stix] + query(ix, stix*2+1, stmid, str);
+        return st[apex] + query(i, apex*2+1, mid+1, c);
     }
 
 }
 
-void increment(int ql, int qr, int stix, int stl, int str) {
-    fprintf(stderr, "increment(ql=%4d,qr=%4d,stix=%4d, stl=%4d,str=%4d)\n", ql, qr, stix, stl, str);
-    assert(stl <= str);
-    assert(ql <= qr);
-    if (ql <= stl && str <= qr) {
-        st[stix] += 1;
+void increment(int l, int r, int apex, int b, int c) {
+    // fprintf(stderr, "increment(l=%4d,r=%4d,apex=%4d, b=%4d,c=%4d)\n", l, r, apex, b, c);
+    assert(b <= c);
+    assert(l <= r);
+    // [l [b c] r]
+    if (l <= b && c <= r) {
+        st[apex] += 1;
         return;
     }
-    if (qr < stl || str < ql) { return; }
+    //[l r] [b c] [l r]
+    if (r < b || c < l) { return; }
 
-    int stmid = (stl + str)/2;
-    increment(ql, qr, stix*2, stl, stmid);
-    increment(ql, qr, stix*2+1, stmid+1, str);
+    int mid = (b + c)/2;
+    increment(l, r, apex*2, b, mid);
+    increment(l, r, apex*2+1, mid+1, c);
 }
 
 
@@ -124,19 +131,22 @@ void incpath(int u, int v) {
         int vp = heavy_parent[v];
         // they are in same chain, so add them up and stop.
         if (up == vp) {
-            int l = min(v2ix[up], v2ix[vp]);
-            int r = max(v2ix[up], v2ix[vp]);
+            int l = min(v2ix[u], v2ix[v]);
+            int r = max(v2ix[u], v2ix[v]);
+            // fprintf(stderr, "  increment(%2d, %2d).\n", l, r);
             increment(l, r, 1, 1, n);
             return;
         } else {
+            // decrease depth.
             if (depth[up] > depth[vp]) {
                 increment(v2ix[up], v2ix[u], 1, 1, n);
-                u = up;
+                // fprintf(stderr, "  increment(%2d, %2d)", v2ix[up], v2ix[u]);
+                u = parent[up];
             } else {
                 increment(v2ix[vp], v2ix[v], 1, 1, n);
-                v = vp;
+                // fprintf(stderr, "  increment(%2d, %2d)", v2ix[vp], v2ix[v]);
+                v = parent[vp];
             }
-
         }
     }
 }
@@ -145,11 +155,12 @@ void incpath(int u, int v) {
 int main() {
     cin >> n >> m;
 
+    // fprintf(stderr, "\nedges:\n");
     for(int i = 0; i < n - 1; ++i) {
         int u, v; cin >> u >> v;
         adj[u].push_back(v);
         adj[v].push_back(u);
-        printf("edge %4d <-> %4d\n", u, v);
+        // fprintf(stderr, "  %2d <-> %2d;", u, v);
     }
 
 
@@ -157,18 +168,43 @@ int main() {
     go_ixs(1, 1);
     go_heavy_parent(1, 1, 1);
 
+    // fprintf(stderr, "\nheavy child:\n");
+    // for(int i = 1; i <= n; ++i) {
+    //     fprintf(stderr, "  %2d -> %2d;", i, heavy[i]);
+    // }
+
+    // fprintf(stderr, "\nheavy parent:\n");
+    // for(int i = 1; i <= n; ++i) {
+    //     fprintf(stderr, "  %2d -> %2d;", i, heavy_parent[i]);
+    // }
+
+    // fprintf(stderr, "\nparent:\n");
+    // for(int i = 1; i <= n; ++i) {
+    //     fprintf(stderr, "  %2d -> %2d;", i, parent[i]);
+    // }
+
+    // fprintf(stderr, "\ndepth:\n");
+    // for(int i = 1; i <= n; ++i) {
+    //     fprintf(stderr, "  %2d -> %2d;", i, depth[i]);
+    // }
+
+    // fprintf(stderr, "\nix:\n");
+    // for(int i = 1; i <= n; ++i) {
+    //     fprintf(stderr, "  %2d -> %2d", i, v2ix[i]);
+    // }
+    // fprintf(stderr, "\n");
+
 
     for(int i = 0; i < m; ++i) {
         int s, t;
         cin >> s >> t;
-        printf("path increment %4d -- %4d\n", s, t);
+        // fprintf(stderr, "path increment(%2d, %2d)\n", s, t);
         incpath(s, t);
     }
 
     for(int i = 1; i <= n; ++i) {
-        cout << query(v2ix[i], 1, 1, n);
+        cout << query(v2ix[i], 1, 1, n) << " ";
     }
-
     return 0;
 }
 
